@@ -14,9 +14,18 @@ public class Battlefield {
 	private Poke playerMon;
 	
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
+
 	
 	// TODO: Gets e sets de cada uma dessas variáveis.
-	
+
+	public int getTurnCount(){
+		return turnCount;
+	}
+
+	public void setTurnCount(int turnCount) {
+		this.turnCount = turnCount;
+	}
+		
 	public Battlefield(Treinador player, Treinador npc) {
 		this.turnCount = 0;
 		this.weather = new Weather(true, 1, -1);
