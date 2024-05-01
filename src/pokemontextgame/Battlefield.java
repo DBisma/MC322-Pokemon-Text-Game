@@ -12,7 +12,7 @@ public class Battlefield {
 	private Treinador loadedPlayer;
 	private Poke npcMon;
 	private Poke playerMon;
-	
+	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
 	// TODO: Gets e sets de cada uma dessas variáveis.
@@ -25,8 +25,9 @@ public class Battlefield {
 		this.loadedPlayer = player;
 		this.loadedNpc = npc;
 		
-		this.playerMon = player.getTeam()[player.activeMon];
-		this.npcMon = npc.getTeam()[npc.activeMon];
+		// pokemon ativo é sempre 0
+		this.playerMon = player.getTeam()[0];
+		this.npcMon = npc.getTeam()[0];
 		
 	}
 	
