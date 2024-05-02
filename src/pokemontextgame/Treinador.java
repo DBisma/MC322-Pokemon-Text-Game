@@ -99,8 +99,8 @@ public class Treinador {
 	public Poke[] getTeam() {
 		return team;
 	}
-	public void setTeam(Poke[] team) { // provavelmente será desnecessário no futuro
-		this.team = team;
+	public void setTeam(int index, Poke mon) { // provavelmente será desnecessário no futuro
+		this.team[index] = mon;
 	}
 	
 }

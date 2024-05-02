@@ -28,7 +28,7 @@ public class TypeChart {
 		 * Para fins de explicação, cada tipo possível possui um índice na tabela.
 		 * São eles: Normal (0), Fire (1), Water (2), Grass (3),
 		 * Electric (4), Ice (5), Fighting (6), Poison (7),  Ground (8),
-		 * Flying (9), Psychic (10), Bug (11),Rock (12), Ghost (13), 
+		 * Flying (9), Psychic (10), Bug (11), Rock (12), Ghost (13), 
 		 * Dragon (14), Dark (15), Steel (16), Fairy (17).
 		 * Possivelmente nunca usaremos fairy por não estar disponível na Gen V, que baseou nosso projeto.
 		 * As vantagens/desvantagens são tabeladas.

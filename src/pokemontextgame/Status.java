@@ -1,6 +1,10 @@
 package pokemontextgame;
 
-abstract class Status {
+//TODO: talvez tornar abstrata no futuro e tratar cada status como uma classe?
+//TODO: Podemos fazer todos os status serem loadados de imediato no jogo e apenas fazer os pokemons terem um pointer comum para eles.
+// ao invés de cada pokemon construir seu próprio objeto "status".
+
+public class Status { 
 	/*
 	 * Classe que armazena os possíveis efeitos de Status
 	 * não-voláteis (burn, poison, frozen, paralyzed, asleep)
@@ -12,12 +16,17 @@ abstract class Status {
 	private int id;
 	
 	// TODO:
+	// id = -1 -> neutro
 	// id = 0 -> Burn
 	// id = 1 -> Frozen
 	// id = 2 -> Paralyzed
 	// id = 3 -> Poisoned
 	// id = 4 -> Badly Poisoned?
 	
+	public Status() {
+		name = "Neutro";
+		id = -1;
+	}
 	
 	// TODO: Talvez seja uma boa fazer funcs. para cada Status e fazer cada um ser uma subclasse.
 	// Fazer função de [EffectPre] e [EffectPost] para cada Status; SOBRESCREVER CADA MÉTODO PARA SEU STATUS ESPECÍFICO.

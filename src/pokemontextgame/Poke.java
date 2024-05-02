@@ -10,22 +10,22 @@ public class Poke {
 	// https://stackoverflow.com/questions/4480334/how-to-call-a-method-stored-in-a-hashmap-java
 	
 	private int id;
+	private int pokedexNum;
 	private String nome;
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
+	private int sex; // eu juro que isso importa
+	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
+	
 	
 	// Stats
-	private int maxHp;
 	private int curHp;
 	private boolean fainted;
 	
-	// Atk (0), Def (1), SpecAtk (2), SpecDef (3), Speed (4), Accuracy (5), Evasion (6), Weight (7)
+	// Atk (0), Def (1), SpecAtk (2), SpecDef (3), Speed (4), Accuracy (5), Evasion (6), Weight em kg (7), Health (8)
 	// TODO:Possivelmente juntar os dois para legibilidade com um Hash Map de... tuplas?
-	private int statBasic[]; // vetor de stats invariáveis
-	private int statMods[]; // modificadores
-	
-	private int sex; // eu juro que isso importa
-	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
+	private int statBasic[]; // 9 posições. vetor de stats invariáveis; são construídos para um pokemon específico de acordo com o level (base + base*level/50)
+	private int statMods[]; // 8 posições. modificadores. hp nunca é modificado exceto pelo nível, algo que se dá na construção
 	
 	/*
 	 * TODO: Cada reload do pokemon na arena reseta todos os vStats, exceto vHealth.
@@ -40,13 +40,34 @@ public class Poke {
 	// TODO: Refatorar seção seguinte para referência a classes sempre construídas de Status(es) diferentes
 	// Deletar essa porção de getters e setters
 	private Status statusFx;
-	private boolean statusEffect; // se está afetado por status
-	private int statusFxType; // se o status é queimado, congelado, confuso, dormindo, etc.
-	
 	
 	/*
-	 * TODO: Construir o pokemon
+	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
 	 */
+	
+	public Poke(int pokedexID) {
+		/*
+		 * Placeholder de construtor. Exemplo para Metang.
+		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
+		 * TODO: classe Enum de Natures?? IVs e EVs??
+		 */
+		this.id = 123456;
+		this.pokedexNum = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
+		this.nome = "Metang";
+		this.tipagem = new int[] {16, 10};
+		this.statBasic = new int[] {135, 130, 95, 90, 70, 100, 100, 550, 80};
+		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
+		this.sex = 2;
+		this.level = 100;
+		
+		this.moveset = new Move[6];
+		
+		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
+		this.heldItem = new Item();
+		this.abil = new Ability();
+		this.statusFx = new Status(); // TODO: isso talvez deva mudar. ver Status.java
+	
+	}
 
 	
 	// Apenas Getters e Setters adiante
@@ -69,10 +90,12 @@ public class Poke {
 		this.pokedexEntry = pokedexEntry;
 	}
 	public int getMaxHp() {
-		return maxHp;
+		return statBasic[8];
 	}
-	public void setMaxHp(int maxHp) {
-		this.maxHp = maxHp;
+	//TODO: Isso será um porre, mas deveremos colocar baseHp na posição 0 do vetor e mover cada outro uma posição pra frente.
+	// e depois disso refatorar todo o código que já usa esses vetores. hell.
+	public void setMaxHp(int baseHp) {
+		this.statBasic[8] = baseHp;
 	}
 	public int[] getStatBasicArray(){
 		/*
@@ -127,18 +150,6 @@ public class Poke {
 	}
 	public void setAbil(Ability abil) {
 		this.abil = abil;
-	}
-	public boolean isStatusEffect() {
-		return statusEffect;
-	}
-	public void setStatusEffect(boolean statusEffect) {
-		this.statusEffect = statusEffect;
-	}
-	public int getStatusFxType() {
-		return statusFxType;
-	}
-	public void setStatusFxType(int statusFxType) {
-		this.statusFxType = statusFxType;
 	}
 	public Move[] getMoves() {  // Provavelmente será desnecessário substituído no futuro
 		return moveset;

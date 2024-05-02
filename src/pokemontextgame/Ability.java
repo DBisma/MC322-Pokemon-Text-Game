@@ -1,6 +1,7 @@
 package pokemontextgame;
 
-abstract class Ability {
+//TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
+public class Ability {
 	/*
 	 * Armazena as habilidades passivas do pokemon.
 	 */

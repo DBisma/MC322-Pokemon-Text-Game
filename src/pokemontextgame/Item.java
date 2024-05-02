@@ -1,6 +1,7 @@
 package pokemontextgame;
 
-abstract class Item {
+// TODO: Como de praxe, teremos que tornar abstrata mais tarde como status. Ver "Status.java"
+public class Item {
 	/*
 	 * Armazena os itens possíveis de um pokemon carregar.
 	 * Itens possuem variados efeitos.

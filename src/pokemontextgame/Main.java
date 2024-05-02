@@ -23,14 +23,38 @@ public class Main {
 		
 		// Parte 2: Escolher os pokemons do Treinador
 		
+		// Vamos criar um pokemon qualquer e atribuí-lo ao jogador.
+		Poke exampleMetang = new Poke(376); // recebe pokedex ID, mas ficará melhor mais tarde.
+		player.setTeam(0, exampleMetang);
+		
+		/*
+		 * TODO
+		 * E deveremos criar um exampleMove para o Metang
+		 * E uma example Ability
+		 * E uma example HeldItem
+		 * e um e um eum eu mem emme eu perdi o pé
+		 */
+
+		
+		/*
+		 * TODO: MAIS URGENTE: LER E CONSTRUIR USANDO INFORMAÇÃO DE UM JSON.
+		 * CADA POKEMON POSSUI UMA LISTA NO JSON DE CADA MOVE QUE PODE APRENDER.
+		 * CADA MOVE POSSUI UM JSON QUE EXPLICITA COMO A CLASSE É CONSTRUÍDA.
+		 * Podemos fazer cada move ser um método próprio que recebe o Battlefield,
+		 * o pokemon atacante e o pokemon receptor. Ele então aplica
+		 * as mudanças sobre o battlefield e calcula efeitos sobre o pokemon receptor / atacante.
+		 */
 		/*
 		 * TODO: Precisamos exibir uma lista de pokemons possíveis carregados de uma pasta cheia de jsons;
-		 * TODO: Jogador precisa escolher seus 6 pokemons da lista, e eles devem ser construídos e postos
-		 * em seu time;
+		 * TODO: Jogador precisa escolher entre 1 e 6 pokemons da lista, e eles devem ser construídos e postos
+		 * em seu time; 
 		 * TODO: Inimigo precisa obter os pokemons restantes aleatoriamente;
 		 * TODO: Dar opção do jogador escolher aleatoriamente seus pokemons.
 		 */
 		
+		/*
+		 * TODO: Para cada um dos pokemons, devemos construir suas habilidades, moves e itens segurados.
+		 */
 		scan.close();
 	}
 	
