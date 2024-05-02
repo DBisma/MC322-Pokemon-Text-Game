@@ -1,10 +1,12 @@
 package pokemontextgame;
 
-abstract class Move {
+//TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
+public class Move { 
 	/*
 	 * Armazena as informações base dos ataques.
+	 * 
 	 */
-	private int id;
+	private int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
 	private String nome;
 	private String desc;
 	private int tipagem;
@@ -18,6 +20,18 @@ abstract class Move {
 	// TODO: Como armazenar o método / efeito especial de cada ataque?
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
+	// Construtor provisório; mais tarde, TODO Construir de json
+	public Move(int id, String name, int type, int pwr, int maxP, int pri, int accu, int categ){
+		this.id = id;
+		this.nome = name;
+		this.tipagem = type;
+		this.power = pwr;
+		this.maxPoints = maxP;
+		this.points = maxP; // sempre é construído com o max
+		this.priority = pri;
+		this.accuracy = accu;
+		this.categ = categ;
+	}
 	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;

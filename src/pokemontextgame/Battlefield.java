@@ -68,11 +68,11 @@ public class Battlefield {
 		// Escolher move ou troca avança turno
 		
 		int playerOption = 0; // TODO: mudar isso depois
-		Move playerMove = field.playerMon.getMoves()[playerOption];
+		Move playerMove = field.playerMon.getMove(playerOption);
 		
 		// Escolher move do NPC.
 		int npcOption = 0; // TODO: essa escolha será feita por uma inteligência artificial 
-		Move npcMove = field.npcMon.getMoves()[npcOption];
+		Move npcMove = field.npcMon.getMove(npcOption);
 		
 		// Troca possui prioridade exceto no caso de o move inimigo ser PURSUIT
 		

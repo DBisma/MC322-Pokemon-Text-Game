@@ -13,10 +13,13 @@ public class Treinador {
 	private boolean isPlayer;
 	private Poke[] team; // time do treinador. max 6 pokemons. Pokemon ativo sempre estará na pos. 0
 	
-	// TODO: INICIALIZAÇÃO
+	// TODO: INICIALIZAÇÃO DE VERDADE
 	
-	public Treinador(boolean player) {
+	public Treinador(int id, String nome, boolean player) {
+		this.id = id;
+		this.nome = nome;
 		this.isPlayer = player;
+		this.team = new Poke[6];
 	}
 	
 	public boolean inputName(Scanner scan) {
@@ -24,21 +27,27 @@ public class Treinador {
 		 * Faz um loop de recepção de nome que não é satisfeito
 		 * até que o nome recebeido seja validado. Para isso,
 		 * faz uso da func. validateName();
+		 * 
+		 * TODO: Talvez seja má prática ter um loop infinito condicional aqui dentro.
 		 */
 		
 		String type = (this.isPlayer) ? "jogador" : "NPC";
-		System.out.print("Insira o nome do " + type + ": ");
-		String name = scan.next();
-		boolean flag = true;
+		String name = "Placeholder";
+		boolean flag = false;
 
-		// não sai daqui até ser válido
-		do  {
+		// Não sai daqui até receber nome válido
+		while (!flag) {
+			System.out.print("Insira o nome do " + type + ", apenas caracteres alfabéticos sem espaço: ");
+			name = scan.nextLine();
 			flag = Treinador.validateName(name);
-		} while (!flag);
+		}
+		
+		System.out.print("\n");
 		
 		this.nome = name;
 		return true;
 	}
+
 	static boolean validateName(String name) {
 		/*
 		 * Função que recebe um nome de um treinador
@@ -49,25 +58,23 @@ public class Treinador {
 		 * 
 		 */
 
-		// validar tamanho
+		// Validar caracteres
+		int i = 0;
+		for(i = 0; i < name.length(); i++) {
+			int asciiValueAtPos = (int) name.charAt(i);
+			// Usaremos valores ASCII para checar se está entre  A-Z (64-91) ou a-z (96-123) ou se tem espaço
+			if(!((64 < asciiValueAtPos && asciiValueAtPos < 91) || (96 < asciiValueAtPos && asciiValueAtPos < 123))) {
+				System.out.println("Nome não é constituído apenas de letras do alfabeto. \n");
+				return false;
+			}
+		}
+		// Validar tamanho
 		if(name.length() > 13) {
 			System.out.print("Nome excede o limite de caracteres. \n");
 			return false;
 		}
-		// validar caracteres
-		else {
-			int i = 0;
-			for(i = 1; i < name.length(); i++) {
-				char charAtPos = name.charAt(i);
-				// usaremos valores ASCII para checar se está entre  A-Z (64-91) ou a-z (96-123)
-				if(!( (64 < charAtPos && charAtPos < 91) || (96 < charAtPos && charAtPos < 123))) {
-					System.out.println("Nome não é constituído apenas de letras do alfabeto.");
-					return false;
-				}
-			}
-		}
-		
-		// se não foi barrado, deve ser válido
+
+		// Se não foi barrado, deve ser válido
 		return true;
 	}
 	

@@ -25,6 +25,10 @@ public class TypeChart {
 		/*
 		 * Combinações relevantes;
 		 * 
+		 * TODO: Possivelmente trocar por um Dicionário ou um ENUM para termos os nomes dos tipos
+		 * e não seus ids...
+		 * 
+		 * 
 		 * Para fins de explicação, cada tipo possível possui um índice na tabela.
 		 * São eles: Normal (0), Fire (1), Water (2), Grass (3),
 		 * Electric (4), Ice (5), Fighting (6), Poison (7),  Ground (8),

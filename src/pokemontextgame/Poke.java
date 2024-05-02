@@ -54,17 +54,16 @@ public class Poke {
 		this.id = 123456;
 		this.pokedexNum = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
 		this.nome = "Metang";
+		this.pokedexEntry = "Nenhuma entrada disponível.";
 		this.tipagem = new int[] {16, 10};
 		this.statBasic = new int[] {135, 130, 95, 90, 70, 100, 100, 550, 80};
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
 		this.sex = 2;
 		this.level = 100;
-		
+
 		this.moveset = new Move[6];
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
-		this.heldItem = new Item();
-		this.abil = new Ability();
 		this.statusFx = new Status(); // TODO: isso talvez deva mudar. ver Status.java
 	
 	}
@@ -151,11 +150,24 @@ public class Poke {
 	public void setAbil(Ability abil) {
 		this.abil = abil;
 	}
-	public Move[] getMoves() {  // Provavelmente será desnecessário substituído no futuro
+	public Move[] getMoveset() {  // Provavelmente será desnecessário substituído no futuro
+		/*
+		 * Retorna o moveset inteiro.
+		 */
 		return moveset;
 	}
-	public void setMoves(Move[] moves) { // idem
-		this.moveset = moves;
+	public Move getMove(int index) {  // Provavelmente será desnecessário substituído no futuro
+		/*
+		 * Retorna o moveset específico numa certa posição.
+		 */
+		return this.moveset[index];
+	}
+	public void setMove(int index, Move move) {
+		/*
+		 * Recebe a posição do move (0-3)
+		 * e coloca o Move desejado neste lugar.
+		 */
+		this.moveset[index] = move;
 	}
 	public int[] getTipagem() {
 		return tipagem;

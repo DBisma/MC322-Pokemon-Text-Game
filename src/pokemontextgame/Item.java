@@ -6,12 +6,17 @@ public class Item {
 	 * Armazena os itens possíveis de um pokemon carregar.
 	 * Itens possuem variados efeitos.
 	 * TODO: Armazenar itens e sprites possíveis numa pasta com png + json?
+	 * E agora, o elefante na sala:
 	 * TODO: Como fazer para cada item ter seu método exclusivo?
 	 */
-	private int id;
+	private int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_items_by_index_number_(Generation_VIII)
 	private String nome;
 	private String desc;
 	
+	public Item(int id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;

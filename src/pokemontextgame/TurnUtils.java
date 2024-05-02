@@ -46,7 +46,7 @@ final class TurnUtils{
 			return 1;
 
 		int lv = pDef.getLevel();
-		Move curMove = pAtk.getMoves()[move.getId()];
+		Move curMove = pAtk.getMoveset()[move.getId()];
 		int power = curMove.getPower();
 		int type = curMove.getTipagem();
 		float output;
