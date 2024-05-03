@@ -22,10 +22,23 @@ public class Ability {
 	 * exclusivos por habilidade.
 	 */
 	
+	@Override
+	public String toString() {
+		/*
+		 * Concatena informações da habilidade em questão
+		 * numa grande String, que é então retornada.
+		 */
+		String out = "Habilidade: " + this.nome + "\n" 
+				+ "Efeito: " +this.desc + "\n";
+		return out;
+	}
+	
 	public Ability(int id, String nome) {
 		this.id = id;
 		this.nome = nome;
+		this.desc = "Nenhuma descrição disponível.";
 		boolean isActive = false;
+		
 	}
 	// Apenas Getters e Setters adiante
 	public int getId() {

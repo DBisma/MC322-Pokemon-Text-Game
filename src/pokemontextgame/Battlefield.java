@@ -13,14 +13,16 @@ public class Battlefield {
 	private Poke npcMon;
 	private Poke playerMon;
 	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
+	private boolean trainerBattle; // flag para batalha contra pokemon selvagem ou contra treinador
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
 	// TODO: Gets e sets de cada uma dessas variáveis.
 	
-	public Battlefield(Treinador player, Treinador npc) {
+	public Battlefield(Treinador player, Treinador npc, boolean trainerBattle) {
 		this.turnCount = 0;
 		this.weather = new Weather(true, 1, -1);
-		
+		this.setTrainerBattle(trainerBattle);
+	
 		// as próximas duas linhas talvez sejam desnecessárias
 		this.loadedPlayer = player;
 		this.loadedNpc = npc;
@@ -150,5 +152,13 @@ public class Battlefield {
 		// TODO: E se os dois morrerem no mesmo turno? Dano de veneno ou ataques como Explosion
 		
 		// TODO: Toda a patacoada de display de texto.
+	}
+
+	public boolean isTrainerBattle() {
+		return trainerBattle;
+	}
+
+	public void setTrainerBattle(boolean trainerBattle) {
+		this.trainerBattle = trainerBattle;
 	}
 };

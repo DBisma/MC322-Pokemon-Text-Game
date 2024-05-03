@@ -11,7 +11,7 @@ public class Poke {
 	
 	private int id;
 	private int pokedexNum;
-	private String nome;
+	private String name;
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
 	private int sex; // eu juro que isso importa
@@ -54,7 +54,7 @@ public class Poke {
 		 */
 		this.id = 123456;
 		this.pokedexNum = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
-		this.nome = "Metang";
+		this.name = "Metang";
 		this.pokedexEntry = "Nenhuma entrada disponível.";
 		this.tipagem = new int[] {16, 10};
 		this.statBasic = new int[] {135, 130, 95, 90, 70, 100, 100, 550, 80};
@@ -75,17 +75,53 @@ public class Poke {
 
 	
 	// Apenas Getters e Setters adiante
+	
+	@Override
+	public String toString() {
+		/*
+		 * Concatena informações sobre o Pokemon
+		 * numa grande string e a retorna.
+		 */
+		
+		String out;
+		out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n" //TODO: Deve haver um jeito de formatar de modo mais quadradinho
+			+ "HP: " + this.curHp + "/" + this.maxHp + "\n"
+			+ "ATK - " + statCalc(this, 0) + "\n"
+			+ "DEF - " + statCalc(this, 1) + "\n"
+			+ "SP. ATK - " + statCalc(this, 2) + "\n"
+			+ "SP. DEF - " + statCalc(this, 3) + "\n"
+			+ "SPEED - " + statCalc(this, 4) + "\n" + "\n"
+			+ this.getAbil().toString() + "\n";
+		
+		if(this.heldItem == null)
+			out += "Nenhum item segurado." + "\n";
+		else
+			out += this.getHeldItem().toString() + "\n";
+		return out;
+	}
+	
+	public int statCalc(Poke mon, int statId) {
+		/*
+		 * Recebe um Pokemon e o id de um stat.
+		 * Calcula o número real desse stat
+		 * de um pokemon com base no level
+		 * e no valor do "stat base", por enquanto.
+		 * Retorna essa valor real.
+		 */
+		float stat = mon.getStatBasicGeneral(statId)*2*mon.getLevel()*(0.01f);
+		return (int) stat + 2;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
 	public String getPokedexEntry() {
 		return pokedexEntry;

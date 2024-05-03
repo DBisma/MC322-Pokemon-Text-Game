@@ -16,7 +16,20 @@ public class Item {
 	public Item(int id, String nome) {
 		this.id = id;
 		this.nome = nome;
+		this.desc = "Nenhuma descrição disponível.";
 	}
+	
+	@Override
+	public String toString() {
+		/*
+		 * Concatena informações do item numa grande string
+		 * e a retorna.
+		 */
+		String out = "Item: " + this.nome + "\n"
+			+ "Efeito: " + this.desc + "\n"; // TODO: Diferenciar efeito da descrição do item na mochila? 
+		return out;
+	}
+	
 	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;
