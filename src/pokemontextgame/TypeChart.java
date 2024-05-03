@@ -170,13 +170,26 @@ public class TypeChart {
 		 * seu nome correspondente.
 		 */
 		String[] convString = new String[] {
-			"Normal", "Fire", "Water", "Grass",
-			"Electric", "Ice", "Fighting", "Poison",
-			"Ground", "Flying", "Psychic", "Bug", 
-			"Rock", "Ghost", "Dragon", "Dark", 
-			"Steel", "Fairy"
+			"NORMAL", "FIRE", "WATER", "GRASS",
+			"ELECTRIC", "ICE", "FIGHTING", "POISON",
+			"GROUND", "FLYING", "PSYCHIC", "BUG", 
+			"ROCK", "GHOST", "DRAGON", "DARK", 
+			"STEEL", "FAIRY"
 		};
 		
 		return convString[id];
+	}
+	
+	static String fullTypeToString(Poke mon) {
+		/*
+		 * Recebe um pokemon e retorna uma String
+		 * já formatada com todos seus tipos.
+		 */
+		String monString = "[" + TypeChart.typeToString(mon.getTipagem()[0]) + "]";
+		
+		if(mon.getTipagem()[1] != -1) // se houver tipo secundário
+			monString += " [" + TypeChart.typeToString(mon.getTipagem()[1]) + "]";
+		
+		return monString;
 	}
 }
