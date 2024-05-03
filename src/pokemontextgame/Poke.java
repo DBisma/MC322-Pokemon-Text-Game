@@ -20,6 +20,7 @@ public class Poke {
 	
 	// Stats
 	private int curHp;
+	private int maxHp;
 	private boolean fainted;
 	
 	// Atk (0), Def (1), SpecAtk (2), SpecDef (3), Speed (4), Accuracy (5), Evasion (6), Weight em kg (7), Health (8)
@@ -60,6 +61,8 @@ public class Poke {
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
 		this.sex = 2;
 		this.level = 100;
+		this.maxHp = statBasic[8]*(level/100)*2 + level + 10;// cálculo de Hp com base o statBasic de HP
+		this.curHp = maxHp;
 		this.active = true; // temporariamente, construímos assim. TODO: Isso ser decidido pela func. turno e battlefield
 
 
@@ -90,12 +93,12 @@ public class Poke {
 	public void setPokedexEntry(String pokedexEntry) {
 		this.pokedexEntry = pokedexEntry;
 	}
-	public int getMaxHp() {
+	public int getBaseHp() {
 		return statBasic[8];
 	}
 	//TODO: Isso será um porre, mas deveremos colocar baseHp na posição 0 do vetor e mover cada outro uma posição pra frente.
 	// e depois disso refatorar todo o código que já usa esses vetores. hell.
-	public void setMaxHp(int baseHp) {
+	public void setBaseHp(int baseHp) {
 		this.statBasic[8] = baseHp;
 	}
 	public int[] getStatBasicArray(){
@@ -134,11 +137,17 @@ public class Poke {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	public int getCurHealth() {
+	public int getMaxHp() {
+		return maxHp;
+	}
+	public void setMaxHp(int hp) {
+		this.maxHp = hp;
+	}
+	public int getCurHp() {
 		return curHp;
 	}
-	public void setCurHealth(int vHealth) {
-		this.curHp = vHealth;
+	public void setCurHp(int hp) {
+		this.curHp = hp;
 	}
 	public Item getHeldItem() {
 		return heldItem;

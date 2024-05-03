@@ -63,8 +63,8 @@ abstract class BattleMenu {
 		 * Função que combina scanOption e validadeOption
 		 * num loop que só termina quando a opção recebida é válida.
 		 * "optionCount" é o número de opções do menu analisado.
-		 * Retorna -1 por padrão se a opção for inválida, e
-		 * a opção em si se for válida.
+		 * Retorna -1 por padrão se a opção for inválida, 
+		 * e a opção em si se for válida.
 		 */
 		
 		boolean flag = false;
@@ -104,7 +104,7 @@ abstract class BattleMenu {
 			// Lutar
 			case 0:{menuDisplayMoveset(scan, player.getActiveMon(), player); break;} // envia o poke ativo
 			// Ver pokes
-			case 1:{menuDisplayTeam(); break; /*TODO*/ }
+			case 1:{menuDisplayTeam(scan, player); break; /*TODO*/ }
 			// Mochila
 			case 2:{menuDisplayBag(); break; /*TODO*/ } 
 			// Fugir
@@ -130,7 +130,7 @@ abstract class BattleMenu {
 		for(i = 0; i < 4; i++) {
 			currentMove = mon.getMove(i); // Varre moves do Poke selecionado
 			if(!(currentMove == null)) {
-				System.out.print("[" + String.valueOf(i + 1) + "] "  + currentMove.getNome() + " | PP = " + currentMove.getPoints() +  " / " + currentMove.getMaxPoints() + "\n");
+				System.out.print("[" + String.valueOf(i + 1) + "] "  + currentMove.getNome() + " | PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
 				movecount++;
 			}
 		}
@@ -192,14 +192,70 @@ abstract class BattleMenu {
 		}
 	}
 	
-	static void menuDisplayTeam() {
+	static void menuDisplayTeam(Scanner scan, Treinador player) {
 		/*
 		 * Recebe um Treinador e o scan e mostra todos os 
 		 * pokemons disponíveis e seus statuses (hp, fainted, burned, etc)
-		 * Abre opções para ver cada pokemon em detalhe ou 
-		 * trocar o pokemon ativo 
-		 * (essa possibilidade é checada em TODO outra função).
+		 * Abre opções para ver cada pokemon em detalhe (moveset, tipos, abilidade)
+		 * ou trocar o pokemon ativo para o selecionado.
+		 * (Se terá sucesso ou não será checado em TODO outra função).
 		 */
+		
+		// TODO: Criar novos pokemons e novos ataques para eles para verificar se essas funções estão sendo tiro e queda mesmo
+		// Parte de impressão de opções
+		
+		BattleMenu.printMenuSeparator();
+		System.out.print("Suas opções são: \n");
+		System.out.print("[0] Voltar \n");
+		System.out.print("Ou inspecionar os Pokémons: \n");
+		
+		Poke curMon;
+		String monString;
+		int monCount = 0;
+		int i;
+		for (i = 0; i < 6; i++) {
+			// Se lá houver pokemon
+			curMon = player.getTeam()[i];
+			if(curMon != null) {
+				monCount++;
+				monString = ("[" + (i + 1) + "] " + curMon.getNome() + " | Lv. " + curMon.getLevel());
+				// Checando Fainted
+				if(curMon.isFainted())
+					monString += " | " + "FAINTED";
+				else
+					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp();
+				
+				// Checando status.
+				if(!(curMon.getStatusFx().getId() == -1))
+					monString += " | Status: " + curMon.getStatusFx().getName();
+				
+				// Print final para este pokemon
+				monString += "\n";
+				System.out.print(monString);
+			}
+		}
+		
+		// Parte de recepção de opções
+		System.out.print("Digite sua opção e aperte ENTER: ");
+		int option = BattleMenu.scanOptionLoop(scan, monCount + 1); // Aceita apenas quantos mons houver + opção de retorno
+		// Disparando opção selecionada
+				if(option == 0) 
+					BattleMenu.menuDisplayRoot(scan, player);
+				else {
+					BattleMenu.menuDisplayMon(scan, player, option - 1); // Sendo "option - 1" o Index do Pokemon escolhido
+				}
+	}
+	
+	static void menuDisplayMon(Scanner scan, Treinador player, int id) {
+		/*
+		 * Recebe um Treinador e o ID do Pokemon a ser inspecionado.
+		 * Printa suas informações e aguarda 
+		 * opção por parte do jogador.
+		 * TODO: Dar um jeito de "salvarmos" o menu prévio e fazer a opção voltar sempre puxar para ele.
+		 * Dessa forma, podemos reutilizar o displayMoveset e displayMove para pokemons não ativos
+		 * */
+		
+		
 	}
 	
 	static void menuDisplayBag() {

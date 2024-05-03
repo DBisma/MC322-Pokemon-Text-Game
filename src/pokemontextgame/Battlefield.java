@@ -111,12 +111,12 @@ public class Battlefield {
 		
 		// Causando dano de fMon sobre sMon; incluir BURN no cálculo
 		int dmg = TurnUtils.calcDmg(firstMove, firstMon, secondMon, tchart);
-		if(dmg >= secondMon.getCurHealth()) {
-			secondMon.setCurHealth(0);
+		if(dmg >= secondMon.getCurHp()) {
+			secondMon.setCurHp(0);
 			secondMon.setFainted(true);
 		}
 		else {
-			secondMon.setCurHealth(secondMon.getCurHealth() - dmg);
+			secondMon.setCurHp(secondMon.getCurHp() - dmg);
 		}
 		
 		// Verificar se alguma habilidade ativou
@@ -130,12 +130,12 @@ public class Battlefield {
 		// Dano de sMon sobre fMon; incluir queda de dano físico causado por BURN no dano
 		if(!secondMon.isFainted()) {
 			dmg = TurnUtils.calcDmg(secondMove, secondMon, firstMon, tchart);
-			if(dmg >= firstMon.getCurHealth()) {
-				firstMon.setCurHealth(0);
+			if(dmg >= firstMon.getCurHp()) {
+				firstMon.setCurHp(0);
 				firstMon.setFainted(true);
 			}
 			else {
-				firstMon.setCurHealth(firstMon.getCurHealth() - dmg);
+				firstMon.setCurHp(firstMon.getCurHp() - dmg);
 			}
 		}
 		
