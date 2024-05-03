@@ -12,6 +12,7 @@ public class Treinador {
 	private String desc;
 	private boolean isPlayer;
 	private Poke[] team; // time do treinador. max 6 pokemons. Pokemon ativo sempre estará na pos. 0
+	private int activeMonId;
 	
 	// TODO: INICIALIZAÇÃO DE VERDADE
 	
@@ -108,6 +109,27 @@ public class Treinador {
 	}
 	public void setTeam(int index, Poke mon) { // provavelmente será desnecessário no futuro
 		this.team[index] = mon;
+	}
+
+	public Poke getActiveMon() {
+		/*
+		 * Retorna o poke ativo, e não seu ID.
+		 */
+		return this.getTeam()[activeMonId];
+	}
+	
+	public int getActiveMonId() {
+		return this.activeMonId;
+	}
+
+	public void setActiveMonId(int newId) {
+		/*
+		 * Muda o pokemon ativo para o de novo ID escolhido.
+		 * Muda o pokemon ativo anterior para não-ativo.
+		 */
+		this.getTeam()[this.getActiveMonId()].setActive(false);
+		this.activeMonId = newId;
+		this.getTeam()[newId].setActive(true);
 	}
 	
 }

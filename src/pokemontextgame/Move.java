@@ -32,6 +32,54 @@ public class Move {
 		this.accuracy = accu;
 		this.categ = categ;
 	}
+	
+	@Override
+	
+	public String toString() {
+		/*
+		 * Converte informações de Move numa grande string.
+		 * TODO: Preparar um toString no caso de Move de categ. Stat e não SpecAtk ou Atk.
+		 * TODO: Talvez para isso seja necessário dividir cada uma dessas categs em subclasses, na verdade.
+		 */
+		String newdesc;
+		String categAndPower;
+		String output;
+		
+		if(this.desc == null)
+			newdesc = "Nenhuma descrição disponível.";
+		else
+			newdesc = "Descrição: " + desc;
+		
+		categAndPower = "Categoria: " + Move.categToString(this.categ);
+		if(this.categ != 2) // adiciona Power se houver
+			categAndPower += "\n" + "Dano base: " + this.power;
+			
+		output = "Move: " + "'"+ this.nome + "'\n"
+				+ "Tipo: " + TypeChart.typeToString(this.tipagem) + "\n"
+				+ categAndPower + "\n"
+				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
+				+ "Prioridade: " + this.priority + "\n"
+				+ "Precisão: " + this.accuracy + "\n"
+				+ newdesc + "\n";
+		
+		return output;
+	}
+	
+	static String categToString(int id) {
+		/*
+		 * Recebe um inteiro relativo
+		 * a uma categoria e retorna
+		 * seu nome correspondente.
+		 */
+		String out = "Placeholder";
+		switch(id) {
+			case 0: {out = "Physical"; break;}
+			case 1: {out = "Special"; break;}
+			case 2: {out = "Status"; break;}
+		}
+		return out;
+	}
+
 	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;

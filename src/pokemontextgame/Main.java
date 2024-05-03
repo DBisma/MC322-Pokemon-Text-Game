@@ -88,8 +88,9 @@ public class Main {
 		
 		// Lançar seus pokemons no primeiro turno
 		
+		// Setar o pokemo ativo como o pokemon no slot[0] no começo da batalha
 		// "Renderizar" menu de batalha Root e receber opções do jogador
-		BattleMenu.menuDisplayRoot(scan);
+		BattleMenu.menuDisplayRoot(scan, player);
 		
 		// TODO: apagar esse checkpoint
 		System.out.print("O resultado do roll 50/50 é: " + TurnUtils.rollChance(50)+ "\n");

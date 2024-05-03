@@ -16,7 +16,7 @@ public class Poke {
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
 	private int sex; // eu juro que isso importa
 	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
-	
+	private boolean active; // flag de ser o pokemon ativo em batalha
 	
 	// Stats
 	private int curHp;
@@ -60,6 +60,8 @@ public class Poke {
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
 		this.sex = 2;
 		this.level = 100;
+		this.active = true; // temporariamente, construímos assim. TODO: Isso ser decidido pela func. turno e battlefield
+
 
 		this.moveset = new Move[6];
 		
@@ -289,6 +291,16 @@ public class Poke {
 
 	public void setStatusFx(Status statusFx) {
 		this.statusFx = statusFx;
+	}
+
+
+	public boolean isActive() {
+		return active;
+	}
+
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }
 

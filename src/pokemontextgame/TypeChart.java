@@ -163,4 +163,20 @@ public class TypeChart {
 		else
 			return tchart.chart[idAtk][idDef];
 	}
+	
+	static String typeToString(int id) {
+		/*
+		 * Recebe o ID de um tipo elemental e retorna
+		 * seu nome correspondente.
+		 */
+		String[] convString = new String[] {
+			"Normal", "Fire", "Water", "Grass",
+			"Electric", "Ice", "Fighting", "Poison",
+			"Ground", "Flying", "Psychic", "Bug", 
+			"Rock", "Ghost", "Dragon", "Dark", 
+			"Steel", "Fairy"
+		};
+		
+		return convString[id];
+	}
 }
