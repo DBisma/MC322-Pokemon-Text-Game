@@ -1,10 +1,13 @@
 package pokemontextgame;
 
+import java.util.Scanner;
+
 public class Battlefield {
 	/*
-	 *  O campo é onde pokemons se encontram.
-	 *  Esse classe possui os modificadores de Weather
-	 *  bem como o carregamento dos jogadores e NPCs ativos.
+	 * Classe responsável pelas batalhas em si.
+	 * Carrega o menu e faz chamadas e leituras.
+	 * Faz checagens de clima, uso de habilidades,
+	 * troca de pokémon, finalização de batalha, etc.
 	 */
 	private int turnCount;
 	private Weather weather;
@@ -24,7 +27,7 @@ public class Battlefield {
 		this.setTrainerBattle(trainerBattle);
 	
 		// as próximas duas linhas talvez sejam desnecessárias
-		this.loadedPlayer = player;
+		this.setLoadedPlayer(player);
 		this.loadedNpc = npc;
 		
 		// pokemon ativo é sempre 0
@@ -33,7 +36,22 @@ public class Battlefield {
 		
 	}
 	
-	public void turn(Battlefield field, TypeChart tchart) {
+	static boolean turnLoops(Battlefield field, TypeChart tchart, Scanner scan) {
+		/*
+		 * Função que rege um confronto inteiro.
+		 * Lê as opções do jogador por meio do BattleMenu;
+		 * Chama quantos turns forem necessários até o fim da batalha.
+		 * Retorna true se batalha tiver acabado, false caso contrário.
+		 */
+		
+		// Registrar escolha do jogador e enviar para um turno
+		BattleMenu.menuDisplayRoot(scan, field);
+		
+		
+		return false;
+	}
+	
+	public int turn(Scanner scan, Battlefield field, TypeChart tchart) {
 		/*
 		 * Recebe as ações do jogador. Efetua os turnos de combate.
 		 * Mais explicações adiante.
@@ -47,9 +65,28 @@ public class Battlefield {
 		
 		// Fazer um objeto Weather? Talvez seja uma boa.
 	
-		// Verificar se o pokemon de algum treinador está morto.
+		// Verificar se o pokemon ativo do NPC está morto
 		
-		// Limitar as opções deste treinador.
+		// Se o pokemon ativo do Jogador estiver vivo
+		if(!field.getLoadedPlayer().getActiveMon().isFainted()) {
+			BattleMenu.menuDisplayRoot(scan, field);
+		}
+		// força troca caso contrário
+		else { 
+			getLoadedPlayer().setForcedSwitch(true);
+			BattleMenu.menuDisplayTeam(scan, field); 
+		}
+		
+		// Receber a opção e verificar sua validade
+		/*
+		 * Opções possíveis
+		 * Talvez agora seja uma boa tentar um enum. Onde deveremos guardá-lo?
+		 * No próprio field! O field sempre tem acesso ao player loadado e suas opções.
+		 * ATAQUE 0-3;
+		 * TROCA 0-6
+		 * BAG
+		 * FUGIR
+		 */
 		
 		// >Fugir, Ver Pokemons Novos, Informação sobre Pokes Novos, Enviar;
 		
@@ -152,6 +189,24 @@ public class Battlefield {
 		// TODO: E se os dois morrerem no mesmo turno? Dano de veneno ou ataques como Explosion
 		
 		// TODO: Toda a patacoada de display de texto.
+		
+		// Verificar se resta algém vivo para batalhar terminou TODO: Existe um jeito mais bonito e eficiente de fazer isso? ENUMs talvez?
+		int i;
+		for(i = 0; i < 6; i++) {
+			if(!field.getLoadedPlayer().getTeam()[i].isFainted()) 
+				break;
+			else if (i == 5)
+				return 1; // todos pokes do npc desmaiados; vencedor = jogador
+		}
+		for(i = 0; i < 6; i++) {
+			if(!field.loadedNpc.getTeam()[i].isFainted()) 
+				break;
+			else if (i == 5)
+				return 2; // todos pokes do jogador desmaiados; vencedor = NPC
+		}
+		
+		return 0; // turno não é final
+		
 	}
 
 	public boolean isTrainerBattle() {
@@ -161,4 +216,14 @@ public class Battlefield {
 	public void setTrainerBattle(boolean trainerBattle) {
 		this.trainerBattle = trainerBattle;
 	}
+
+	public Treinador getLoadedPlayer() {
+		return loadedPlayer;
+	}
+
+	public void setLoadedPlayer(Treinador loadedPlayer) {
+		this.loadedPlayer = loadedPlayer;
+	}
+	
+	
 };

@@ -13,6 +13,7 @@ public class Treinador {
 	private boolean isPlayer;
 	private Poke[] team; // time do treinador. max 6 pokemons. Pokemon ativo sempre estará na pos. 0
 	private int activeMonId;
+	private boolean forcedSwitch; // se o treinador é obrigado a trocar de pokemon; utilizado em menus e opções de turno
 	
 	// TODO: INICIALIZAÇÃO DE VERDADE
 	
@@ -130,6 +131,14 @@ public class Treinador {
 		this.getTeam()[this.getActiveMonId()].setActive(false);
 		this.activeMonId = newId;
 		this.getTeam()[newId].setActive(true);
+	}
+
+	public boolean isForcedSwitch() {
+		return forcedSwitch;
+	}
+
+	public void setForcedSwitch(boolean forcedSwitch) {
+		this.forcedSwitch = forcedSwitch;
 	}
 	
 }
