@@ -1,12 +1,15 @@
 package pokemontextgame;
 import java.util.Scanner;
 
-abstract class BattleMenu {
+import moves.Move;
+import pokemontextgame.Battlefield.Choice;
+import pokemontextgame.StatusFx.typeList;
+
+public class BattleMenu {
 	/*
-	 * Classe que lida com receber as entradas
-	 * do jogador e envía-lo para outras
-	 * camadas do Menu ou enviar as escolhas finais
-	 * para uma função de efetuação de turno.
+	 * Classe que lida com receber as entradas do jogador
+	 * e envía-lo para outras camadas do Menu ou enviar as escolhas finais
+	 * para a classe BattleField, que tem funções de efetuação de turno.
 	 */
 	
 	// TODO: Filosofia do nosso design: Toda função roda uma vez só, mas pode ter
@@ -46,7 +49,7 @@ abstract class BattleMenu {
 		return optInt;
 	}
 	
-	static boolean validateOption(int opt, int optionCount) {
+	static boolean validateOption(int opt, int lowerBound, int optionCount) {
 		/*
 		 * Verifica se a opção (inteiro) do jogador está dentro
 		 * da faixa de opções permitidas (no caso, 0 - num de opções)
@@ -54,13 +57,13 @@ abstract class BattleMenu {
 		 */
 		
 		// Por padrão, opções vão de 0 ao optionCount
-		if(0 <= opt && opt < optionCount)
+		if(lowerBound <= opt && opt < lowerBound + optionCount)
 			return true;
 		else
 			return false;
 	}
 	
-	static int scanOptionLoop(Scanner scan, int optionCount) {
+	static int scanOptionLoop(Scanner scan, int lowerBound, int optionCount) {
 		/*
 		 * Função que combina scanOption e validadeOption
 		 * num loop que só termina quando a opção recebida é válida.
@@ -74,7 +77,7 @@ abstract class BattleMenu {
 		// Tenta receber a entrada inteiro do jogador, não sai até receber opção válida
 		while(!flag) {
 			option = BattleMenu.scanOption(scan);
-			flag = BattleMenu.validateOption(option, optionCount);
+			flag = BattleMenu.validateOption(option, lowerBound, optionCount);
 			if(!flag) {
 				System.out.print("Opção inválida. Tente novamente: ");
 			}
@@ -99,13 +102,13 @@ abstract class BattleMenu {
 		System.out.print("Digite sua opção e aperte ENTER: ");
 		
 		// Recebe a entrada de opção do jogador até que escolha uma opção válida
-		int option = BattleMenu.scanOptionLoop(scan, 4);
+		int option = BattleMenu.scanOptionLoop(scan, 0, 4);
 		
 		// TODO: Talvez exista uma opção mais elegante que essa das Switches
 		switch(option) {
 			// Lutar
 			case 0:{
-				menuDisplayMoveset(scan, field.getLoadedPlayer().getActiveMon(), false, field); // envia o Poke ativo
+				menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
 				break;
 			} 
 			// Ver pokes
@@ -126,7 +129,7 @@ abstract class BattleMenu {
 		}
 	}
 	
-	static void menuDisplayMoveset(Scanner scan, Poke mon, boolean isInspecting, Battlefield field) {
+	static void menuDisplayMoveset(Scanner scan, int id, boolean isInspecting, Battlefield field) {
 		/*
 		 * Recebe um Poke e exibe informações de seu moveset.
 		 * Permite que acessemos mais um menu sobre o ataque escolhido
@@ -135,6 +138,8 @@ abstract class BattleMenu {
 		 * Se a flag Inspection estiver ligada, podemos apenas selecionar moves
 		 * para visualização, mas nunca para uso.
 		 */
+		
+		Poke mon = field.getLoadedPlayer().getTeam()[id];
 		BattleMenu.printMenuSeparator();
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Voltar \n");
@@ -156,12 +161,12 @@ abstract class BattleMenu {
 		
 		System.out.print("Digite sua opção e aperte ENTER: ");
 		
-		int option = BattleMenu.scanOptionLoop(scan, movecount + 1); // Aceita apenas quantos moves houver + opção de retorno
+		int option = BattleMenu.scanOptionLoop(scan, 0, movecount + 1); // Aceita apenas quantos moves houver + opção de retorno
 		
 		// Disparando opção selecionada
 		if(option == 0) {
 			if(isInspecting)
-				BattleMenu.menuDisplayMon(scan, mon, field);
+				BattleMenu.menuDisplayMon(scan, id, field);
 			else
 				BattleMenu.menuDisplayRoot(scan, field);
 		}
@@ -187,36 +192,44 @@ abstract class BattleMenu {
 			System.out.print("[1] Usar \n");
 			System.out.print("[2] Ler informações sobre o move \n");
 			System.out.print("Digite sua opção e aperte ENTER: ");
-			option = BattleMenu.scanOptionLoop(scan, 3);
+			option = BattleMenu.scanOptionLoop(scan, 0, 3);
 		}
 		else {
 			// Não ativo ou ativo inspecting só pode ler sobre o move e voltar ao moveset
 			System.out.print(move.toString());
 			System.out.print("Digite [0] e aperte ENTER para voltar: ");
-			option = BattleMenu.scanOptionLoop(scan, 1);
+			option = BattleMenu.scanOptionLoop(scan, 0, 1);
 		}
 		
 		// Segue com opções extra para Poké ativo
 		switch(option) {
 			case 0: {
-				BattleMenu.menuDisplayMoveset(scan, mon, isInspecting, field); 
+				BattleMenu.menuDisplayMoveset(scan, 0, isInspecting, field); 
 				break;
 			}
 			case 1: {
-				/*TODO PREENCHER COM FUNC. PARA REGISTRAR A OPÇÃO DE ATAQUE*/
-				// TODO: Escolha de move dispara ao BATTLEFIELD a opção de move
-				System.out.print("Chegou aqui!\n");
-				break;
+				// Escolha de move atualiza a playerChoice do Battlefield field
+				// Se faltar PP
+				if(move.getPoints() == 0) {
+					System.out.print("Não há PP o suficiente para este move!\n");
+					System.out.print("Digite [0] e aperte ENTER para voltar: ");
+					option = BattleMenu.scanOptionLoop(scan, 0, 1);
+					BattleMenu.menuDisplayMove(scan, mon, move, isInspecting, field);
+					break;
+				}
+				else {
+					// envia enfim a opção de ataque
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.ATTACK, option);
+					break;
+				}
 			}
 			case 2: {
 				// Lê sobre o move, mas volta ao display MOVE, não ao display MOVESET, pois não exauriu opções
 				BattleMenu.printMenuSeparator();
 				System.out.print(move.toString());
 				System.out.print("Digite [0] e aperte ENTER para voltar: ");
-				option = BattleMenu.scanOptionLoop(scan, 1);
-				//BattleMenu.menuDisplayMove(scan, mon, move, isInspecting, field);
-				BattleMenu.menuDisplayMoveset(scan, mon, isInspecting, field);
-				break;
+				option = BattleMenu.scanOptionLoop(scan, 0, 1);
+				BattleMenu.menuDisplayMove(scan, mon, move, isInspecting, field);
 			}
 		}
 	}
@@ -228,11 +241,13 @@ abstract class BattleMenu {
 		 * Abre opções para ver cada pokemon em detalhe (moveset, tipos, abilidade)
 		 * ou trocar o pokemon ativo para o selecionado.
 		 * (Se terá sucesso ou não será checado em TODO outra função).
+		 * 
+		 * TODO: Impedir possibilidade de escolher o pokemon atual ativo
+		 * TODO: Essa função está um lixo. Talvez seja melhor reescrevê-la do zero.
 		 */
 		
 		// TODO: Criar novos pokemons e novos ataques para eles para verificar se essas funções estão sendo tiro e queda mesmo
 		// Parte de impressão de opções
-		
 		BattleMenu.printMenuSeparator();
 		System.out.print("Acessando informações de time... \n");
 		if(!field.getLoadedPlayer().isForcedSwitch()) {
@@ -251,17 +266,17 @@ abstract class BattleMenu {
 		
 		int option;
 		if(!field.getLoadedPlayer().isForcedSwitch()) { // Caso de troca possível
-			option = BattleMenu.scanOptionLoop(scan, monCount + 1); // Aceita apenas quantos mons houver + opção de retorno
+			option = BattleMenu.scanOptionLoop(scan, 0, monCount + 1); // Aceita apenas quantos mons houver + opção de retorno
 			// Disparando opção selecionada
 					if(option == 0) 
 						BattleMenu.menuDisplayRoot(scan, field);
 					else {
-						BattleMenu.menuDisplayMon(scan, field.getLoadedPlayer().getTeam()[option - 1], field); // Sendo "option - 1" o Index do Pokemon escolhido
+						BattleMenu.menuDisplayMon(scan, option - 1, field); // Sendo "option - 1" o Index do Pokemon escolhido
 					}
 		}
 		else { // Caso de troca forçada
-			option = BattleMenu.scanOptionLoop(scan, monCount); // num Opções = pokemons disponíveis
-			BattleMenu.menuDisplayMon(scan, field.getLoadedPlayer().getTeam()[option], field); // agora o índice do Poke escolhido é o mesmo de option
+			option = BattleMenu.scanOptionLoop(scan, 1, monCount); // num Opções = pokemons disponíveis com um offset
+			BattleMenu.menuDisplayMon(scan, option - 1, field); // idem, mas opção "voltar" não existe
 		}
 		
 	}
@@ -291,8 +306,9 @@ abstract class BattleMenu {
 					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp();
 				
 				// Checando status.
-				if(!(curMon.getStatusFx().getId() == -1))
-					monString += " | Status: " + curMon.getStatusFx().getName();
+				typeList currentStatus = curMon.getStatusFx().getType();
+				if(currentStatus != typeList.NEUTRAL)
+					monString += " | Status: " + currentStatus;
 				
 				// Print final para este pokemon
 				monString += "\n";
@@ -303,16 +319,18 @@ abstract class BattleMenu {
 		return monCount;
 	}
 
-	static void menuDisplayMon(Scanner scan, Poke mon, Battlefield field) {
+	static void menuDisplayMon(Scanner scan, int id, Battlefield field) {
 		/*
 		 * Recebe um Treinador e o ID do Pokemon a ser inspecionado.
 		 * Printa suas informações e aguarda  opção por parte do jogador.
 		 * TODO: Dar um jeito de "salvarmos" o menu prévio e fazer a opção voltar sempre puxar para ele.
-		 * Dessa forma, podemos reutilizar o displayMoveset e displayMove para pokemons não ativos
+		 * Dessa forma, podemos reutilizar o displayMoveset e displayMove para pokemons não ativos.
+		 * ID é o índice do pokemon sendo observado.
 		 * */
+		Poke mon = field.getLoadedPlayer().getTeam()[id];
 		BattleMenu.printMenuSeparator();
 		
-		// Opções: Voltar, Ver Ataques, Sumário, TROCAR (se não for ativo)
+		// Opções: Voltar, Ver Ataques, Sumário, TROCAR (só se não for ativo)
 		System.out.print("Pokémon selecionado: '" + mon.getName() +  "'\n");
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Voltar \n");
@@ -340,7 +358,7 @@ abstract class BattleMenu {
 		}
 		
 		System.out.print("Digite sua opção e aperte ENTER: ");
-		option = BattleMenu.scanOptionLoop(scan, optionCount);
+		option = BattleMenu.scanOptionLoop(scan, 0, optionCount);
 		// Matriz de opções
 		switch(option) {
 			// Voltar
@@ -353,20 +371,20 @@ abstract class BattleMenu {
 				BattleMenu.printMenuSeparator();
 				System.out.print(mon.toString());
 				System.out.print("Digite [0] e aperte ENTER para voltar: ");
-				option = BattleMenu.scanOptionLoop(scan, 1);
-				BattleMenu.menuDisplayMon(scan, mon, field);
+				option = BattleMenu.scanOptionLoop(scan, 0, 1);
+				BattleMenu.menuDisplayMon(scan, id, field);
 				break;
 			}
 			// Explorar Moves
 			case(2):{
-				// PROBLEMA: O "voltar" do próximo displayMoveset deve ser para cá, não para ROOT, e não pode permitir utilizar os ataques
+				// O "voltar" do próximo displayMoveset deve ser para cá, não para ROOT, e não pode permitir utilizar os ataques
 				// isso é resolvido com a flag "isInspecting"
-				BattleMenu.menuDisplayMoveset(scan, mon, true, field); 
+				BattleMenu.menuDisplayMoveset(scan, id, true, field); 
 				break;
 			}
 			// Trocar para este
 			case(3):{
-				/*TODO Escolha de troca dispara ao BATTLEFIELD a tentativa de troca de Poke */; 
+				field.setFullPlayerChoice(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
 				break;
 			}
 		}
@@ -383,12 +401,12 @@ abstract class BattleMenu {
 		
 		System.out.print("Sua mochila está vazia!\n");
 		System.out.print("Digite [0] e aperte ENTER para voltar: ");
-		BattleMenu.scanOptionLoop(scan, 1);
+		BattleMenu.scanOptionLoop(scan, 0, 1);
 		BattleMenu.menuDisplayRoot(scan, field);
 		
 		// TODO: Navegação de itens
 		
-		// TODO: Escolha de itens dispara ao BATTLEFIELD a opção de itens
+		// TODO: Escolha de itens dispara ao BATTLEFIELD a opção de itens... mas isso virá mais tarde
 	}
 	
 	static void menuTryEscape(Scanner scan, Battlefield field) {
@@ -402,17 +420,11 @@ abstract class BattleMenu {
 		if(field.isTrainerBattle()) {
 			System.out.print("Não! Não se pode fugir de uma batalha contra outro treinador!\n");
 			System.out.print("Digite [0] e aperte ENTER para voltar: ");
-			BattleMenu.scanOptionLoop(scan, 1);
+			BattleMenu.scanOptionLoop(scan, 0, 1);
 			BattleMenu.menuDisplayRoot(scan, field);
 		}
-		
-		// Caso contrário, dispara ao BATTLEFIELD a opção de fuga
+		else
+			field.setFullPlayerChoice(Choice.choiceType.RUN, 0);
 	}
-	
-	static void menuSelectMove() {
-		/*
-		 * Função que retorna o move selecionado. Talvez seja redundante.
-		 */
-	}
-
 }
+

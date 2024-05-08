@@ -1,6 +1,8 @@
 package pokemontextgame;
 import java.util.Scanner;
 
+import moves.Move;
+
 public class Main {
 	public static void main(String[] args) {
 		/*
@@ -14,7 +16,7 @@ public class Main {
 
 		// Inicializá-los
 		Treinador player = new Treinador(1, "Placeholder", true);
-		Treinador npc = new Treinador(2, "Placeholder", false);
+		TreinadorNpc npc = new TreinadorNpc(2, "Placeholder", false);
 		
 		// Receber nome do jogador e do npc
 		
@@ -25,13 +27,16 @@ public class Main {
 		// Parte 2: Escolher os pokemons do Treinador
 		
 		// Vamos criar um pokemon qualquer e atribuí-lo ao jogador.
-		Poke exMetagross = new Poke(376); // recebe pokedex ID, mas ficará melhor mais tarde.
+		Poke exMetagross = new Poke(376, "Metagross"); // recebe pokedex ID, mas ficará melhor mais tarde.
 		player.setTeam(0, exMetagross);
+		player.setActiveMonId(0);
 		
 		// E vamos criar um Tyranitar para o NPC
-		Poke exTyranitar = new Poke(248);
+		Poke exTyranitar = new Poke(248, "Tyranitar");
 		npc.setTeam(0, exTyranitar);
 		
+		
+		player.setTeam(1, exTyranitar);
 		/*
 		 * TODO
 		 * E deveremos criar um exampleMove para o Metang
@@ -46,6 +51,8 @@ public class Main {
 		Move exHammerArm = new Move(359, "Hammer Arm", 6, 100, 10, 0, 90, 0);
 		exMetagross.setMove(0, exHammerArm);
 		exTyranitar.setMove(0, exFirePunch);
+		//exMetagross.setFainted(true);
+		//exMetagross.setCurHp(0);
 		
 		
 		// E agora, parte das habilidades;
@@ -87,7 +94,7 @@ public class Main {
 		Battlefield field = new Battlefield(player, npc, true);
 		// Colocar os dois treinadores no campo;
 		
-		BattleMenu.menuDisplayRoot(scan, field);
+		field.turn(scan, field, null);
 		
 		// Setar o pokemo ativo como o pokemon no slot[0] no começo da batalha
 		// "Renderizar" menu de batalha Root e receber opções do jogador

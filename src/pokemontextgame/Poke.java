@@ -1,5 +1,7 @@
 package pokemontextgame;
 
+import moves.Move;
+
 public class Poke {
 	/*
 	 * Armazena as informações dos pokemons do jogo.
@@ -14,6 +16,7 @@ public class Poke {
 	private String name;
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
+	// tratar um tipo como um número será índice para montar uma tabela de combinações. ver TypeChart.java
 	private int sex; // eu juro que isso importa
 	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
 	private boolean active; // flag de ser o pokemon ativo em batalha
@@ -40,13 +43,13 @@ public class Poke {
 	
 	// TODO: Refatorar seção seguinte para referência a classes sempre construídas de Status(es) diferentes
 	// Deletar essa porção de getters e setters
-	private Status statusFx;
+	private StatusFx statusFx;
 	
 	/*
 	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
 	 */
 	
-	public Poke(int pokedexID) {
+	public Poke(int pokedexID, String name) {
 		/*
 		 * Placeholder de construtor. Exemplo para Metang.
 		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
@@ -54,7 +57,7 @@ public class Poke {
 		 */
 		this.id = 123456;
 		this.pokedexNum = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
-		this.name = "Metang";
+		this.name = name;
 		this.pokedexEntry = "Nenhuma entrada disponível.";
 		this.tipagem = new int[] {16, 10};
 		this.statBasic = new int[] {135, 130, 95, 90, 70, 100, 100, 550, 80};
@@ -69,7 +72,7 @@ public class Poke {
 		this.moveset = new Move[6];
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
-		this.statusFx = new Status(); // TODO: isso talvez deva mudar. ver Status.java
+		this.statusFx = new StatusFx(); // TODO: isso talvez deva mudar. ver Status.java
 	
 	}
 
@@ -86,11 +89,11 @@ public class Poke {
 		String out;
 		out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n" //TODO: Deve haver um jeito de formatar de modo mais quadradinho
 			+ "HP: " + this.curHp + "/" + this.maxHp + "\n"
-			+ "ATK - " + statCalc(this, 0) + "\n"
-			+ "DEF - " + statCalc(this, 1) + "\n"
-			+ "SP. ATK - " + statCalc(this, 2) + "\n"
-			+ "SP. DEF - " + statCalc(this, 3) + "\n"
-			+ "SPEED - " + statCalc(this, 4) + "\n" + "\n"
+			+ "ATK - " + this.statCalc(0) + "\n"
+			+ "DEF - " + this.statCalc(1) + "\n"
+			+ "SP. ATK - " + this.statCalc(2) + "\n"
+			+ "SP. DEF - " + this.statCalc(3) + "\n"
+			+ "SPEED - " + this.statCalc(4) + "\n" + "\n"
 			+ this.getAbil().toString() + "\n";
 		
 		if(this.heldItem == null)
@@ -100,7 +103,7 @@ public class Poke {
 		return out;
 	}
 	
-	public int statCalc(Poke mon, int statId) {
+	public int statCalc(int statId) {
 		/*
 		 * Recebe um Pokemon e o id de um stat.
 		 * Calcula o número real desse stat
@@ -108,9 +111,10 @@ public class Poke {
 		 * e no valor do "stat base", por enquanto.
 		 * Retorna essa valor real.
 		 */
-		float stat = mon.getStatBasicGeneral(statId)*2*mon.getLevel()*(0.01f);
+		float stat = this.statBasic[statId]*2*this.level*(0.01f);
 		return (int) stat + 2;
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -330,11 +334,11 @@ public class Poke {
 		this.statMods[7] = mWeight;
 	}
 
-	public Status getStatusFx() {
+	public StatusFx getStatusFx() {
 		return statusFx;
 	}
 
-	public void setStatusFx(Status statusFx) {
+	public void setStatusFx(StatusFx statusFx) {
 		this.statusFx = statusFx;
 	}
 

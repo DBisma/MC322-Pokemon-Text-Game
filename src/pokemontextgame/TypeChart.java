@@ -10,7 +10,7 @@ public class TypeChart {
 	 * Ademais, possui funções para cálculo de modificação de dano.
 	 */
 	
-	// TODO: É mais elegante fazer isso com enuns na real
+	// Fazer isso com uma tabela é mais eficiente do que com Enums e Ifs
 	private float chart[][];
 	
 	public TypeChart() {
