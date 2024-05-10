@@ -1,12 +1,31 @@
 package pokemontextgame;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.json.JSONException;
+
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, JSONException {
 		/*
 		 * A classe main chama as outras funções para executar a batalha em texto.
 		 */
-	
+		JSONReader json = new JSONReader();
+		ArrayList<Poke> pkmn = new ArrayList<Poke>();
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		json.buildPokemons();
+		pkmn = json.getPkmnList();
+		json.buildItems();
+		items = json.getItemList();
+		
+		System.out.println(pkmn.get(0).getPokedexNum());
+		System.out.println(pkmn.get(1).getPokedexNum());
+		System.out.println(pkmn.get(2).getPokedexNum());
+		
+		System.out.println(items.get(0).getId()+" "+items.get(0).getNome());
 		
 		// Scan que será fechado ao final do arquivo
 		Scanner scan = new Scanner(System.in);

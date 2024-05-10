@@ -11,6 +11,9 @@ public class Poke {
 	
 	private int id;
 	private int pokedexNum;
+	
+
+
 	private String name;
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
@@ -116,6 +119,14 @@ public class Poke {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getPokedexNum() {
+		return pokedexNum;
+	}
+
+
+	public void setPokedexNum(int pokedexNum) {
+		this.pokedexNum = pokedexNum;
 	}
 	public String getName() {
 		return name;
