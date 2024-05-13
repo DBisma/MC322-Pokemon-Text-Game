@@ -78,7 +78,7 @@ public class Poke {
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
 		// TODO: instanciar o Arraylist e adicionar o stat Não-Volátil nele
-		this.statusFx = new StatusFx(); // TODO: isso talvez deva mudar. ver Status.java
+		this.statusFx = new StatusFx(StatusFx.typeList.NEUTRAL); // TODO: isso talvez deva mudar. ver Status.java
 	
 	}
 
@@ -380,12 +380,12 @@ public class Poke {
 	public StatusFx getStatusFx() {
 		return statusFx;
 	}
-	public void setStatusFx(typeList type, boolean isVolatile, int duration) {
+	public void setStatusFx(typeList type) {
 		/*
 		 * Serve de ponte para modificar o StatusFx através de um método
 		 * já existente em StatusFx.java
 		 */
-		this.statusFx.setStatusFull(type, isVolatile, duration);
+		this.statusFx.setStatusFull(type);
 	}
 	
 	public boolean boostStat(int statId, int statBoost) {
@@ -403,7 +403,8 @@ public class Poke {
 			statMods[statId] = 6*(statBoost/Math.abs(statBoost)); //6 * sinal do limite
 			return true;
 		}
-		else { // longe do limite
+		// longe do limite
+		else {
 			statMods[statId] = sum;
 			return true;
 		}

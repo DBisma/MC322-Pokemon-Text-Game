@@ -2,9 +2,7 @@ package pokemontextgame;
 
 import moves.Move;
 
-//TODO: talvez tornar abstrata no futuro e tratar cada status como uma classe?
-//TODO: Podemos fazer todos os status serem loadados de imediato no jogo e apenas fazer os pokemons terem um pointer comum para eles.
-// ao invés de cada pokemon construir seu próprio objeto "status".
+// TODO: Talvez seja uma boa cada pokemon "criar" um objeto Status quando recebe o efeito.
 
 public class StatusFx { 
 	/*
@@ -14,40 +12,71 @@ public class StatusFx {
 	 */
 	
 	// Começaremos com esses poucos stats de início
-	public enum typeList{NEUTRAL, BURN, FREEZE, PARALYSIS, POISON, BADPOISON, SLEEP}; // TODO: Fazer todos os enuns serem públicos numa classe só para isso?
-	private typeList type;
-	private boolean isVolatile; // Volátil: É removido na troca de pokemon
-	private boolean isPermanent;
-	private int duration;
+	public enum typeList{
+		// Non-Volatile
+					// Volatile, Permanent, Duration
+		NEUTRAL 	(false, true, 0), 
+		BURN		(false, true, 0),
+		FREEZE		(false, false, 10), 
+		PARALYSIS	(false, true, 0),
+		POISON		(false, true, 0),
+		BADPOISON	(false, true, 0),
+		SLEEP		(false, false, 3);
+		
+		public final boolean isVolatile;
+		public final boolean isPermanent;
+		public final int maxDuration;
+		
+		typeList(boolean isVolatile, boolean isPermanent, int maxDuration){
+			this.isPermanent = isPermanent;
+			this.maxDuration = maxDuration;
+			this.isVolatile = isVolatile;
+		}
+		
+		public boolean isPermanent() {return this.isPermanent;}
+		public boolean isVolatile() {return this.isVolatile;}
+		public int getMaxDuration() {return this.maxDuration;}
+		
 	
+	}; // TODO: Fazer todos os enums serem públicos numa classe só para isso?
+	
+	private typeList type;
+	private int remainDuration; // tempo até o efeito desaperecer por conta
 	
 	// Getters e Setters
-	public StatusFx() {
-		this.type = typeList.NEUTRAL;
-		this.isVolatile = false;
-		this.duration = 0;
-		this.isPermanent = true;
+	public StatusFx(typeList type) {
+		this.type = type;
+		this.setRemainDuration(type.getMaxDuration());
 	}
 	
 	// Getters e Setters
-	public void setStatusFull(typeList type, boolean isVolatile, int duration) {
+	public void setStatusFull(typeList type) {
 		/*
 		 * Revamp total do status para modificações.
 		 * Serve para não termos que criar um objeto novo para
 		 * cada mudança de status fx aplicada ao pokemon.
+		 * TODO: Verificar se será útil
 		 */
 		this.type = type;
-		this.isVolatile = isVolatile;
-		this.duration = duration;
+		this.setRemainDuration(type.getMaxDuration());
+	}
+	
+	public void setStatusFull(typeList type, int durationMod) {
+		/*
+		 * Overload da função que aceita um modificador
+		 * para aumentar a duração.
+		 * TODO: Verificar se será útil
+		 */
+		this.type = type;
+		this.setRemainDuration(type.getMaxDuration()*durationMod);
 	}
 	
 	public void setStatusDefault() {
 		/*
-		 * Retorna ao usual
+		 * Retorna ao usual.
+		 * Talvez seja desnecessária.
 		 */
 		this.type = typeList.NEUTRAL;
-		this.isVolatile = false;
-		this.duration = -1;
 	}
 
 	public typeList getType() {
@@ -58,20 +87,12 @@ public class StatusFx {
 		this.type = type;
 	}
 
-	public boolean isVolatile() {
-		return isVolatile;
+	public int getRemainDuration() {
+		return remainDuration;
 	}
 
-	public void setVolatile(boolean isVolatile) {
-		this.isVolatile = isVolatile;
-	}
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setRemainDuration(int remainDuration) {
+		this.remainDuration = remainDuration;
 	}
 	
 	// TODO: Talvez seja uma boa fazer funcs. para cada Status e fazer cada um ser uma subclasse.

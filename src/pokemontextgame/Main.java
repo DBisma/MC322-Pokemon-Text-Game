@@ -47,7 +47,8 @@ public class Main {
 		 */
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
-		Move exFirePunch = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, StatusFx.typeList.BURN, 30);	
+		Move exFirePunch = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+										StatusFx.typeList.BURN, 30);	
 		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 100);	
 		exMetagross.setMove(0, exHammerArm);
 		exTyranitar.setMove(0, exFirePunch);

@@ -14,15 +14,12 @@ public class StatusChangeFx extends StatusChanging {
 	
 	// Um tanto análogo a DmgPlusFx, mas sem a seção de dano, e com chance 100%
 	private StatusFx.typeList fxType; // efeito em si
-	private int fxDuration;
-	private boolean isVolatile; // TODO: Mudar isso para adicionar efeitos ao pokemon afetado
+
 		
 	public StatusChangeFx(int id, String name, int type, int maxP, int pri, int accu,
 			StatusFx.typeList fxType, int fxDuration, boolean isVolatile) {
 		super(id, name, type, maxP, pri, accu);
 		this.fxType = fxType;
-		this.fxDuration = fxDuration;
-		this.isVolatile = isVolatile;
 	}
 	
 	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
@@ -41,9 +38,10 @@ public class StatusChangeFx extends StatusChanging {
 			if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL)
 				return moveResults.FAIL;
 			else {
-				pDef.setStatusFx(fxType, isVolatile, fxDuration); // TODO: Permitir soma de voláteis e não voláteis
+				pDef.setStatusFx(fxType); // TODO: Permitir soma de voláteis e não voláteis
 				return moveResults.HIT;
 			}
 		}
 	}
+	
 }

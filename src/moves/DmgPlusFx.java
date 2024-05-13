@@ -15,13 +15,13 @@ public class DmgPlusFx extends DamageDealing {
 	// Status Effect que pode ser aplicado e sua chance
 	private StatusFx.typeList fxType;
 	private int fxChance;
-	
+
 	// TODO: Como formatar esse construtor do modo correto? Em espaçamento, quero dizer.
 	public DmgPlusFx(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp, 
 					StatusFx.typeList fxType, int fxChance) {
 		super(id, name, type, maxP, pri, accu, categ, bp);
-		this.setFxChance(fxChance);
-		this.setFxType(fxType);
+		this.fxChance = fxChance;
+		this.fxType = fxType;
 	}
 	
 	@Override
@@ -36,7 +36,7 @@ public class DmgPlusFx extends DamageDealing {
 		// Aplicação de efeitos secundários
 		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE)
 			if(TurnUtils.rollChance(this.fxChance)) {
-				pDef.setStatusFx(fxType, false, -1);
+				pDef.setStatusFx(fxType);
 			}
 		
 		// TODO: Como enviar a notificação de aplicação de efeito?
