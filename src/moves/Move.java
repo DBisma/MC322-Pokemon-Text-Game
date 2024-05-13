@@ -5,8 +5,20 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 
 //TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
-//Mas como chamaremos o conjunto de suas subclasses se "Move" deixa de ser um tipo ao declaramo
-public class Move { 
+//Mas como chamaremos o conjunto de suas subclasses se "Move" deixa de ser um tipo ao declaramos
+
+/*
+ *  TODO: Dilema: Desejamos que a classe Move nunca seja instanciada num objeto, apenas suas subclasses.
+ *  Todavia, desejamos que seja possível um Array Move que armazene as instâncias de suas subclasses.
+ *  O array currentMoves do tipo Moves, por exemplo, deverá guardar DamageDealing, StatChange, etc.
+ *  
+ *  Como podemos fazer isso?
+ *  
+ *  Um array de classe abstrata Move poderia armazenar subclasses. Mas e se desejarmos retornar
+ *  um move específico? Há várias subclasses de moves diferentes. Como faríamos?
+ */
+
+public abstract class Move { 
 	/*
 	 * Armazena as informações base dos ataques.
 	 * 
@@ -24,7 +36,9 @@ public class Move {
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
 	// Possíveis resultados de um move
-	public enum moveResults{HIT, MISS, FAIL, HIT_DEFAULT, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE}
+	public enum moveResults{HIT, MISS, FAIL, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE,
+		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL}
+	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
 	// Construtor provisório; mais tarde, TODO Construir de json
 	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
@@ -33,12 +47,11 @@ public class Move {
 		this.maxPoints = maxP;
 		this.points = maxP; // sempre é construído com o max
 		this.priority = pri;
-		this.accuracy = accu;
+		this.accuracy = accu; // TODO: Lidar com moves que *nunca erram*.
 	}
 	
 	// Será overridden. TODO: Qual o melhor jeito? Interfaces? Classe abstrata e métodos abstratos?
-	
-	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
+	abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
 	
 	@Override
 	public String toString() {
@@ -59,13 +72,13 @@ public class Move {
 		else
 			newdesc = "Descrição: " + desc;
 		
-		categAndPower = "Categoria: " + Move.categToString(this.categ); // TODO: Atualizar para refletir nova divisão em subclasses
-		if(this.categ != 2) // adiciona Power se houver
-			categAndPower += "\n" + "Dano base: " + this.power;
+//		categAndPower = "Categoria: " + Move.categToString(this.categ); // TODO: Atualizar para refletir nova divisão em subclasses
+//		if(this.categ != 2) // adiciona Power se houver
+//			categAndPower += "\n" + "Dano base: " + this.power; // TODO: Só aparecerá em outra subcliasse
 			
 		output = "Move: " + "'"+ this.nome + "'\n"
 				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
-				+ categAndPower + "\n"
+//				+ categAndPower + "\n"
 				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
 				+ "Prioridade: " + this.priority + "\n"
 				+ "Precisão: " + this.accuracy + "\n"

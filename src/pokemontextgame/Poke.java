@@ -1,6 +1,8 @@
 package pokemontextgame;
 
 import moves.Move;
+import pokemontextgame.StatusFx.typeList;
+import java.util.ArrayList;
 
 public class Poke {
 	/*
@@ -43,7 +45,10 @@ public class Poke {
 	
 	// TODO: Refatorar seção seguinte para referência a classes sempre construídas de Status(es) diferentes
 	// Deletar essa porção de getters e setters
-	private StatusFx statusFx;
+	// TODO: Criar um modo que permita que o pokemon possua vários statusfx voláteis simultâneos mas apenas um não-volátil
+	// Array que armazena todos os status FX que afetam o pokemon
+	private StatusFx statusFx; // só pode ser um
+	//private ArrayList<StatusFx> volatileFxArray; // pode conter vários TODO: Separar voláteis e não voláteis em ArrayLists
 	
 	/*
 	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
@@ -72,6 +77,7 @@ public class Poke {
 		this.moveset = new Move[6];
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
+		// TODO: instanciar o Arraylist e adicionar o stat Não-Volátil nele
 		this.statusFx = new StatusFx(); // TODO: isso talvez deva mudar. ver Status.java
 	
 	}
@@ -374,9 +380,36 @@ public class Poke {
 	public StatusFx getStatusFx() {
 		return statusFx;
 	}
-	public void setStatusFx(StatusFx statusFx) {
-		this.statusFx = statusFx;
+	public void setStatusFx(typeList type, boolean isVolatile, int duration) {
+		/*
+		 * Serve de ponte para modificar o StatusFx através de um método
+		 * já existente em StatusFx.java
+		 */
+		this.statusFx.setStatusFull(type, isVolatile, duration);
 	}
+	
+	public boolean boostStat(int statId, int statBoost) {
+		/*
+		 * Tenta aumentar o stat de um pokemon.
+		 * Falha se o Stat já estiver com estágio máximo ou mínimo (+-6)
+		 */
+		
+		int sum = statMods[statId] + statBoost;
+		// estando no limite
+		if(statBoost * statMods[statId] > 0 && Math.abs(statMods[statId]) == 6)
+			return false;
+		// extendendo ao limite
+		else if(Math.abs(sum) >= 6) { 
+			statMods[statId] = 6*(statBoost/Math.abs(statBoost)); //6 * sinal do limite
+			return true;
+		}
+		else { // longe do limite
+			statMods[statId] = sum;
+			return true;
+		}
+	}
+		
+		
 	public boolean isActive() {
 		return active;
 	}

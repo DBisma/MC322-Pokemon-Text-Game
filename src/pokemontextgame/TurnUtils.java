@@ -2,9 +2,7 @@ package pokemontextgame;
 
 import java.util.Random;
 
-import moves.Move;
-import moves.DamageDealing.categs;
-import moves.DamageDealing;
+import moves.*;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 
@@ -42,11 +40,11 @@ public class TurnUtils{
 		// TODO: Talvez colocar isso diretamente no argumento de entrada?
 		//DamageDealing move = (DamageDealing) pAtk.getMove(id); // TODO: Isso talvez seja desnecessário no futuro
 		int atk, def;
-		if(move.getCateg() == DamageDealing.categs.PHYSICAL) {
+		if(move.getCateg() == Move.moveCategs.PHYSICAL) {
 			atk = TurnUtils.modStat(0, pAtk); // Attack
 			def = TurnUtils.modStat(1, pDef); // Defense
 		}
-		else if(move.getCateg() == DamageDealing.categs.SPECIAL) {
+		else if(move.getCateg() == Move.moveCategs.SPECIAL) {
 			atk = TurnUtils.modStat(2, pAtk); // Special Attack
 			def = TurnUtils.modStat(3, pDef); // Special Defense
 		}

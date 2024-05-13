@@ -160,7 +160,7 @@ public class TypeChart {
 			return tchart.chart[idAtk][idDef];
 	}
 	
-	static String typeToString(int id) {
+	public static String typeToString(int id) {
 		/*
 		 * Recebe o ID de um tipo elemental e retorna
 		 * seu nome correspondente.

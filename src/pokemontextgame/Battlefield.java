@@ -193,14 +193,14 @@ public class Battlefield {
 		}
 		
 		// Causando dano de fMon sobre sMon; incluir BURN no cálculo
-		int dmg = TurnUtils.calcDmg(firstMove, firstMon, secondMon, tchart);
-		if(dmg >= secondMon.getCurHp()) {
-			secondMon.setCurHp(0);
-			secondMon.setFainted(true);
-		}
-		else {
-			secondMon.setCurHp(secondMon.getCurHp() - dmg);
-		}
+//		int dmg = TurnUtils.calcDmg(firstMove, firstMon, secondMon, tchart);
+//		if(dmg >= secondMon.getCurHp()) {
+//			secondMon.setCurHp(0);
+//			secondMon.setFainted(true);
+//		}
+//		else {
+//			secondMon.setCurHp(secondMon.getCurHp() - dmg);
+//		}
 		
 		// Verificar se alguma habilidade ativou
 		
@@ -211,16 +211,16 @@ public class Battlefield {
 		// Verificar danos de status (burn, poison)
 		
 		// Dano de sMon sobre fMon; incluir queda de dano físico causado por BURN no dano
-		if(!secondMon.isFainted()) {
-			dmg = TurnUtils.calcDmg(secondMove, secondMon, firstMon, tchart);
-			if(dmg >= firstMon.getCurHp()) {
-				firstMon.setCurHp(0);
-				firstMon.setFainted(true);
-			}
-			else {
-				firstMon.setCurHp(firstMon.getCurHp() - dmg);
-			}
-		}
+//		if(!secondMon.isFainted()) {
+//			dmg = TurnUtils.calcDmg(secondMove, secondMon, firstMon, tchart);
+//			if(dmg >= firstMon.getCurHp()) {
+//				firstMon.setCurHp(0);
+//				firstMon.setFainted(true);
+//			}
+//			else {
+//				firstMon.setCurHp(firstMon.getCurHp() - dmg);
+//			}
+//		}
 		
 		// Verificar se alguma habilidade pode ativar;
 		

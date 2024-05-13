@@ -16,15 +16,38 @@ public class StatusFx {
 	// Começaremos com esses poucos stats de início
 	public enum typeList{NEUTRAL, BURN, FREEZE, PARALYSIS, POISON, BADPOISON, SLEEP}; // TODO: Fazer todos os enuns serem públicos numa classe só para isso?
 	private typeList type;
-	private boolean isVolatile;
+	private boolean isVolatile; // Volátil: É removido na troca de pokemon
+	private boolean isPermanent;
 	private int duration;
 	
 	
 	// Getters e Setters
 	public StatusFx() {
-		setType(typeList.NEUTRAL);
-		setVolatile(true);
-		int duration = -1;
+		this.type = typeList.NEUTRAL;
+		this.isVolatile = false;
+		this.duration = 0;
+		this.isPermanent = true;
+	}
+	
+	// Getters e Setters
+	public void setStatusFull(typeList type, boolean isVolatile, int duration) {
+		/*
+		 * Revamp total do status para modificações.
+		 * Serve para não termos que criar um objeto novo para
+		 * cada mudança de status fx aplicada ao pokemon.
+		 */
+		this.type = type;
+		this.isVolatile = isVolatile;
+		this.duration = duration;
+	}
+	
+	public void setStatusDefault() {
+		/*
+		 * Retorna ao usual
+		 */
+		this.type = typeList.NEUTRAL;
+		this.isVolatile = false;
+		this.duration = -1;
 	}
 
 	public typeList getType() {

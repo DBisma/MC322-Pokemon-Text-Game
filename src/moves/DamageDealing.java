@@ -4,6 +4,8 @@ import pokemontextgame.TypeChart;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
+import moves.Move.moveCategs;
+import moves.Move.moveCategs;
 
 public class DamageDealing extends Move {
 	/*
@@ -11,18 +13,17 @@ public class DamageDealing extends Move {
 	 * Terá subclasses para moves mais
 	 * complexos com efeitos adicionais.
 	 */
-	public enum categs{PHYSICAL, SPECIAL}
-	private categs categ;
+	private Move.moveCategs categ;
 	private int basePower;
 	
-	public DamageDealing(int id, String name, int type, int maxP, int pri, int accu, categs categ, int bp) {
+	public DamageDealing(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
 		super(id, name, type, maxP, pri, accu);
 		this.categ = categ;
 		this.basePower = bp;
 	}
 	
 	@Override
-	public Move.returns useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
+	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
 		 * Recebe o field, o atacante e o defensor.
 		 * Calcula a chance de acerto. Aplica o dano se acertar; retorna true // TODO: Ou um ENUM de resultados?
@@ -31,7 +32,7 @@ public class DamageDealing extends Move {
 		
 		// Roll de precisão
 		if(!TurnUtils.rollChance(this.getAccuracy()))
-			return Move.returns.MISS;
+			return Move.moveResults.MISS;
 		
 		// Verificação de falha TODO
 		
@@ -41,23 +42,25 @@ public class DamageDealing extends Move {
 		// Caso de imunidade
 		float error = 0.01f;
 		if(Math.abs(typeMod - 0f) < error)
-			return Move.returns.HIT_IMMUNE;
+			return Move.moveResults.HIT_IMMUNE;
 		// Caso contrário, cálculo e aplicação de dano
 		int dmg = TurnUtils.calcDmg(this, pAtk, pDef, typeMod);
+		pDef.dmgMon(dmg);
+		// TODO: Verificar se pDef tem alguma habilidade interessante que afeta o dano. Mais pra frente.
 		// Comparação de floats para retornar efetividade
 		if(Math.abs(typeMod - 0.5f) < error)
-			return Move.returns.HIT_NOTVERY;
+			return Move.moveResults.HIT_NOTVERY;
 		else if(Math.abs(typeMod - 1f) < error)
-			return Move.returns.HIT;
+			return Move.moveResults.HIT;
 		else
-			return Move.returns.HIT_SUPER;
+			return Move.moveResults.HIT_SUPER;
 	}
 
-	public categs getCateg() {
+	public Move.moveCategs getCateg() {
 		return categ;
 	}
 
-	public void setCateg(categs categ) {
+	public void setCateg(Move.moveCategs categ) {
 		this.categ = categ;
 	}
 

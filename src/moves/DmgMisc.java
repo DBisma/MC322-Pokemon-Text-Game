@@ -1,7 +1,5 @@
 package moves;
 
-import moves.DamageDealing.categs;
-
 public class DmgMisc extends DamageDealing {
 	/*
 	 * Classe mãe de todos os Moves estranhos
@@ -11,7 +9,7 @@ public class DmgMisc extends DamageDealing {
 	 * demais classes.
 	 */
 	
-	public DmgMisc(int id, String name, int type, int maxP, int pri, int accu, categs categ, int bp) {
+	public DmgMisc(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
 		super(id, name, type, maxP, pri, accu, categ, bp);
 	}
 }
