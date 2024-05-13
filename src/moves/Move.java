@@ -5,6 +5,7 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 
 //TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
+//Mas como chamaremos o conjunto de suas subclasses se "Move" deixa de ser um tipo ao declaramo
 public class Move { 
 	/*
 	 * Armazena as informações base dos ataques.
@@ -22,6 +23,8 @@ public class Move {
 	// TODO: Como armazenar o método / efeito especial de cada ataque?
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
+	// Possíveis resultados de um move
+	public enum moveResults{HIT, MISS, FAIL, HIT_DEFAULT, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE}
 	// Construtor provisório; mais tarde, TODO Construir de json
 	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
@@ -35,7 +38,7 @@ public class Move {
 	
 	// Será overridden. TODO: Qual o melhor jeito? Interfaces? Classe abstrata e métodos abstratos?
 	
-	public void useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {}
+	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
 	
 	@Override
 	public String toString() {

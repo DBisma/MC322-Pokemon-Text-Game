@@ -6,4 +6,8 @@ public class StatusMisc extends StatusChanging {
 	 * que são tão específicos que usarão
 	 * métodos próprios para causar seus efeitos.
 	 */
+	
+	public StatusMisc(int id, String name, int type, int maxP, int pri, int accu) {
+		super(id, name, type, maxP, pri, accu);
+	}
 }

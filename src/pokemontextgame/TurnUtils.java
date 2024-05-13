@@ -27,7 +27,7 @@ public class TurnUtils{
 			return false;
 	}
 	
-	public static int calcDmg(DamageDealing move, Poke pAtk, Poke pDef, TypeChart tchart) {
+	public static int calcDmg(DamageDealing move, Poke pAtk, Poke pDef, float typeMod) {
 		/*
 		 * Por enquanto, recebe dois pokemons e o ID do ataque.
 		 * Calcula o dano dado pelo pokemon atacante contra o defensor.
@@ -69,15 +69,11 @@ public class TurnUtils{
 			// Aqui estamos multiplicando por um float, mas o dano é um int.
 		
 		// Verificação de super efetivo / pouco efetivo para os dois tipos do defensor
-		output *= (TypeChart.typeMatch(move.getTipagem(), pDef.getTipagem()[0], tchart)
-				* TypeChart.typeMatch(move.getTipagem(), pDef.getTipagem()[1], tchart));
+		output *= typeMod;
 		
 		// TODO: Puxar os modificadores de Weather, Item Segurado, etc. e incluir na fórmula.
 		// Isso faremos mais tarde. Talvez valha a pena ter uma tabela de Weather.
-	
-		// Verificar Status Burn
-		//if(Status.burnHalving(pAtk, curMove))
-		//	output *= 0.5;
+		// Verificar status como burn etc. mais tarde no cálculo de dano
 		
 		// Arredondar output antes de saída
 		return (int) Math.floor(output);

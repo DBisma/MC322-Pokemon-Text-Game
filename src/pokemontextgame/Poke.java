@@ -77,8 +77,6 @@ public class Poke {
 	}
 
 	
-	// Apenas Getters e Setters adiante
-	
 	@Override
 	public String toString() {
 		/*
@@ -115,6 +113,45 @@ public class Poke {
 		return (int) stat + 2;
 	}
 	
+	public boolean dmgMon(int dmg) {
+		/*
+		 * Danifica um pokemon. Atualiza fainted se necessário.
+		 * retorna true se ele estiver vivo
+		 * e false se ele estiver fainted.
+		 */
+		int resuHp = this.curHp -= dmg;
+		if(resuHp <= 0) {
+			this.curHp = 0;
+			return false;
+		}
+		else {
+			this.curHp = resuHp;	
+			return true;
+		}	
+	}
+	
+	public boolean healMon(int healNum) {
+		/*
+		 * Recupera um pokemon. Atualiza fainted.
+		 * Retorna true se conseguir recuperar,
+		 * false caso contrário.
+		 */
+		if(this.curHp == this.maxHp)
+			return false;
+		else {
+			int resuHp = this.curHp += healNum;
+			if(resuHp >= this.maxHp) {
+				this.curHp = this.maxHp;
+				return true;
+			}
+			else {
+				this.curHp = resuHp;
+				return true;
+			}
+		}
+	}
+	
+	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;
 	}
@@ -225,6 +262,7 @@ public class Poke {
 	}
 	public void setTipagem(int[] tipagem) {
 		// Em teoria, nunca deveremos "mudar" a tipagem. Ela apenas é construída.
+		// Mas alguns pokemons específicos podem mudar de tipo no meio da batalha (e.g: Castform)
 		this.tipagem = tipagem;
 	}
 	public boolean isFainted() {
@@ -333,21 +371,15 @@ public class Poke {
 	public void setModWeight(int mWeight) {
 		this.statMods[7] = mWeight;
 	}
-
 	public StatusFx getStatusFx() {
 		return statusFx;
 	}
-
 	public void setStatusFx(StatusFx statusFx) {
 		this.statusFx = statusFx;
 	}
-
-
 	public boolean isActive() {
 		return active;
 	}
-
-
 	public void setActive(boolean active) {
 		this.active = active;
 	}

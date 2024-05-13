@@ -25,11 +25,6 @@ public class TypeChart {
 	
 		/*
 		 * Combinações relevantes;
-		 * 
-		 * TODO: Possivelmente trocar por um Dicionário ou um ENUM para termos os nomes dos tipos
-		 * e não seus ids...
-		 * 
-		 * 
 		 * Para fins de explicação, cada tipo possível possui um índice na tabela.
 		 * São eles: Normal (0), Fire (1), Water (2), Grass (3),
 		 * Electric (4), Ice (5), Fighting (6), Poison (7),  Ground (8),
@@ -153,7 +148,7 @@ public class TypeChart {
 		this.chart[17][6] = this.chart[17][14] = this.chart[17][15] = (float) 2.0;
 	}
 	
-	static float typeMatch(int idAtk, int idDef, TypeChart tchart) {
+	public static float typeMatch(int idAtk, int idDef, TypeChart tchart) {
 		/*
 		 * Verifica os Ids dos tipos do atacante e defensor
 		 * numa grande tabela de tipos. Retorna modificador.

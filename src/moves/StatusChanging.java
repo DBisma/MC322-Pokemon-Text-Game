@@ -9,6 +9,7 @@ abstract class StatusChanging extends Move {
 	enum categs{STATUS}
 	categs categ;
 	
+	//TODO: moves de HEAL
 	public StatusChanging(int id, String name, int type, int maxP, int pri, int accu) {
 		super(id, name, type, maxP, pri, accu);
 		this.categ = categs.STATUS;
