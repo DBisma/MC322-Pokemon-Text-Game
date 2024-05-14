@@ -31,13 +31,17 @@ abstract class StatusChanging extends Move {
 			return Move.moveResults.MISS;
 		else {
 			// Verificação de imunidades
-			float typeMod = TypeChart.typeMatch(this.getTipagem(), pDef.getTipagem()[0], tchart) * 
-					TypeChart.typeMatch(this.getTipagem(), pDef.getTipagem()[1], tchart);
+			float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
+					tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
 			float error = 0.01f;
 			if(Math.abs(typeMod - 0f) < error)
 				return Move.moveResults.HIT_IMMUNE;
 			else
 				return Move.moveResults.HIT;
 		}
+	}
+	
+	public Move.moveCategs getCateg(){
+		return this.categ;
 	}
 }

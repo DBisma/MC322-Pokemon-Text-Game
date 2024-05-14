@@ -148,7 +148,7 @@ public class TypeChart {
 		this.chart[17][6] = this.chart[17][14] = this.chart[17][15] = (float) 2.0;
 	}
 	
-	public static float typeMatch(int idAtk, int idDef, TypeChart tchart) {
+	public float typeMatch(int idAtk, int idDef) {
 		/*
 		 * Verifica os Ids dos tipos do atacante e defensor
 		 * numa grande tabela de tipos. Retorna modificador.
@@ -157,7 +157,16 @@ public class TypeChart {
 		if(idDef == -1) // se for monotipo, retorna elemento neutro
 			return 1;
 		else
-			return tchart.chart[idAtk][idDef];
+			return this.chart[idAtk][idDef];
+	}
+	
+	public float compoundTypeMatch(int idAtk, Poke mon) {
+		/* 
+		 * Efetua dois typeMatches e os multiplica para obter
+		 * o resultado completo de um ataque contra um pokemon.
+		 */
+		
+		return typeMatch(idAtk, mon.getTipagem()[0]) * typeMatch(idAtk, mon.getTipagem()[1]);
 	}
 	
 	public static String typeToString(int id) {

@@ -34,11 +34,7 @@ public class TurnUtils{
 		
 		// Parte Base ou Necessária
 		// TODO: Fazer cópias de dados com esses nomes é boa prática? Como preservar legibilidade?
-		// Calculando atuais ataque e defesa dos pokemons em jogo
-		
-		// TODO: Verificar se usaremos Def ou SpecDec, Ataque ou Spec Attack.
-		// TODO: Talvez colocar isso diretamente no argumento de entrada?
-		//DamageDealing move = (DamageDealing) pAtk.getMove(id); // TODO: Isso talvez seja desnecessário no futuro
+
 		int atk, def;
 		if(move.getCateg() == Move.moveCategs.PHYSICAL) {
 			atk = TurnUtils.modStat(0, pAtk); // Attack
@@ -120,40 +116,5 @@ public class TurnUtils{
 		return output; //TODO: Novamente, dar esses "nomezinhos" é uma boa?
 	}
 
-	public static int getBestMoveId() {
-		/*
-		 * Função que retorna o ID do ataque mais eficiente.
-		 * Se não for eficiente o suficiente, retorna -1.
-		 */
-		return 0;
-	}
-	
-	public static int getBestDefensiveSwitch(Battlefield field) {
-		/*
-		 * Retorna o ID do melhor pokemon para
-		 * trocar tendo em mente estratégias defensivas.
-		 */
-		// Verificar se a última decisão do oponente foi algum move
-		if(field.getPlayerChoice().getType() == Choice.choiceType.ATTACK) {
-			// Obter o move
-			Move lastMove = field.getLoadedPlayer().getActiveMon().getMove(field.getPlayerChoice().getId());
-			// Se foi move de dano, deve ter sido o melhor possível; tendência é repetir
-			// Se foi move de status, assume que oponente usará ataque com STAB (dois possíveis)
-			// Busca no time pokemon que receberia menor dano e responderia com melhor dano
-			// Se a troca for opcional e não houver pokemon bom o suficiente para justificar a troca, retorna -1
-			// Se a troca for forçada, escolhe aleatoriamente
-			return 0;
-		}
-		// Se não foi usado move, não troca o pokemon
-		else
-			return -1;
-	}
-	
-	public static int getBestOffensiveSwitch(Battlefield field) {
-		/*
-		 * Retorna o ID do melhor pokemon para
-		 * trocar tendo em mente estratégias ofensivas.
-		 */
-		return 0;
-	}
+
 }

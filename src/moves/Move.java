@@ -157,4 +157,5 @@ public abstract class Move {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+	public abstract Move.moveCategs getCateg();
 }

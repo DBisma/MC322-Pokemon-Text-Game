@@ -8,12 +8,12 @@ public class StatusFx {
 	/*
 	 * Classe que armazena os possíveis efeitos de Status
 	 * não-voláteis (burn, poison, frozen, paralyzed, asleep)
-	 * e voláteis (curse e confusion são os principais)
+	 * e voláteis (curse e confusion são os principais);
+	 * TODO: Por enquanto, só aceita não voláteis
 	 */
 	
 	// Começaremos com esses poucos stats de início
 	public enum typeList{
-		// Non-Volatile
 					// Volatile, Permanent, Duration
 		NEUTRAL 	(false, true, 0), 
 		BURN		(false, true, 0),

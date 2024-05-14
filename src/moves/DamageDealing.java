@@ -37,8 +37,8 @@ public class DamageDealing extends Move {
 		// Verificação de falha TODO
 		
 		// Modificador de dano baseado em eficácia de tipos
-		float typeMod = TypeChart.typeMatch(this.getTipagem(), pDef.getTipagem()[0], tchart) * 
-				TypeChart.typeMatch(this.getTipagem(), pDef.getTipagem()[1], tchart);
+		float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
+				tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
 		// Caso de imunidade
 		float error = 0.01f;
 		if(Math.abs(typeMod - 0f) < error)
@@ -55,7 +55,8 @@ public class DamageDealing extends Move {
 		else
 			return Move.moveResults.HIT_SUPER;
 	}
-
+	
+	@Override
 	public Move.moveCategs getCateg() {
 		return categ;
 	}

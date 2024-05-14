@@ -18,6 +18,7 @@ public class Battlefield {
 	private Treinador loadedPlayer;
 	private Poke npcMon;
 	private Poke playerMon;
+	private TypeChart tchart;
 	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
 	private boolean trainerBattle; // flag para batalha contra pokemon selvagem ou contra treinador
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
@@ -34,7 +35,7 @@ public class Battlefield {
 		 */
 		
 		// TODO: Deixar ENUM público mesmo?
-		public enum choiceType {ATTACK, SWITCH, RUN, BAG_HEAL, BAG_STATUS, BAG_POKEBALL, BAG_BOOST};
+		public enum choiceType {MOVE, SWITCH, RUN, BAG_HEAL, BAG_STATUS, BAG_POKEBALL, BAG_BOOST, STRUGGLE};
 		private choiceType type;
 		private int id;
 	
@@ -72,9 +73,10 @@ public class Battlefield {
 		this.playerMon = player.getTeam()[0];
 		this.npcMon = npc.getTeam()[0];
 		
+		this.setTchart(new TypeChart());
 	}
 	
-	static boolean turnLoops(Battlefield field, TypeChart tchart, Scanner scan) {
+	static boolean turnLoops(Battlefield field, Scanner scan) {
 		/*
 		 * Função que rege um confronto inteiro.
 		 * Lê as opções do jogador por meio do BattleMenu;
@@ -89,7 +91,7 @@ public class Battlefield {
 		return false;
 	}
 	
-	public int turn(Scanner scan, Battlefield field, TypeChart tchart) {
+	public int turn(Scanner scan, Battlefield field) {
 		/*
 		 * Recebe as ações do jogador. Efetua os turnos de combate.
 		 * Mais explicações adiante.
@@ -127,7 +129,7 @@ public class Battlefield {
 		// Switch para escolhas feitas no Battle Menu
 		//Move playerMove;
 		switch(playerChoice.getType()) { // Ignorando BAG por enquanto. TODO: Incluir a bag
-			case Choice.choiceType.ATTACK:{
+			case Choice.choiceType.MOVE:{
 				//playerMove = field.playerMon.getMove(playerChoice.getId());
 				break;
 			}
@@ -289,6 +291,14 @@ public class Battlefield {
 
 	public void setLoadedNpc(TreinadorNpc loadedNpc) {
 		this.loadedNpc = loadedNpc;
+	}
+
+	public TypeChart getTchart() {
+		return tchart;
+	}
+
+	public void setTchart(TypeChart tchart) {
+		this.tchart = tchart;
 	}
 	
 };

@@ -53,4 +53,5 @@ public class StatChange extends StatusChanging {
 		
 		return resu;
 	}
+	
 }

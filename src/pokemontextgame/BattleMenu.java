@@ -219,7 +219,7 @@ public class BattleMenu {
 				}
 				else {
 					// envia enfim a opção de ataque
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.ATTACK, option);
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, option);
 					break;
 				}
 			}

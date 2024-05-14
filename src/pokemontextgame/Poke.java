@@ -47,7 +47,7 @@ public class Poke {
 	// Deletar essa porção de getters e setters
 	// TODO: Criar um modo que permita que o pokemon possua vários statusfx voláteis simultâneos mas apenas um não-volátil
 	// Array que armazena todos os status FX que afetam o pokemon
-	private StatusFx statusFx; // só pode ser um
+	private StatusFx statusFx; // por enquanto, só um status por vez pode ser um
 	//private ArrayList<StatusFx> volatileFxArray; // pode conter vários TODO: Separar voláteis e não voláteis em ArrayLists
 	
 	/*
