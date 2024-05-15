@@ -20,6 +20,7 @@ public class BattleMenu {
 	
 	// TODO: Talvez possamos montar isso com ENUMs e máquinas de estado finita
 	
+	// TODO: Caso o PP acabe, o menu deve mudar. Moves não devem ser mostrados, devemos pular direto para struggle.
 	// TODO: Caso o PP acabe para um dado pokemon, "Attack" deve resultar em Struggle. Como enviar?
 	static void printMenuSeparator() {
 		/*

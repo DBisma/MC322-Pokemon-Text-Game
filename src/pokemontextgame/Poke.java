@@ -157,6 +157,20 @@ public class Poke {
 		}
 	}
 	
+	public boolean isStatusedFx() {
+		/*
+		 * Retorna true se o pokemon em questão
+		 * estiver sobre efeito de status
+		 * e false caso contrário.
+		 * Por ora, apenas lida com status não-voláteis.
+		 */
+		
+		if(this.getStatusFx().getType() == StatusFx.typeList.NEUTRAL)
+			return true;
+		else
+			return false;
+	}
+	
 	// Apenas Getters e Setters adiante
 	public int getId() {
 		return id;
