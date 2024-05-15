@@ -6,7 +6,7 @@ import pokemontextgame.StatusFx;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
-public class StatusChangeFx extends StatusChanging {
+public class StatusChangeFx extends StatusGeneral {
 	/*
 	 * Subclasse dedicada para ataques que apenas
 	 * aplicam um status no em alguém.

@@ -24,7 +24,7 @@ public abstract class Move {
 	 * 
 	 */
 	private int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
-	private String nome;
+	private String name;
 	private String desc;
 	private int type;
 	private int maxPoints; // com quantos "usos" o ataque começa;
@@ -42,7 +42,7 @@ public abstract class Move {
 	// Construtor provisório; mais tarde, TODO Construir de json
 	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
-		this.nome = name;
+		this.name = name;
 		this.type = type;
 		this.maxPoints = maxP;
 		this.points = maxP; // sempre é construído com o max
@@ -76,7 +76,7 @@ public abstract class Move {
 //		if(this.categ != 2) // adiciona Power se houver
 //			categAndPower += "\n" + "Dano base: " + this.power; // TODO: Só aparecerá em outra subcliasse
 			
-		output = "Move: " + "'"+ this.nome + "'\n"
+		output = "Move: " + "'"+ this.name + "'\n"
 				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
 //				+ categAndPower + "\n"
 				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
@@ -109,11 +109,11 @@ public abstract class Move {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
 	public String getDesc() {
 		return desc;

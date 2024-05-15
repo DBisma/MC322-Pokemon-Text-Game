@@ -73,7 +73,7 @@ public class Battlefield {
 		this.playerMon = player.getTeam()[0];
 		this.npcMon = npc.getTeam()[0];
 		
-		this.setTchart(new TypeChart());
+		this.tchart = new TypeChart();
 	}
 	
 	static boolean turnLoops(Battlefield field, Scanner scan) {
@@ -105,7 +105,7 @@ public class Battlefield {
 		
 		// Inicializando escolhas sem valores por enquanto
 		playerChoice = new Choice();
-		npcChoice = new Choice();
+		setNpcChoice(new Choice());
 		// Fazer um objeto Weather? Talvez seja uma boa.
 	
 		// Verificar se o pokemon ativo do NPC está morto
@@ -299,6 +299,14 @@ public class Battlefield {
 
 	public void setTchart(TypeChart tchart) {
 		this.tchart = tchart;
+	}
+
+	public Choice getNpcChoice() {
+		return npcChoice;
+	}
+
+	public void setNpcChoice(Choice npcChoice) {
+		this.npcChoice = npcChoice;
 	}
 	
 };

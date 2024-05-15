@@ -4,7 +4,7 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TypeChart;
 
-public class StatChange extends StatusChanging {
+public class StatChange extends StatusGeneral {
 	/*
 	 * Classe para Moves de categ Status que
 	 * causam uma mudança de Stat no oponente.

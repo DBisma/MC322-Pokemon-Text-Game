@@ -18,11 +18,12 @@ public class TypeChart {
 		 * Constrói a tabela, preenchendo-na com os 
 		 * valores modificadores de cada combinação de tipo.
 		 */
-		this.chart = new float[17][17];
+		this.chart = new float[18][18];
 		
-		// Valores iniciais;
-		Arrays.fill(this.chart, (float) 1.0); //TODO: Todo esse casting de float é mesmo necessário?
-	
+		// Valores iniciais; preencher matrix com float 1
+		for(float[] row: this.chart)
+			Arrays.fill(row, 1.0f);
+		
 		/*
 		 * Combinações relevantes;
 		 * Para fins de explicação, cada tipo possível possui um índice na tabela.

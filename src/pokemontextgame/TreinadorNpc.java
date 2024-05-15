@@ -1,27 +1,29 @@
 package pokemontextgame;
 
 import moves.*;
-import moves.Move;
 import moves.Move.moveCategs;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TreinadorNpc extends Treinador{
 	/*
 	 * Classe que lida com o treinador especial NPC.
-	 * Possui métodos de tomada de sua decisão.
+	 * Quase todos seus métodos são de tomada de sua decisão.
 	 * Poderá possuir alguns coeficientes de dificuldade. TODO
 	 */
 	public TreinadorNpc(int id, String nome, boolean player) {
 		super(id, nome, player);
 	}
 	
-	public static Battlefield.Choice npcThink(Battlefield field) {
+	public static Choice npcThink(Battlefield field) {
 		/*
 		 * Função de placeholder para processo de decisão do NPC.
 		 * Possui uma chance de tomar a decisão otimizada
 		 * e um processo para determinar a melhor decisão.
-		 * Altera a decisão do NPC no battlefield.
+		 * Retorna uma decisão para o NPC no battlefield.
 		 * Mais explicação no corpo do texto.
 		 */
 		
@@ -29,59 +31,48 @@ public class TreinadorNpc extends Treinador{
 		TreinadorNpc npc = field.getLoadedNpc();
 		Poke mon = npc.getActiveMon();
 		Poke foe = field.getLoadedPlayer().getActiveMon();
-		Battlefield.Choice npcChoice = new Choice();
-		
-		/*
-		 *  Calcula o dano que irá receber caso inimigo repita o último move de dano.
-		 *  Se tiver certeza de morte e não possuir alta velocidade, troca.
-		 */
+		Choice npcChoice = field.getNpcChoice();
+		int bestDefSwitchId = TreinadorNpc.getBestDefensiveTypeSwitch(field);
+		int bestOffensiveSwitchId = TreinadorNpc.getBestOffensiveTypeSwitch(field);
+		int bestDmgMoveId = TreinadorNpc.getBestDamageMoveId(field);
+
+		// Determinar a troca aleatória; se for -1, sabemos que é impossível trocar nesse turno
+		int rSwitch = TreinadorNpc.getRandomPossibleSwitch(field);
 		
 		// Verificar se pokemon ativo está fainted ou forced switch
-		if(mon.isFainted() || npc.isForcedSwitch()) { // TODO: Consertar caso em que forcedSwitch ocorre quando só há um poke vivo
-			// Se sim, melhor ofensivo
+		if((mon.isFainted() || npc.isForcedSwitch()) && rSwitch != -1) {
+			// Se sim, trocar para melhor ofensivo
 			npc.setForcedSwitch(false);
-			npcChoice.setFullChoice(choiceType.SWITCH, TreinadorNpc.getBestOffensiveTypeSwitch(field));
+			npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
 			return npcChoice;
 		}
-		// Se vivo ou estável
+		// Se está vivo e não forçado a trocar
 		else {
-			// Checar vida; se for mais que metade
-			// TODO: CHECAR PP ANTES DE USAR MOVES
+			// Checar vida; se for mais que metade						// TODO: CHECAR PP ANTES DE USAR MOVES
 			if(mon.getCurHp() > (int) mon.getMaxHp()*0.5f) {
 				// Verifica se o próprio possui BOOST de Ataque ou Spec. Atk
 				if(mon.getModSpecAtk() > 0 || mon.getModAtk() > 0) {
 					// Se sim, usa um move de dano;
-					npcChoice.setFullChoice(choiceType.MOVE, TreinadorNpc.getBestDamageMoveId(field));
+					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 					return npcChoice;
 				}
 				// Se não, verifica se possui BOOST de DEFESA ou Spec. Def
 				else if(mon.getModDef() > 0 || mon.getModSpecDef() > 0) {
-					// Verificar se inimigo é afetado por status
-					if(foe.getStatusFx().getType() != StatusFx.typeList.NEUTRAL) {
-						// Se não, verifica se há StatusFx em Move para aplicar e se o oponente não é imune ao move;
-						int i = 0;
-						for(i = 0; i < 4; i++) {
-							Move curMove = mon.getMove(i);
-							// sendo válido
-							if(curMove != null) {
-								// TODO: COMO FORMATAR ESSE INFERNO???
-								if(curMove instanceof StatusChangeFx && // StatusChange
-										curMove.getPoints() > 0 && 		// com PP sobrando		
-										Math.abs(field.getTchart().compoundTypeMatch(curMove.getTipagem(), foe)) > 0.0001f) { // Sem imunidade
-									npcChoice.setFullChoice(choiceType.MOVE, i);
-									return npcChoice;
-								}
-							}
-						}
+					// Se sim, verificar se:
+					int tryStatusFxIndex = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatusChangeFx.class);
+					if(foe.getStatusFx().getType() != StatusFx.typeList.NEUTRAL // inimigo não está afetado por statusfx;
+							&& tryStatusFxIndex > 0 // possuímos um ataque desse tipo para utilizar;
+							&& !TreinadorNpc.isEnemyImmune(mon.getMove(tryStatusFxIndex), foe, field)) { // não há imunidade
+							npcChoice.setFullChoice(choiceType.MOVE, tryStatusFxIndex);
+							return npcChoice;
 					}
-					// Se já estiver, usar MOVE de maior dano
+					// Se já estiver, usar MOVE de maior dano TODO: Adicionar um jeito de ler Struggle
 					else {
-						npcChoice.setFullChoice(choiceType.MOVE, TreinadorNpc.getBestDamageMoveId(field));
+						npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 						return npcChoice;
 					}
 				}
-				// Se não possuir nenhum buff
-				// (Perceba que o NPC ignora debuffs se acreditar possuir buffs o suficiente)
+				// Se não possuir nenhum buff (Perceba que o NPC ignora debuffs se acreditar possuir buffs o suficiente)
 				else {
 					// Verifica se está sob grandes debuffs
 					int i = 0;
@@ -92,49 +83,153 @@ public class TreinadorNpc extends Treinador{
 							debuffCount += currentStat;
 					}
 					// Se sim, 70% de chance de tentar trocar
-					if(debuffCount >= 2 && TurnUtils.rollChance(70)) {
-						int switchIndex = TreinadorNpc.getBestDefensiveTypeSwitch(field);
+					if(debuffCount >= 2 && TurnUtils.rollChance(70) && rSwitch != -1) {
+						int switchIndex = bestDefSwitchId;
+						if(switchIndex == 0) {
+							// se o "melhor" em tipo for o atual, trocar para outro para limpar os debuffs
+							switchIndex = rSwitch;
+						}
 						npcChoice.setFullChoice(choiceType.SWITCH, switchIndex);
 					}
-					// Caso contrário
-					// Verifica se todos seus moves são ruins; se sim, troca
-					// Se não, 60% de buscar buff a si mesmo; 30% de usar um ataque, 10% de tentar aplicar um StatusFx
-					// Se não houver como se buffar, 50% de chance de usar um ataque ou 50% de aplicar StatusFx
-					// Se não houver 
+					// Caso contrário, verifica se todos seus moves são ruins; se sim, troca
+					if(bestDmgMoveId < 0 && rSwitch != -1) { // se o iD for negativo, é o "melhor", mas ainda é ruim
+						int switchIndex = bestDefSwitchId;
+						// se o melhor em defesa já for o atual, trocar para outro com melhores ataques
+						if(switchIndex == 0) {
+							switchIndex = bestOffensiveSwitchId;
+							// se ainda assim não resolver, usar o melhor ataque possível
+							if(switchIndex == 0) {
+								// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
+								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+								return npcChoice;
+							}
+						}
+					}
+					/*
+					 * Se não puder trocar, decide em chances:
+					 * 40% de buscar buff a si mesmo; 
+					 * 30% de tentar aplicar um StatusFx
+					 * 30% de usar um ataque;
+					 * Cada fracasso colapsa na "prioridade" inferior
+					 */
+					else {
+						// 40% de chance de tentar um buff ou debuff
+						int lastResortId = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatChange.class);
+						if(lastResortId > -1 && TurnUtils.rollChance(40)) {
+							npcChoice.setFullChoice(choiceType.MOVE, lastResortId);
+							return npcChoice;
+						}
+						// (100% - 40%) * 50% = 30% total de tentar um StatusFx
+						else{
+							lastResortId = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatusChangeFx.class);
+							if(lastResortId > -1 && TurnUtils.rollChance(50)){ //TODO: Esse Check de debuff inimigo é redundante? Ver depois
+								npcChoice.setFullChoice(choiceType.MOVE, lastResortId);
+								return npcChoice; // Casos redundantes: TODO: Colapsar todos num if gigante mais tarde
+							}
+							// idem 30% de tentar o melhor ataque
+							else {
+								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+								return npcChoice; // Casos redundantes: TODO: Colapsar todos num if gigante mais tarde
+								// TODO: NOVAMENTE, POSSIBILIDADE DE STRUGGLE. INCLUIR DE ALGUM JEITO. IDK.
+							}
+						}
+					}
 				}
-				// 
-				// Busca move mais potente com STAB não-atenuado ou super efetivo
-				// Se não tiver nada disso, roll de trocar pokemon
-				// Se falhar nesse roll, escolhe o ataque menos pior
 			}
+			// Caso a vida seja menor que a metade
 			else {
-				// Se o ataque anterior do jogador tirou muita vida, trocar para poke com resistência a esse ataque
-					// Se não houver, usar ataque que cause mais dano
-				// Se não causou, usar o melhor move possível
+				// Prioriza trocas e não moves
+				if(rSwitch != -1) {
+					// Se houver poke melhor para defesa, troca para esse
+					int trySwitch = bestDefSwitchId;
+					if(trySwitch != 0) {
+						npcChoice.setFullChoice(choiceType.SWITCH, trySwitch);
+						return npcChoice;
+					}
+					// Se não, busca melhor poke para ataque
+					else {
+						trySwitch = bestOffensiveSwitchId; // TODO: Checar se chamei essa função lá em cima quando deveria e não o de Move Id lmaooo
+						// Se não houver, usa o melhor move que puder TODO: Novamente podemos colapsar isso aqui para que fique mais elegante
+						if(trySwitch != 0) {
+							npcChoice.setFullChoice(choiceType.SWITCH, trySwitch);
+							return npcChoice;
+						}
+						// Se chegou até aqui, aceita a morte e usa Moves
+						else {
+							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+							return npcChoice; // TODO: Isso aqui é redundante?? Podemos colapsar tudo?
+						}
+					}
+				}
 			}
-			
-			// TODO: Caso a troca seja forçada, BestOffensive > BestDefensive > Random
 		}
-		
-		
+		// Em última instância, usa um move aleatório
+		npcChoice.setFullChoice(choiceType.MOVE, TreinadorNpc.getRandomMoveIdFromSelectedClass(field, Move.class));
+		return npcChoice;
 	}
 	
+	public static int getRandomMoveIdFromSelectedClass(Battlefield field, Class<?> selClass) {
+		/*
+		 * Essa função cujo nome é um pesadelo autoexplicativo (e funcional) serve para
+		 * retornar o id de um move que seja da instância do uma classe desejada.
+		 * Por exemplo, podemos enviar a classe "StatChange" como parâmetro
+		 * e a função retornará o ID de algum move "StatChange" no moveset.
+		 * Se não houver, retorna -5.
+		 * Se não existir PP mais, retorna 5; TODO
+		 */
+		
+		int i = 0;
+		boolean struggle = true;
+		for(i = 0; i < 4; i++) {
+			Move curMove = field.getLoadedNpc().getActiveMon().getMoveset()[i];
+			if(curMove != null && curMove.getPoints() > 0) { // Encontrou algum move com PP
+				struggle = false;
+				if(curMove.getClass().equals(selClass)) // Encontrou move com PP e da classe desejada
+					return i;
+			}
+		}
+		if(struggle)
+			return -5; // Não há PP total
+		else
+			return -1; // Há PP, mas não para o move desejado, ou o move desejado não existe
+		
+		// OBS: Se esse código quebrar, podemos tentar utilizar o seguinte:
+		// public static int getRandomMoveIdFromSelectedSubclass(Battlefield field, Object selObj)
+		// if(curMove != null && curMove.getClass().equals(selObj.getClass())) return i;
+	}
+	
+	public static boolean isEnemyImmune(Move move, Poke defMon, Battlefield field) {
+		/*
+		 * Função que recebe um Move
+		 * e um inimigo e verifica imunidade.
+		 */
+		TypeChart tchart = field.getTchart();
+		float error = 0.001f;
+		if(Math.abs(tchart.compoundTypeMatch(move.getTipagem(), defMon) - 0f) < error){
+			return true;
+		}
+		else
+			return false;
+	}
 	public static int getBestDamageMoveId(Battlefield field) {
 		/*
 		 * Função que retorna o ID do Move mais eficiente.
 		 * Se não achar eficiente o suficiente, retorna -(id).
-		 * TODO: CHECAR PP ANTES DE USAR MOVES; SE NÃO HOUVER PP EM MOVE BOM, DESCARTÁ-LO. MAS COMO
 		 */
 		Poke monSelf = field.getLoadedPlayer().getActiveMon();
 		Poke monFoe = field.getLoadedNpc().getActiveMon();
 		int i = 0;
-		int index = 0;
+		int index = 0; 
 		float bestF = 0f;
 		float curF = 0f;
+		boolean struggle = true; // flag para caso não haja PP nenhum
+		
 		for(i = 0; i < 4; i++) {
-			// TODO: Buscar move de Status aqui?
 			Move curMove = monSelf.getMove(i);
-			if(curMove != null && curMove.getCateg() != Move.moveCategs.STATUS) {
+			// Verificar se é null, se é status e se há pp
+			if(curMove != null && curMove.getCateg() != Move.moveCategs.STATUS && curMove.getPoints() > 0) {
+				// Se não houver PP em NENHUM move, retornar 5 (id do Struggle);
+				struggle = false;
 				curF = field.getTchart().typeMatch(curMove.getTipagem(), monFoe.getTipagem()[0])*
 						field.getTchart().typeMatch(curMove.getTipagem(), monFoe.getTipagem()[1]);
 				if(curF > bestF) {
@@ -143,6 +238,8 @@ public class TreinadorNpc extends Treinador{
 				}
 			}
 		}
+		if(struggle)
+			return 5;
 		// Tendo achado o melhor da dano, verifica se é lá essas coisas
 		float error = 0.001f;
 		if(Math.abs(bestF - 1f) < error || bestF > 1f)
@@ -151,6 +248,29 @@ public class TreinadorNpc extends Treinador{
 			return index*(-1);
 	}
 	
+	public static int getRandomPossibleSwitch(Battlefield field) {
+		/*
+		 * Escolhe um pokemon aleatório para a troca.
+		 * Retorna seu índice, ou -1 se a troca é impossível.
+		 */
+		int i;
+		// TODO: int vs Integer, qual a diferença?
+		List<Integer> monlist = new ArrayList<>();
+		// Pula o mon ativo
+		for(i = 1; i < 6; i++) {
+			Poke mon = field.getLoadedNpc().getTeam()[i];
+			if(mon != null && !mon.isFainted()) {
+				monlist.add(i);
+			}
+		}
+		// Se não houver algum disponível que não seja o ativo
+		if(monlist.size() == 0)
+			return -1;
+		// Caso contrário, retorna aleatório dentro da lista
+		else
+			return monlist.get(ThreadLocalRandom.current().nextInt(0, monlist.size() + 1));
+	}
+
 	public static int getBestDefensiveTypeSwitch(Battlefield field) {
 		/*
 		 * Retorna o ID do melhor pokemon para
@@ -223,21 +343,23 @@ public class TreinadorNpc extends Treinador{
 		int foeType2 = foeMon.getTipagem()[1];
 		// Achar pokemon na party com o melhor de DANO (pensando apenas em tipo) contra o inimigo
 		int i, j;
-		int index = 0; // TODO: Pode-se tornar essa func. mais complexa criando uma lista de melhores moves e escolhendo o pokemon de acordo
+		int index = 0;
 		float bestF = 0f;
 		float currentF = 0f;
-		// iterando sobre o time
-		for(i = 0; i < 6; i++) { // TODO: COLOCAR EXCEÇÕES PARA NULL POINTERS NESSAS VARREDURAS
+		// Iterando sobre o time para escolher pokes
+		for(i = 0; i < 6; i++) {
 			Poke curMon = field.getLoadedNpc().getTeam()[i];
-			if(!curMon.isFainted()) {
-				// iterando sobre moves
-				for(j = 0; j < 4; j++) { // TODO: COLOCAR EXCEÇÕES PARA NULL POINTERS NESSAS VARREDURAS
+			if(curMon != null && !curMon.isFainted()) {
+				// Iterando poke para escolher moves
+				for(j = 0; j < 4; j++) {
 					Move curMove = curMon.getMove(j);
-					currentF = field.getTchart().typeMatch(curMove.getTipagem(), foeType1) * 
-							field.getTchart().typeMatch(curMove.getTipagem(), foeType2);
-					if(currentF > bestF) {
-						index = i;
-						currentF = bestF;
+					if(curMove != null && curMove.getPoints() > 0) {
+						currentF = field.getTchart().typeMatch(curMove.getTipagem(), foeType1) * 
+								field.getTchart().typeMatch(curMove.getTipagem(), foeType2);
+						if(currentF > bestF) {
+							index = i;
+							currentF = bestF;
+						}
 					}
 				}
 			}

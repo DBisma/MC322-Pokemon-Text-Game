@@ -113,7 +113,6 @@ public class Main {
 		// Setar o pokemo ativo como o pokemon no slot[0] no começo da batalha
 		// "Renderizar" menu de batalha Root e receber opções do jogador
 		
-		
 		// TODO: apagar esse checkpoint
 		System.out.print("O resultado do roll 50/50 é: " + TurnUtils.rollChance(50)+ "\n");
 		

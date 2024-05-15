@@ -8,7 +8,7 @@ public class Treinador {
 	 */
 	
 	private int id;
-	private String nome;
+	private String name;
 	private String desc;
 	private boolean isPlayer;
 	private Poke[] team; // time do treinador. max 6 pokemons. Pokemon ativo sempre estará na pos. 0
@@ -17,9 +17,9 @@ public class Treinador {
 	
 	// TODO: INICIALIZAÇÃO DE VERDADE
 	
-	public Treinador(int id, String nome, boolean player) {
+	public Treinador(int id, String name, boolean player) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.isPlayer = player;
 		this.team = new Poke[6];
 	}
@@ -46,7 +46,7 @@ public class Treinador {
 		
 		System.out.print("\n");
 		
-		this.nome = name;
+		this.name = name;
 		return true;
 	}
 
@@ -88,10 +88,10 @@ public class Treinador {
 		this.id = id;
 	}
 	public String getNome() {
-		return nome;
+		return name;
 	}
 	public void setNome(String nome) {
-		this.nome = nome;
+		this.name = nome;
 	}
 	public String getDesc() {
 		return desc;

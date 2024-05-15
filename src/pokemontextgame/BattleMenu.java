@@ -20,6 +20,7 @@ public class BattleMenu {
 	
 	// TODO: Talvez possamos montar isso com ENUMs e máquinas de estado finita
 	
+	// TODO: Caso o PP acabe para um dado pokemon, "Attack" deve resultar em Struggle. Como enviar?
 	static void printMenuSeparator() {
 		/*
 		 * Imprime um separador de menu bem longo.
@@ -152,7 +153,7 @@ public class BattleMenu {
 		for(i = 0; i < 4; i++) {
 			currentMove = mon.getMove(i); // Varre moves do Poke selecionado
 			if(!(currentMove == null)) {
-				System.out.print("[" + String.valueOf(i + 1) + "] "  + currentMove.getNome()
+				System.out.print("[" + String.valueOf(i + 1) + "] "  + currentMove.getName()
 				+ " | " + TypeChart.typeToString(currentMove.getTipagem())
 				+ " | PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
 				movecount++;
@@ -187,7 +188,7 @@ public class BattleMenu {
 		BattleMenu.printMenuSeparator();
 		if(!isInspecting) {
 			// Ativo possui mais opções
-			System.out.print("Selecionamos '" + move.getNome() + "'. " + "Suas opções são: \n");
+			System.out.print("Selecionamos '" + move.getName() + "'. " + "Suas opções são: \n");
 			System.out.print("[0] Voltar \n");
 			System.out.print("[1] Usar \n");
 			System.out.print("[2] Ler informações sobre o move \n");

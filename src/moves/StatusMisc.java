@@ -1,6 +1,6 @@
 package moves;
 
-public abstract class StatusMisc extends StatusChanging {
+public abstract class StatusMisc extends StatusGeneral {
 	/*
 	 * Classe mãe de todos os moves de Status
 	 * que são tão específicos que usarão
