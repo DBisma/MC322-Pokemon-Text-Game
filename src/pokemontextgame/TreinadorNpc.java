@@ -25,6 +25,9 @@ public class TreinadorNpc extends Treinador{
 		 * e um processo para determinar a melhor decisão.
 		 * Retorna uma decisão para o NPC no battlefield.
 		 * Mais explicação no corpo do texto.
+		 * O NPC não pode correr e não possui uma bag própria para utilizar items.
+		 * TODO: Implementar pequena bag para que possa usar items?
+		 * TODO: Remover items de uma vez por todas da bag para que o NPC não tenha que espelhar o jogador?
 		 */
 		
 		// Macros
@@ -49,12 +52,12 @@ public class TreinadorNpc extends Treinador{
 			// Checar vida; se for mais que metade, prioriza moves
 			if(mon.getCurHp() > (int) mon.getMaxHp()*0.5f) {
 				// Verifica se o próprio possui BOOST de Ataque ou Spec. Atk
-				if(mon.getModSpecAtk() > 0 || mon.getModAtk() > 0) {
+				if(mon.getModSpAtk() > 0 || mon.getModAtk() > 0) {
 					// Se sim, usa um move de dano;
 					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 				}
 				// Se não, verifica se possui BOOST de DEFESA ou Spec. Def
-				else if(mon.getModDef() > 0 || mon.getModSpecDef() > 0) {
+				else if(mon.getModDef() > 0 || mon.getModSpDef() > 0) {
 					// Se sim, verificar se:
 					int tryStatusFxIndex = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatusChangeFx.class);
 					if(!foe.isStatusedFx() // inimigo não está afetado por statusfx;
@@ -94,14 +97,21 @@ public class TreinadorNpc extends Treinador{
 					}
 					// Caso contrário, checa se ainda trocar e se seus moves são ruins; se sim, troca
 					else if(bestDmgMoveId < 0 && rSwitch != -1) { // se o iD for negativo, é o "melhor", mas ainda é ruim
-						int switchIndex = bestDefSwitchId;
-						// se o melhor em defesa já for o atual, trocar para outro com melhores ataques
-						if(switchIndex == 0) {
-							switchIndex = bestOffensiveSwitchId;
-							// se ainda assim não resolver, usar o melhor ataque possível
+						// 33% (1/3) de chance de usar o move sub-ótimo; 67% (2/3) de trocar
+						if(TurnUtils.rollChance(33)) {
+							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+						}
+						// Buscando troca
+						else {
+							int switchIndex = bestDefSwitchId;
+							// se o melhor em defesa já for o atual, trocar para outro com melhores ataques
 							if(switchIndex == 0) {
-								// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
-								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+								switchIndex = bestOffensiveSwitchId;
+								// se ainda assim não resolver, usar o melhor ataque possível
+								if(switchIndex == 0) {
+									// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
+									npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+								}
 							}
 						}
 					}
@@ -118,7 +128,7 @@ public class TreinadorNpc extends Treinador{
 							if(lastResortId > -1 && !foe.isStatusedFx() &&TurnUtils.rollChance(50)){
 								npcChoice.setFullChoice(choiceType.MOVE, lastResortId);
 							}
-							// idem 30% de tentar o melhor ataque
+							// idem 30% de tentar o melhor ataque, mesmo se for sub-otimizado (multiplicado por -1)
 							else {
 								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 							}
@@ -229,6 +239,7 @@ public class TreinadorNpc extends Treinador{
 		if(struggle)
 			return 5;
 		// Tendo achado o melhor da dano, verifica se é lá essas coisas
+		// Retorna -1*index se for sub-otimizado
 		float error = 0.001f;
 		if(Math.abs(bestF - 1f) < error || bestF > 1f)
 			return index;

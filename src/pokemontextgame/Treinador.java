@@ -116,7 +116,7 @@ public class Treinador {
 		/*
 		 * Retorna o poke ativo, e não seu ID.
 		 */
-		return this.getTeam()[activeMonId];
+		return this.team[activeMonId];
 	}
 	
 	public int getActiveMonId() {
@@ -128,9 +128,9 @@ public class Treinador {
 		 * Muda o pokemon ativo para o de novo ID escolhido.
 		 * Muda o pokemon ativo anterior para não-ativo.
 		 */
-		this.getTeam()[this.getActiveMonId()].setActive(false);
+		this.team[this.activeMonId].setActive(false);
+		this.team[newId].setActive(true);
 		this.activeMonId = newId;
-		this.getTeam()[newId].setActive(true);
 	}
 
 	public boolean isForcedSwitch() {
@@ -140,5 +140,4 @@ public class Treinador {
 	public void setForcedSwitch(boolean forcedSwitch) {
 		this.forcedSwitch = forcedSwitch;
 	}
-	
 }

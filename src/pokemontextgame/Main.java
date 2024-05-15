@@ -39,37 +39,23 @@ public class Main {
 		
 		// Parte 2: Escolher os pokemons do Treinador
 		
-		// Vamos criar um pokemon qualquer e atribuí-lo ao jogador.
-		Poke exMetagross = new Poke(376, "Metagross"); // recebe pokedex ID, mas ficará melhor mais tarde.
-		player.setTeam(0, exMetagross);
-		player.setActiveMonId(0);
-		
-		// E vamos criar um Tyranitar para o NPC
-		Poke exTyranitar = new Poke(248, "Tyranitar");
-		npc.setTeam(0, exTyranitar);
-		
-		
-		player.setTeam(1, exTyranitar);
-		/*
-		 * TODO
-		 * E deveremos criar um exampleMove para o Metang
-		 * e example move para o Tyranitar
-		 * E uma example Ability
-		 * E uma example HeldItem
-		 * e um e um eum eu mem emme eu perdi o pé
-		 */
+		// Vamos criar alguns pokemons quaisquer e atribuí-los ao jogador e ao npc
+		Poke exJirachi1 = new Poke(1, "Jyroo"); // recebe pokedex ID, mas ficará melhor mais tarde.
+		Poke exJirachi2 = new Poke(2, "John");
+		Poke exJirachi3 = new Poke(3, "James");
+		player.setTeam(0, exJirachi1);
+		player.setTeam(0, exJirachi2);
+		npc.setTeam(0, exJirachi3);
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
-		Move exFirePunch = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
-										StatusFx.typeList.BURN, 30);	
+		Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+										StatusFx.typeList.BURN, 30);
+		Move exFirePunch2 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+				StatusFx.typeList.BURN, 30);	
 		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 100);	
-		exMetagross.setMove(0, exHammerArm);
-		exTyranitar.setMove(0, exFirePunch);
-		//exMetagross.setFainted(true);
-		//exMetagross.setCurHp(0);
-		
-		
-		// E agora, parte das habilidades;
+		exJirachi1.setMove(0, exHammerArm);
+		exJirachi2.setMove(0, exFirePunch1);
+		exJirachi3.setMove(0, exFirePunch2);
 		
 		// E agora, a parte dos held items;
 		// TODO: Como fazer cada um ter seu método próprio?
@@ -78,14 +64,14 @@ public class Main {
 		Item exChoiceScarf = new Item(287, "Choice Scarf");
 		Item exLeftovers = new Item(234, "Leftovers");
 		
-		exMetagross.setHeldItem(exLeftovers);
-		exTyranitar.setHeldItem(exChoiceScarf);
+		exJirachi1.setHeldItem(exLeftovers);
+		exJirachi2.setHeldItem(exChoiceScarf);
 		
 		// Agora, vamos inventar habilidades.
 		Ability exClearBody = new Ability(29, "Clear Body");
 		Ability exSandStream = new Ability(45, "Sand Stream");
-		exMetagross.setAbil(exClearBody);
-		exTyranitar.setAbil(exSandStream);
+		exJirachi1.setAbil(exClearBody);
+		exJirachi2.setAbil(exSandStream);
 		
 		/*
 		 * TODO: MAIS URGENTE: LER E CONSTRUIR USANDO INFORMAÇÃO DE UM JSON.
@@ -108,7 +94,7 @@ public class Main {
 		Battlefield field = new Battlefield(player, npc, true);
 		// Colocar os dois treinadores no campo;
 		
-		field.turn(scan, field);
+		field.turn(scan);
 		
 		// Setar o pokemo ativo como o pokemon no slot[0] no começo da batalha
 		// "Renderizar" menu de batalha Root e receber opções do jogador

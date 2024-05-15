@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 import moves.Move;
 import pokemontextgame.Battlefield.Choice;
+import pokemontextgame.Battlefield.Choice.choiceType;
 import pokemontextgame.StatusFx.typeList;
+import pokemontextgame.Battlefield;
 
 public class BattleMenu {
 	/*
@@ -93,9 +95,11 @@ public class BattleMenu {
 		 * Exibe as 4 opções básicas de menu
 		 * que um jogador pode escolher.
 		 */
-
+		
+		Poke mon = field.getLoadedPlayer().getActiveMon();
+		// Choice playerchoice = field.new Choice(); TODO: Vamos evitar isso por um momento.
 		BattleMenu.printMenuSeparator();
-		System.out.print("Pokémon ativo: " + "'" + field.getLoadedPlayer().getActiveMon().getName() + "'" + "\n");
+		System.out.print("Pokémon ativo: " + "'" + mon.getName() + "'" + "\n");
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
@@ -106,12 +110,16 @@ public class BattleMenu {
 		// Recebe a entrada de opção do jogador até que escolha uma opção válida
 		int option = BattleMenu.scanOptionLoop(scan, 0, 4);
 		
-		// TODO: Talvez exista uma opção mais elegante que essa das Switches
 		switch(option) {
 			// Lutar
 			case 0:{
-				menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
-				break;
+				if(mon.isPpDepleted())
+					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
+					field.getPlayerChoice().setFullChoice(choiceType.STRUGGLE, 5);
+				else {
+					menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
+					break;
+				}
 			} 
 			// Ver pokes
 			case 1:{
