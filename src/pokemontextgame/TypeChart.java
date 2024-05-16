@@ -10,7 +10,7 @@ public class TypeChart {
 	 * Ademais, possui funções para cálculo de modificação de dano.
 	 */
 	
-	// TODO: É mais elegante fazer isso com enuns na real
+	// Fazer isso com uma tabela é mais eficiente do que com Enums e Ifs
 	private float chart[][];
 	
 	public TypeChart() {
@@ -18,18 +18,14 @@ public class TypeChart {
 		 * Constrói a tabela, preenchendo-na com os 
 		 * valores modificadores de cada combinação de tipo.
 		 */
-		this.chart = new float[17][17];
+		this.chart = new float[18][18];
 		
-		// Valores iniciais;
-		Arrays.fill(this.chart, (float) 1.0); //TODO: Todo esse casting de float é mesmo necessário?
-	
+		// Valores iniciais; preencher matrix com float 1
+		for(float[] row: this.chart)
+			Arrays.fill(row, 1.0f);
+		
 		/*
 		 * Combinações relevantes;
-		 * 
-		 * TODO: Possivelmente trocar por um Dicionário ou um ENUM para termos os nomes dos tipos
-		 * e não seus ids...
-		 * 
-		 * 
 		 * Para fins de explicação, cada tipo possível possui um índice na tabela.
 		 * São eles: Normal (0), Fire (1), Water (2), Grass (3),
 		 * Electric (4), Ice (5), Fighting (6), Poison (7),  Ground (8),
@@ -153,7 +149,7 @@ public class TypeChart {
 		this.chart[17][6] = this.chart[17][14] = this.chart[17][15] = (float) 2.0;
 	}
 	
-	static float typeMatch(int idAtk, int idDef, TypeChart tchart) {
+	public float typeMatch(int idAtk, int idDef) {
 		/*
 		 * Verifica os Ids dos tipos do atacante e defensor
 		 * numa grande tabela de tipos. Retorna modificador.
@@ -162,10 +158,19 @@ public class TypeChart {
 		if(idDef == -1) // se for monotipo, retorna elemento neutro
 			return 1;
 		else
-			return tchart.chart[idAtk][idDef];
+			return this.chart[idAtk][idDef];
 	}
 	
-	static String typeToString(int id) {
+	public float compoundTypeMatch(int idAtk, Poke mon) {
+		/* 
+		 * Efetua dois typeMatches e os multiplica para obter
+		 * o resultado completo de um ataque contra um pokemon.
+		 */
+		
+		return typeMatch(idAtk, mon.getTipagem()[0]) * typeMatch(idAtk, mon.getTipagem()[1]);
+	}
+	
+	public static String typeToString(int id) {
 		/*
 		 * Recebe o ID de um tipo elemental e retorna
 		 * seu nome correspondente.

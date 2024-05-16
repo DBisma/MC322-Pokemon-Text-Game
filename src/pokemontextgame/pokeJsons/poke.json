@@ -1,1 +1,5 @@
-[{"pokedexId": 616}, { "pokedexId": 666}, { "pokedexId": 333}]
+[
+	{"pokedexId": 616, "nome": "Shelmet"}, 
+	{ "pokedexId": 666, "nome": "Vivillon"}, 
+	{ "pokedexId": 333, "nome": "Swablu"}
+]

@@ -7,33 +7,43 @@ import java.util.Scanner;
 
 import org.json.JSONException;
 
+import moves.*;
+
 public class Main {
 	public static void main(String[] args) throws IOException, JSONException {
 		/*
 		 * A classe main chama as outras funções para executar a batalha em texto.
 		 */
+		
+		//
+		//		TODO: REMOVER HABILIDADES, REMOVER HELD ITEMS, REMOVER WEATHER, REMOVER A BAG. TUDO ISSO É ACESSÓRIO.
+		//		⣽⣿⢣⣿⡟⣽⣿⣿⠃⣲⣿⣿⣸⣷⡻⡇⣿⣿⢇⣿⣿⣿⣏⣎⣸⣦⣠⡞⣾⢧⣿⣿ 
+		//		⣿⡏⣿⡿⢰⣿⣿⡏⣼⣿⣿⡏⠙⣿⣿⣤⡿⣿⢸⣿⣿⢟⡞⣰⣿⣿⡟⣹⢯⣿⣿⣿ 
+		//		⡿⢹⣿⠇⣿⣿⣿⣸⣿⣿⣿⣿⣦⡈⠻⣿⣿⣮⣿⣿⣯⣏⣼⣿⠿⠏⣰⡅⢸⣿⣿⣿ 
+		//		⡀⣼⣿⢰⣿⣿⣇⣿⣿⡿⠛⠛⠛⠛⠄⣘⣿⣿⣿⣿⣿⣿⣶⣿⠿⠛⢾⡇⢸⣿⣿⣿ 
+		//		⠄⣿⡟⢸⣿⣿⢻⣿⣿⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡋⠉⣠⣴⣾⣿⡇⣸⣿⣿⡏ 
+		//		⠄⣿⡇⢸⣿⣿⢸⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠘⢿⣿⠏⠄⣿⣿⣿⣹ 
+		//		⠄⢻⡇⢸⣿⣿⠸⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣦⣼⠃⠄⢰⣿⣿⢯⣿ 
+		//		⠄⢸⣿⢸⣿⣿⡄⠙⢿⣿⣿⡿⠁⠄⠄⠄⠄⠉⣿⣿⣿⣿⣿⣿⡏⠄⢀⣾⣿⢯⣿⣿
+		//		⣾⣸⣿⠄⣿⣿⡇⠄⠄⠙⢿⣀⠄⠄⠄⠄⠄⣰⣿⣿⣿⣿⣿⠟⠄⠄⣼⡿⢫⣻⣿⣿
+		//		⣿⣿⣿⠄⢸⣿⣿⠄⠄⠄⠄⠙⠿⣷⣶⣤⣴⣿⠿⠿⠛⠉⠄⠄ ⢸⣿⣿⣿⣿⠃⠄
+		//		
+		
+		// Scan que será fechado ao final do arquivo
+		
 		JSONReader json = new JSONReader();
 		ArrayList<Poke> pkmn = new ArrayList<Poke>();
 		ArrayList<Item> items = new ArrayList<Item>();
 		
 		json.buildPokemons();
 		pkmn = json.getPkmnList();
-		json.buildItems();
-		items = json.getItemList();
 		
-		System.out.println(pkmn.get(0).getPokedexNum());
-		System.out.println(pkmn.get(1).getPokedexNum());
-		System.out.println(pkmn.get(2).getPokedexNum());
-		
-		System.out.println(items.get(0).getId()+" "+items.get(0).getNome());
-		
-		// Scan que será fechado ao final do arquivo
 		Scanner scan = new Scanner(System.in);
 		
 
 		// Inicializá-los
 		Treinador player = new Treinador(1, "Placeholder", true);
-		Treinador npc = new Treinador(2, "Placeholder", false);
+		TreinadorNpc npc = new TreinadorNpc(2, "Placeholder", false);
 		
 		// Receber nome do jogador e do npc
 		
@@ -43,31 +53,23 @@ public class Main {
 		
 		// Parte 2: Escolher os pokemons do Treinador
 		
-		// Vamos criar um pokemon qualquer e atribuí-lo ao jogador.
-		Poke exMetagross = new Poke(376); // recebe pokedex ID, mas ficará melhor mais tarde.
-		player.setTeam(0, exMetagross);
-		
-		// E vamos criar um Tyranitar para o NPC
-		Poke exTyranitar = new Poke(248);
-		npc.setTeam(0, exTyranitar);
-		
-		/*
-		 * TODO
-		 * E deveremos criar um exampleMove para o Metang
-		 * e example move para o Tyranitar
-		 * E uma example Ability
-		 * E uma example HeldItem
-		 * e um e um eum eu mem emme eu perdi o pé
-		 */
+		// Vamos criar alguns pokemons quaisquer e atribuí-los ao jogador e ao npc
+		Poke exJirachi1 = new Poke(1, "Jyroo"); // recebe pokedex ID, mas ficará melhor mais tarde.
+		Poke exJirachi2 = new Poke(2, "John");
+		Poke exJirachi3 = new Poke(3, "James");
+		player.setTeam(0, exJirachi1);
+		player.setTeam(0, exJirachi2);
+		npc.setTeam(0, exJirachi3);
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
-		Move exFirePunch = new Move(7, "Fire Punch", 1, 75, 15, 0, 100, 0);	
-		Move exHammerArm = new Move(359, "Hammer Arm", 6, 100, 10, 0, 90, 0);
-		exMetagross.setMove(0, exHammerArm);
-		exTyranitar.setMove(0, exFirePunch);
-		
-		
-		// E agora, parte das habilidades;
+		//Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+		//								StatusFx.typeList.BURN, 30);
+		//Move exFirePunch2 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+		//		StatusFx.typeList.BURN, 30);	
+		//Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 100);	
+		//exJirachi1.setMove(0, exHammerArm);
+		//exJirachi2.setMove(0, exFirePunch1);
+		//exJirachi3.setMove(0, exFirePunch2);
 		
 		// E agora, a parte dos held items;
 		// TODO: Como fazer cada um ter seu método próprio?
@@ -76,14 +78,14 @@ public class Main {
 		Item exChoiceScarf = new Item(287, "Choice Scarf");
 		Item exLeftovers = new Item(234, "Leftovers");
 		
-		exMetagross.setHeldItem(exLeftovers);
-		exTyranitar.setHeldItem(exChoiceScarf);
+		exJirachi1.setHeldItem(exLeftovers);
+		exJirachi2.setHeldItem(exChoiceScarf);
 		
 		// Agora, vamos inventar habilidades.
 		Ability exClearBody = new Ability(29, "Clear Body");
 		Ability exSandStream = new Ability(45, "Sand Stream");
-		exMetagross.setAbil(exClearBody);
-		exTyranitar.setAbil(exSandStream);
+		exJirachi1.setAbil(exClearBody);
+		exJirachi2.setAbil(exSandStream);
 		
 		/*
 		 * TODO: MAIS URGENTE: LER E CONSTRUIR USANDO INFORMAÇÃO DE UM JSON.
@@ -106,11 +108,10 @@ public class Main {
 		Battlefield field = new Battlefield(player, npc, true);
 		// Colocar os dois treinadores no campo;
 		
-		BattleMenu.menuDisplayRoot(scan, field);
+		field.turn(scan);
 		
 		// Setar o pokemo ativo como o pokemon no slot[0] no começo da batalha
 		// "Renderizar" menu de batalha Root e receber opções do jogador
-		
 		
 		// TODO: apagar esse checkpoint
 		System.out.print("O resultado do roll 50/50 é: " + TurnUtils.rollChance(50)+ "\n");

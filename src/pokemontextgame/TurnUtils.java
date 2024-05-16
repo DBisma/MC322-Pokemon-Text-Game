@@ -2,13 +2,17 @@ package pokemontextgame;
 
 import java.util.Random;
 
-final class TurnUtils{
+import moves.*;
+import pokemontextgame.Battlefield.Choice;
+import pokemontextgame.Battlefield.Choice.choiceType;
+
+public class TurnUtils{
 	/*
 	 * Classe que armazena funções úteis para progressão de turno.
 	 * Envolve cálculo de dano, modificação de stats, etc.
 	 */
 	
-	static boolean rollChance(int chance) {
+	public static boolean rollChance(int chance) {
 		/*
 		 * Função geral de saída aleatória.
 		 * Recebe uma probabilidade 0-100 e retorna sua saída
@@ -21,7 +25,7 @@ final class TurnUtils{
 			return false;
 	}
 	
-	static int calcDmg(Move move, Poke pAtk, Poke pDef, TypeChart tchart) {
+	public static int calcDmg(DamageDealing move, Poke pAtk, Poke pDef, float typeMod) {
 		/*
 		 * Por enquanto, recebe dois pokemons e o ID do ataque.
 		 * Calcula o dano dado pelo pokemon atacante contra o defensor.
@@ -30,25 +34,22 @@ final class TurnUtils{
 		
 		// Parte Base ou Necessária
 		// TODO: Fazer cópias de dados com esses nomes é boa prática? Como preservar legibilidade?
-		// Calculando atuais ataque e defesa dos pokemons em jogo
-		
-		// TODO: Verificar se usaremos Def ou SpecDec, Ataque ou Spec Attack.
+
 		int atk, def;
-		if(move.getCateg() == 0) {
+		if(move.getCateg() == Move.moveCategs.PHYSICAL) {
 			atk = TurnUtils.modStat(0, pAtk); // Attack
 			def = TurnUtils.modStat(1, pDef); // Defense
 		}
-		else if(move.getCateg() == 1) {
+		else if(move.getCateg() == Move.moveCategs.SPECIAL) {
 			atk = TurnUtils.modStat(2, pAtk); // Special Attack
 			def = TurnUtils.modStat(3, pDef); // Special Defense
 		}
 		else // ataque é status apenas TODO: Modificar nossa rota de calcular dano para algo mais geral
-			return 1;
+			return 0;
 
 		int lv = pDef.getLevel();
-		Move curMove = pAtk.getMoveset()[move.getId()];
-		int power = curMove.getPower();
-		int type = curMove.getTipagem();
+		int power = move.getBasePower();
+		int type = move.getTipagem();
 		float output;
 		
 		// Cálculo do dano em si. Fonte: https://bulbapedia.bulbagarden.net/wiki/Damage#Generation_V_onward
@@ -62,24 +63,21 @@ final class TurnUtils{
 			// Aqui estamos multiplicando por um float, mas o dano é um int.
 		
 		// Verificação de super efetivo / pouco efetivo para os dois tipos do defensor
-		output *= (TypeChart.typeMatch(move.getTipagem(), pDef.getTipagem()[0], tchart)
-				* TypeChart.typeMatch(move.getTipagem(), pDef.getTipagem()[1], tchart));
+		output *= typeMod;
 		
 		// TODO: Puxar os modificadores de Weather, Item Segurado, etc. e incluir na fórmula.
 		// Isso faremos mais tarde. Talvez valha a pena ter uma tabela de Weather.
-	
-		// Verificar Status Burn
-		if(Status.burnHalving(pAtk, curMove))
-			output *= 0.5;
+		// Verificar status como burn etc. mais tarde no cálculo de dano
 		
 		// Arredondar output antes de saída
 		return (int) Math.floor(output);
 	}
 	
-	static int modStat(int statId, Poke mon) {
+	public static int modStat(int statId, Poke mon) {
 		/*
 		 * Calcula a modificação do Stat de um pokemon
 		 * baseado nos boost stages e no Id do stat em questão.
+		 * Faz uso da func. Stat Calc presente na classe Pokemon
 		 * Nem todos os stats possuem boosts calculados da mesma forma.
 		 * Importante: Retorna o stat já modificado, e não o fator.
 		 */
@@ -114,8 +112,9 @@ final class TurnUtils{
 			}
 		}
 		// Devemos colocar limites sobre o output também.
-		
-		int output = (int) mon.getStatBasicGeneral(statId) * (num/denom);
+		int output = (int) mon.statCalc(statId) * (num/denom);
 		return output; //TODO: Novamente, dar esses "nomezinhos" é uma boa?
 	}
+
+
 }

@@ -1,8 +1,6 @@
 package pokemontextgame;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.io.InputStream;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,31 +9,37 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import moves.*;
+import moves.Move.moveCategs;
 
 public class JSONReader{
 	ClassLoader cl = getClass().getClassLoader();
 	
 	String pokej = new String("src/pokemontextgame/pokeJsons/poke.json");
 	String itemj = new String("src/pokemontextgame/pokeJsons/item.json");
+	String movej = new String("src/pokemontextgame/pokeJsons/moves.json");
 	
 	String pokePath = new File(pokej).getAbsolutePath();
 	String itemPath = new File(itemj).getAbsolutePath();
+	String movePath = new File(movej).getAbsolutePath();
 	
 	private ArrayList<Poke> pkmnList;
 	private ArrayList<Item> itemList;
+	private ArrayList<Move> moveList;
 	
 	private String pokeStr;
 	private String itemStr;
+	private String moveStr;
 	
 	public JSONReader(){
 		pkmnList = new ArrayList<Poke>();
 		itemList = new ArrayList<Item>();
+		moveList = new ArrayList<Move>();
 	}
 	
 	public void buildPokemons() throws IOException, JSONException {
+		
 		StringBuilder cb = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new FileReader(pokePath))) {
 	        String line;
@@ -45,17 +49,20 @@ public class JSONReader{
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		
 		pokeStr = cb.toString();
 		JSONArray pokeArray = new JSONArray(pokeStr);
 		for (int i = 0; i < pokeArray.length(); i++) {
 			JSONObject jsonObject = pokeArray.getJSONObject(i);
 			int pokedexId = jsonObject.getInt("pokedexId");
-			Poke novoPoke = new Poke(pokedexId);
+			String nome = jsonObject.getString("nome");
+			Poke novoPoke = new Poke(pokedexId, nome);
 			pkmnList.add(novoPoke);
 		}
 	}
 	
 	public void buildItems() throws IOException, JSONException {
+		
 		StringBuilder cb = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new FileReader(itemPath))) {
 	        String line;
@@ -65,6 +72,7 @@ public class JSONReader{
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		
 		itemStr = cb.toString();
 		JSONArray itemArray = new JSONArray(itemStr);
 		for (int i = 0; i < itemArray.length(); i++) {
@@ -76,12 +84,113 @@ public class JSONReader{
 		}
 	}
 	
+	public void buildMoves() throws IOException, JSONException {
+		
+		StringBuilder cb = new StringBuilder();
+		try (BufferedReader br = new BufferedReader(new FileReader(movePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            cb.append(line).append("\n");
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+		
+		moveStr = cb.toString();
+		JSONArray pokeArray = new JSONArray(moveStr);
+		for (int i = 0; i < pokeArray.length(); i++) {
+			JSONObject jsonObject = pokeArray.getJSONObject(i);
+			int moveId = jsonObject.getInt("Id");
+			String moveName = jsonObject.getString("Name");
+			String moveCat = jsonObject.getString("Category"); // String com o valor do enum, fazer cast para enum com .valueOf(moveCat)
+			int basePower = jsonObject.getInt("BasePower");
+			int moveAcc = jsonObject.getInt("Accuracy");
+			String subClass = jsonObject.getString("Subclass");
+			switch (subClass) {                               // Os cases estão em escopo pois alguns nomes de variáveis são reutilizados
+			
+				case "DamageDealing":
+				{
+					DamageDealing novoDmgDeal = new DamageDealing(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoDmgDeal);
+				break;
+				}
+					
+				case "DmgMisc":
+				{
+					DmgMisc dmgM = new DmgMisc(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(dmgM);
+				break;
+				}
+				
+				case "DmgPlusFx":
+				{
+					int fxChance = jsonObject.getInt("FxChance");
+					String fxType = jsonObject.getString("FxType");
+					DmgPlusFx novoDPFX = new DmgPlusFx(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower, StatusFx.typeList.valueOf(fxType), fxChance);
+					moveList.add(novoDPFX);
+				break;
+				}
+				
+				case "DmgPlusStat":
+				{
+					int statId = jsonObject.getInt("StatId");
+					int boostSt = jsonObject.getInt("BoostStage");
+					int boostCh = jsonObject.getInt("BoostChance");
+					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
+					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
+					moveList.add(novoDMS);
+				break;
+				}
+				
+				case "StatChange":
+				{
+					int statId = jsonObject.getInt("StatId");
+					int boostSt = jsonObject.getInt("BoostStage");
+					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
+					StatChange novoSTCH = new StatChange(moveId, moveName, -1, -1, -1, moveAcc, statId, boostSt, boostSelf);
+					moveList.add(novoSTCH);
+				break;
+				}
+				
+				case "StatusChangeFx":
+				{
+					String fxType = jsonObject.getString("FxType");
+					int fxDuration = jsonObject.getInt("FxDuration");
+					boolean voltl = jsonObject.getBoolean("IsVolatile");
+					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, -1, -1, -1, moveAcc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
+					moveList.add(novoSCF);
+				break;
+				}
+				
+				case "StatusGeneral": // classe abstrata?
+				{
+					//StatusGeneral novoSTGN = new StatusGeneral(moveId, moveName, -1, -1, -1, moveAcc);
+					//moveList.add(novoSTGN);
+				break;
+				}
+				
+				case "StatusMisc": // classe abstrata?
+				{
+					//StatusGeneral novoSTGN = new StatusGeneral(moveId, moveName, -1, -1, -1, moveAcc);
+					//moveList.add(novoSTGN);
+				break;
+				}
+			}
+		}
+	}
+	
+	
+	
 	public ArrayList<Poke> getPkmnList(){
 		return pkmnList;
 	}
 
 	public ArrayList<Item> getItemList(){
 		return itemList;
+	}
+	
+	public ArrayList<Move> getMoveList(){
+		return moveList;
 	}
 	
 }

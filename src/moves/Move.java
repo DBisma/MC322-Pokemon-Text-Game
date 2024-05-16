@@ -1,45 +1,67 @@
-package pokemontextgame;
+package moves;
+
+import pokemontextgame.TypeChart;
+import pokemontextgame.Battlefield;
+import pokemontextgame.Poke;
 
 //TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
-public class Move { 
+//Mas como chamaremos o conjunto de suas subclasses se "Move" deixa de ser um tipo ao declaramos
+
+/*
+ *  TODO: Dilema: Desejamos que a classe Move nunca seja instanciada num objeto, apenas suas subclasses.
+ *  Todavia, desejamos que seja possível um Array Move que armazene as instâncias de suas subclasses.
+ *  O array currentMoves do tipo Moves, por exemplo, deverá guardar DamageDealing, StatChange, etc.
+ *  
+ *  Como podemos fazer isso?
+ *  
+ *  Um array de classe abstrata Move poderia armazenar subclasses. Mas e se desejarmos retornar
+ *  um move específico? Há várias subclasses de moves diferentes. Como faríamos?
+ */
+
+public abstract class Move { 
 	/*
 	 * Armazena as informações base dos ataques.
 	 * 
 	 */
 	private int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
-	private String nome;
+	private String name;
 	private String desc;
-	private int tipagem;
-	private int power; // dano base do ataque. pode ser 0.
+	private int type;
 	private int maxPoints; // com quantos "usos" o ataque começa;
 	private int points; // quantos "usos" restam ao ataque;
 	private int accuracy;
 	private int priority;
 	private boolean statusFx; // se o ataque possui algum efeito extra fora o dano;
-	private int categ; // Se é físico (0), especial (1) ou status (2)
 	// TODO: Como armazenar o método / efeito especial de cada ataque?
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
+	// Possíveis resultados de um move
+	public enum moveResults{HIT, MISS, FAIL, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE,
+		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL}
+	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
 	// Construtor provisório; mais tarde, TODO Construir de json
-	public Move(int id, String name, int type, int pwr, int maxP, int pri, int accu, int categ){
+	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
-		this.nome = name;
-		this.tipagem = type;
-		this.power = pwr;
+		this.name = name;
+		this.type = type;
 		this.maxPoints = maxP;
 		this.points = maxP; // sempre é construído com o max
 		this.priority = pri;
-		this.accuracy = accu;
-		this.categ = categ;
+		this.accuracy = accu; // TODO: Lidar com moves que *nunca erram*.
 	}
 	
-	@Override
+	// Será overridden. TODO: Qual o melhor jeito? Interfaces? Classe abstrata e métodos abstratos?
+	abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
 	
+	@Override
 	public String toString() {
 		/*
 		 * Converte informações de Move numa grande string.
 		 * TODO: Preparar um toString no caso de Move de categ. Stat e não SpecAtk ou Atk.
 		 * TODO: Talvez para isso seja necessário dividir cada uma dessas categs em subclasses, na verdade.
+		 * TODO: Atualizar para divisão em subclasses
+		 * 
+		 * ISSO SERÁ OVERRIDDEN É CLARO.
 		 */
 		String newdesc;
 		String categAndPower;
@@ -50,13 +72,13 @@ public class Move {
 		else
 			newdesc = "Descrição: " + desc;
 		
-		categAndPower = "Categoria: " + Move.categToString(this.categ);
-		if(this.categ != 2) // adiciona Power se houver
-			categAndPower += "\n" + "Dano base: " + this.power;
+//		categAndPower = "Categoria: " + Move.categToString(this.categ); // TODO: Atualizar para refletir nova divisão em subclasses
+//		if(this.categ != 2) // adiciona Power se houver
+//			categAndPower += "\n" + "Dano base: " + this.power; // TODO: Só aparecerá em outra subcliasse
 			
-		output = "Move: " + "'"+ this.nome + "'\n"
-				+ "Tipo: " + TypeChart.typeToString(this.tipagem) + "\n"
-				+ categAndPower + "\n"
+		output = "Move: " + "'"+ this.name + "'\n"
+				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
+//				+ categAndPower + "\n"
 				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
 				+ "Prioridade: " + this.priority + "\n"
 				+ "Precisão: " + this.accuracy + "\n"
@@ -87,23 +109,17 @@ public class Move {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
 	public String getDesc() {
 		return desc;
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-	public int getPower() {
-		return power;
-	}
-	public void setPower(int power) {
-		this.power = power;
 	}
 	public int getMaxPoints() {
 		return maxPoints;
@@ -124,10 +140,10 @@ public class Move {
 		this.statusFx = fx;
 	}
 	public int getTipagem() {
-		return tipagem;
+		return type;
 	}
 	public void setTipagem(int tipagem) {
-		this.tipagem = tipagem;
+		this.type = tipagem;
 	}
 	public int getAccuracy() {
 		return accuracy;
@@ -141,10 +157,5 @@ public class Move {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
-	public int getCateg() {
-		return categ;
-	}
-	public void setCateg(int categ) {
-		this.categ = categ;
-	}
+	public abstract Move.moveCategs getCateg();
 }
