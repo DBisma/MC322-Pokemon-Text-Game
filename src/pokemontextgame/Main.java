@@ -35,9 +35,15 @@ public class Main {
 		JSONReader json = new JSONReader();
 		ArrayList<Poke> pkmn = new ArrayList<Poke>();
 		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<Move> moves = new ArrayList<Move>();
 		
 		json.buildPokemons();
 		pkmn = json.getPkmnList();
+		
+		json.buildMoves();
+		moves = json.getMoveList();
+		
+		System.out.println(moves.get(0).getName() + " | ACC: " + moves.get(0).getAccuracy());
 		
 		Scanner scan = new Scanner(System.in);
 		
