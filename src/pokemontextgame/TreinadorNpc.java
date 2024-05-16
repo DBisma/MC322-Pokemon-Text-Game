@@ -45,7 +45,7 @@ public class TreinadorNpc extends Treinador{
 		// Verificar se pokemon ativo está fainted ou forced switch
 		if((mon.isFainted() || npc.isForcedSwitch()) && rSwitch != -1) {
 			// Se sim, trocar para melhor ofensivo
-			npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
+			npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId, npc);
 		}
 		// Se está vivo e não forçado a trocar
 		else {
@@ -54,7 +54,7 @@ public class TreinadorNpc extends Treinador{
 				// Verifica se o próprio possui BOOST de Ataque ou Spec. Atk
 				if(mon.getModSpAtk() > 0 || mon.getModAtk() > 0) {
 					// Se sim, usa um move de dano;
-					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 				}
 				// Se não, verifica se possui BOOST de DEFESA ou Spec. Def
 				else if(mon.getModDef() > 0 || mon.getModSpDef() > 0) {
@@ -64,11 +64,11 @@ public class TreinadorNpc extends Treinador{
 								&& tryStatusFxIndex > 0 // possuímos um ataque desse tipo para utilizar;
 								&& !TreinadorNpc.isEnemyImmune(mon.getMove(tryStatusFxIndex), foe, field)) { // não há imunidade
 						// se sim, tentamos um Status move
-						npcChoice.setFullChoice(choiceType.MOVE, tryStatusFxIndex);
+						npcChoice.setFullChoice(choiceType.MOVE, tryStatusFxIndex, npc);
 					}
 					// Se um status não for conveniente ou possível, tentamos melhor move
 					else {
-						npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+						npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 					}
 				}
 				// Se não possuir nenhum buff (Perceba que o NPC ignora debuffs se acreditar possuir buffs o suficiente)
@@ -85,21 +85,21 @@ public class TreinadorNpc extends Treinador{
 					if(debuffCount >= 2 && TurnUtils.rollChance(66) && rSwitch != -1) {
 						// para o melhor em defesa
 						if(bestDefSwitchId != 0) {
-							npcChoice.setFullChoice(choiceType.SWITCH, bestDefSwitchId);
+							npcChoice.setFullChoice(choiceType.SWITCH, bestDefSwitchId, npc);
 						}
 						// se o "melhor" em tipo for o atual, trocar para o melhor em ataque
 						else if(bestOffensiveSwitchId != 0) {
-							npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
+							npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId, npc);
 						}
 						// se também for o atual, trocar para um aleatório
 						else
-							npcChoice.setFullChoice(choiceType.SWITCH, rSwitch);
+							npcChoice.setFullChoice(choiceType.SWITCH, rSwitch, npc);
 					}
 					// Caso contrário, checa se ainda trocar e se seus moves são ruins; se sim, troca
 					else if(bestDmgMoveId < 0 && rSwitch != -1) { // se o iD for negativo, é o "melhor", mas ainda é ruim
 						// 33% (1/3) de chance de usar o move sub-ótimo; 67% (2/3) de trocar
 						if(TurnUtils.rollChance(33)) {
-							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 						}
 						// Buscando troca
 						else {
@@ -110,7 +110,7 @@ public class TreinadorNpc extends Treinador{
 								// se ainda assim não resolver, usar o melhor ataque possível
 								if(switchIndex == 0) {
 									// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
-									npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+									npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 								}
 							}
 						}
@@ -120,17 +120,17 @@ public class TreinadorNpc extends Treinador{
 						// 40% de chance de tentar um buff ou debuff
 						int lastResortId = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatChange.class);
 						if(lastResortId > -1 && TurnUtils.rollChance(40)) { //lRId > -1 significa qu o move foi encontrado e tem PP
-							npcChoice.setFullChoice(choiceType.MOVE, lastResortId);
+							npcChoice.setFullChoice(choiceType.MOVE, lastResortId, npc);
 						}
 						// (100% - 40%) * 50% = 30% total de tentar um StatusFx
 						else{
 							lastResortId = TreinadorNpc.getRandomMoveIdFromSelectedClass(field, StatusChangeFx.class);
 							if(lastResortId > -1 && !foe.isStatusedFx() &&TurnUtils.rollChance(50)){
-								npcChoice.setFullChoice(choiceType.MOVE, lastResortId);
+								npcChoice.setFullChoice(choiceType.MOVE, lastResortId, npc);
 							}
 							// idem 30% de tentar o melhor ataque, mesmo se for sub-otimizado (multiplicado por -1)
 							else {
-								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+								npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 							}
 						}
 					}
@@ -142,23 +142,23 @@ public class TreinadorNpc extends Treinador{
 					// Se houver poke melhor para defesa, troca para esse
 					int trySwitch = bestDefSwitchId;
 					if(trySwitch != 0) {
-						npcChoice.setFullChoice(choiceType.SWITCH, trySwitch);
+						npcChoice.setFullChoice(choiceType.SWITCH, trySwitch, npc);
 					}
 					// Se não, busca melhor poke para ataque
 					else {
 						trySwitch = bestOffensiveSwitchId;
 						if(trySwitch != 0) {
-							npcChoice.setFullChoice(choiceType.SWITCH, trySwitch);
+							npcChoice.setFullChoice(choiceType.SWITCH, trySwitch, npc);
 						}
 						// Se não houver nenhuma troca melhor, usa o melhor move que puder até a morte
 						else {
-							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+							npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 						}
 					}
 				}
 				// Se for o último que sobrou, novamente usa o melhor move que puder
 				else {
-					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
+					npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId, npc);
 				}
 			}
 		}

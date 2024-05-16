@@ -1,5 +1,6 @@
 package pokemontextgame;
 import java.util.Scanner;
+import java.util.function.Function;
 
 import moves.*;
 
@@ -88,7 +89,7 @@ public class Main {
 		 * TODO: Inimigo precisa obter os pokemons restantes aleatoriamente;
 		 * TODO: Dar opção do jogador escolher aleatoriamente seus pokemons.
 		 */
-		
+	
 		// Parte do jogo em si
 		// Inicializar campo com jogadores e primeiro turno
 		Battlefield field = new Battlefield(player, npc, true);

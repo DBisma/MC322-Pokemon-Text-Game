@@ -116,7 +116,7 @@ public class BattleMenu {
 			case 0:{
 				if(mon.isPpDepleted())
 					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
-					field.getPlayerChoice().setFullChoice(choiceType.STRUGGLE, 5);
+					field.getPlayerChoice().setFullChoice(choiceType.MOVE, 5, field.getLoadedPlayer());
 				else {
 					menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
 					break;
@@ -236,7 +236,7 @@ public class BattleMenu {
 				}
 				else {
 					// Enviar ID do move em questão
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId); // Como enviar?
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId, field.getLoadedPlayer()); // Como enviar?
 					break;
 				}
 			}

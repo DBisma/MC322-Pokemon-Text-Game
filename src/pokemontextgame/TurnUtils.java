@@ -37,12 +37,12 @@ public class TurnUtils{
 
 		int atk, def;
 		if(move.getCateg() == Move.moveCategs.PHYSICAL) {
-			atk = TurnUtils.modStat(0, pAtk); // Attack
-			def = TurnUtils.modStat(1, pDef); // Defense
+			atk = TurnUtils.getModStat(0, pAtk); // Attack
+			def = TurnUtils.getModStat(1, pDef); // Defense
 		}
 		else if(move.getCateg() == Move.moveCategs.SPECIAL) {
-			atk = TurnUtils.modStat(2, pAtk); // Special Attack
-			def = TurnUtils.modStat(3, pDef); // Special Defense
+			atk = TurnUtils.getModStat(2, pAtk); // Special Attack
+			def = TurnUtils.getModStat(3, pDef); // Special Defense
 		}
 		else // ataque é status apenas TODO: Modificar nossa rota de calcular dano para algo mais geral
 			return 0;
@@ -73,7 +73,7 @@ public class TurnUtils{
 		return (int) Math.floor(output);
 	}
 	
-	public static int modStat(int statId, Poke mon) {
+	public static int getModStat(int statId, Poke mon) {
 		/*
 		 * Calcula a modificação do Stat de um pokemon
 		 * baseado nos boost stages e no Id do stat em questão.
