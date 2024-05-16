@@ -44,7 +44,7 @@ public class Main {
 		Poke exJirachi2 = new Poke(2, "John");
 		Poke exJirachi3 = new Poke(3, "James");
 		player.setTeam(0, exJirachi1);
-		player.setTeam(0, exJirachi2);
+		player.setTeam(1, exJirachi2);
 		npc.setTeam(0, exJirachi3);
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
@@ -54,7 +54,7 @@ public class Main {
 				StatusFx.typeList.BURN, 30);	
 		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 100);	
 		exJirachi1.setMove(0, exHammerArm);
-		exJirachi2.setMove(0, exFirePunch1);
+		exJirachi1.setMove(3, exFirePunch1);
 		exJirachi3.setMove(0, exFirePunch2);
 		
 		// E agora, a parte dos held items;

@@ -144,7 +144,7 @@ public class Battlefield {
 		}
 		else {
 			// Se não for switch, só pode ser um move
-			npcMove = playerMon.getMove(npcChoice.getId());
+			npcMove = playerMon.getMove(Math.abs(npcChoice.getId())); // Lembrando: o ID é negativo se a decisão for sub-otimizada
 		}
 		
 		// Trocas de pokemon são sempre processadas antes de ataques
@@ -152,7 +152,9 @@ public class Battlefield {
 		Move playerMove = null;
 		switch(playerChoice.getType()) { // Ignorando BAG por enquanto. TODO: Incluir a bag TODO: Criar opção struggle? Encode como move definido?
 			case Choice.choiceType.MOVE:{
+				System.out.print("HELP ME" + playerChoice.getType() + playerChoice.getId() + "\n");
 				playerMove = playerMon.getMove(playerChoice.getId());
+				System.out.print(playerMove.getName());
 				break;
 			}
 			case Choice.choiceType.SWITCH:{ // TODO: Por enquanto, é impossível pedir uma troca que falha. TODO
@@ -170,13 +172,28 @@ public class Battlefield {
 		
 		// Sendo processadas as escolhas de maior prioridade, devemos processar os moves
 
-		// Determinanondo quem age primeiro
+		// Determinando quem age primeiro
+		
+		//
+		//		TODO TODO TODO TODO TODO TODO TODO: Temos casos em que não temos Moves por parte de alguém!
+		//		Juntar com um Switch (troca) na hora de processamento?
+		//		Vai ter que desenhar mano.
+		//		⣽⣿⢣⣿⡟⣽⣿⣿⠃⣲⣿⣿⣸⣷⡻⡇⣿⣿⢇⣿⣿⣿⣏⣎⣸⣦⣠⡞⣾⢧⣿⣿ 
+		//		⣿⡏⣿⡿⢰⣿⣿⡏⣼⣿⣿⡏⠙⣿⣿⣤⡿⣿⢸⣿⣿⢟⡞⣰⣿⣿⡟⣹⢯⣿⣿⣿ 
+		//		⡿⢹⣿⠇⣿⣿⣿⣸⣿⣿⣿⣿⣦⡈⠻⣿⣿⣮⣿⣿⣯⣏⣼⣿⠿⠏⣰⡅⢸⣿⣿⣿ 
+		//		⡀⣼⣿⢰⣿⣿⣇⣿⣿⡿⠛⠛⠛⠛⠄⣘⣿⣿⣿⣿⣿⣿⣶⣿⠿⠛⢾⡇⢸⣿⣿⣿ 
+		//		⠄⣿⡟⢸⣿⣿⢻⣿⣿⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⡋⠉⣠⣴⣾⣿⡇⣸⣿⣿⡏ 
+		//		⠄⣿⡇⢸⣿⣿⢸⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠘⢿⣿⠏⠄⣿⣿⣿⣹ 
+		//		⠄⢻⡇⢸⣿⣿⠸⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣦⣼⠃⠄⢰⣿⣿⢯⣿ 
+		//		⠄⢸⣿⢸⣿⣿⡄⠙⢿⣿⣿⡿⠁⠄⠄⠄⠄⠉⣿⣿⣿⣿⣿⣿⡏⠄⢀⣾⣿⢯⣿⣿
+		//		⣾⣸⣿⠄⣿⣿⡇⠄⠄⠙⢿⣀⠄⠄⠄⠄⠄⣰⣿⣿⣿⣿⣿⠟⠄⠄⣼⡿⢫⣻⣿⣿
+		//		⣿⣿⣿⠄⢸⣿⣿⠄⠄⠄⠄⠙⠿⣷⣶⣤⣴⣿⠿⠿⠛⠉⠄⠄ ⢸⣿⣿⣿⣿⠃⠄
+		//		
 		Poke firstMon, secondMon;
 		Move firstMove, secondMove;
 
 		
-		
-		
+	
 		// Se for ataque, verificar se a paralisia não impede o ataque; (isso é depois!!)
 		
 		// Se for ataque, compara prioridade
