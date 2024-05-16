@@ -29,9 +29,8 @@ public abstract class Move {
 	private int type;
 	private int maxPoints; // com quantos "usos" o ataque começa;
 	private int points; // quantos "usos" restam ao ataque;
-	private int accuracy;
+	private int accuracy; // se o ataque possui algum efeito extra fora o dano;
 	private int priority;
-	private boolean statusFx; // se o ataque possui algum efeito extra fora o dano;
 	// TODO: Como armazenar o método / efeito especial de cada ataque?
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
@@ -132,12 +131,6 @@ public abstract class Move {
 	}
 	public void setPoints(int points) {
 		this.points = points;
-	}
-	public boolean isFx() {
-		return statusFx;
-	}
-	public void setFx(boolean fx) {
-		this.statusFx = fx;
 	}
 	public int getTipagem() {
 		return type;

@@ -26,7 +26,7 @@ public class Poke {
 	private boolean active; // flag de ser o pokemon ativo em batalha
 	
 	// Stats invariáveis
-	// Vetor Base de 6 posições. BaseHP(0), Atk (1), Def (2), SpAtk (3), SpecDef (4), Speed (5); Não muda para dada espécie de Poke.
+	// BaseHP(0), Atk (1), Def (2), SpAtk (3), SpecDef (4), Speed (5); Não muda para dada espécie de Poke.
 	private int baseHp;
 	private int baseAtk;
 	private int baseDef;
@@ -461,14 +461,10 @@ public class Poke {
 	public void setModAccuracy(int newVal) {
 		this.statMods[7] = newVal;
 	}
-
-
 	
 	public int getPokedexId() {
 		return pokedexId;
 	}
-
-
 	
 	public void setPokedexId(int pokedexId) {
 		this.pokedexId = pokedexId;

@@ -1,4 +1,5 @@
 package pokemontextgame;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import moves.Move;
@@ -99,7 +100,7 @@ public class BattleMenu {
 		Poke mon = field.getLoadedPlayer().getActiveMon();
 		// Choice playerchoice = field.new Choice(); TODO: Vamos evitar isso por um momento.
 		BattleMenu.printMenuSeparator();
-		System.out.print("Pokémon ativo: " + "'" + mon.getName() + "'" + "\n");
+		System.out.print("Pokémon ativo: " + "'" + mon.getName() + "' (" + mon.getSpeciesName() + ") "+ "\n");
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
@@ -115,7 +116,7 @@ public class BattleMenu {
 			case 0:{
 				if(mon.isPpDepleted())
 					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
-					field.getPlayerChoice().setFullChoice(choiceType.STRUGGLE, 5);
+					field.getPlayerChoice().setFullChoice(choiceType.MOVE, 5, field.getLoadedPlayer());
 				else {
 					menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
 					break;
@@ -157,21 +158,23 @@ public class BattleMenu {
 		
 		// Imprimir apenas os moves existentes (não importa se há PP ou não)
 		Move currentMove;
-		int movecount = 0;
+		ArrayList<Integer> validMoveIds = new ArrayList<Integer>();
+		int moveCount = 0;
 		int i;
 		for(i = 0; i < 4; i++) {
 			currentMove = mon.getMove(i); // Varre moves do Poke selecionado
 			if(!(currentMove == null)) {
-				System.out.print("[" + String.valueOf(i + 1) + "] "  + currentMove.getName()
+				System.out.print("[" + String.valueOf(moveCount + 1) + "] "  + currentMove.getName()
 				+ " | " + TypeChart.typeToString(currentMove.getTipagem())
 				+ " | PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
-				movecount++;
+				moveCount++;
+				validMoveIds.add(i);
 			}
 		}
 		
 		System.out.print("Digite sua opção e aperte ENTER: ");
 		
-		int option = BattleMenu.scanOptionLoop(scan, 0, movecount + 1); // Aceita apenas quantos moves houver + opção de retorno
+		int option = BattleMenu.scanOptionLoop(scan, 0, moveCount + 1); // Aceita apenas quantos moves houver + opção de retorno
 		
 		// Disparando opção selecionada
 		if(option == 0) {
@@ -181,23 +184,27 @@ public class BattleMenu {
 				BattleMenu.menuDisplayRoot(scan, field);
 		}
 		else {
-			BattleMenu.menuDisplayMove(scan, mon, mon.getMove(option - 1), isInspecting, field); // Sendo "option - 1" o Index do Move escolhido
+			BattleMenu.menuDisplayMove(scan, mon, validMoveIds.get(option - 1), isInspecting, field); // Sendo "option - 1" o Index do Move escolhido
 		}
 	}
 	
-	static void menuDisplayMove(Scanner scan, Poke mon, Move move, boolean isInspecting, Battlefield field) {
+	static void menuDisplayMove(Scanner scan, Poke mon, int moveId, boolean isInspecting, Battlefield field) {
 		/*
 		 * Verifica se o pokemon dono desse move é ativo.
 		 * Se for, abre opções para uso.
 		 * Caso contrário, apenas mostra informações sobre Move.
 		 * No caso do boolean "isInspecting", não também não há opção de uso
 		 */
-		
+		Move curMove = mon.getMove(moveId);
 		int option;
 		BattleMenu.printMenuSeparator();
-		if(!isInspecting) {
+		if(curMove == null) {
+			System.out.print("Move inexistente. Digite [0] e aperte ENTER para voltar:");
+			option = BattleMenu.scanOptionLoop(scan, 0, 1);
+		}
+		else if(!isInspecting) {
 			// Ativo possui mais opções
-			System.out.print("Selecionamos '" + move.getName() + "'. " + "Suas opções são: \n");
+			System.out.print("Selecionamos '" + curMove.getName() + "'. " + "Suas opções são: \n");
 			System.out.print("[0] Voltar \n");
 			System.out.print("[1] Usar \n");
 			System.out.print("[2] Ler informações sobre o move \n");
@@ -206,7 +213,7 @@ public class BattleMenu {
 		}
 		else {
 			// Não ativo ou ativo inspecting só pode ler sobre o move e voltar ao moveset
-			System.out.print(move.toString());
+			System.out.print(curMove.toString());
 			System.out.print("Digite [0] e aperte ENTER para voltar: ");
 			option = BattleMenu.scanOptionLoop(scan, 0, 1);
 		}
@@ -220,26 +227,26 @@ public class BattleMenu {
 			case 1: {
 				// Escolha de move atualiza a playerChoice do Battlefield field
 				// Se faltar PP
-				if(move.getPoints() == 0) {
+				if(curMove.getPoints() == 0) {
 					System.out.print("Não há PP o suficiente para este move!\n");
 					System.out.print("Digite [0] e aperte ENTER para voltar: ");
 					option = BattleMenu.scanOptionLoop(scan, 0, 1);
-					BattleMenu.menuDisplayMove(scan, mon, move, isInspecting, field);
+					BattleMenu.menuDisplayMove(scan, mon, moveId, isInspecting, field);
 					break;
 				}
 				else {
-					// envia enfim a opção de ataque
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, option);
+					// Enviar ID do move em questão
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId, field.getLoadedPlayer()); // Como enviar?
 					break;
 				}
 			}
 			case 2: {
 				// Lê sobre o move, mas volta ao display MOVE, não ao display MOVESET, pois não exauriu opções
 				BattleMenu.printMenuSeparator();
-				System.out.print(move.toString());
+				System.out.print(curMove.toString());
 				System.out.print("Digite [0] e aperte ENTER para voltar: ");
 				option = BattleMenu.scanOptionLoop(scan, 0, 1);
-				BattleMenu.menuDisplayMove(scan, mon, move, isInspecting, field);
+				BattleMenu.menuDisplayMove(scan, mon, moveId, isInspecting, field);
 			}
 		}
 	}
@@ -306,7 +313,7 @@ public class BattleMenu {
 			curMon = player.getTeam()[i];
 			if(curMon != null) {
 				monCount++;
-				monString = ("[" + (i + 1) + "] " + curMon.getName() + " | Lv. " + curMon.getLevel()
+				monString = ("[" + (i + 1) + "] '" + curMon.getName() + "' (" + curMon.getSpeciesName() + ") " + "| Lv. " + curMon.getLevel()
 				+ "| " + TypeChart.fullTypeToString(curMon));
 				
 				// Checando Fainted
