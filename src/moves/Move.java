@@ -23,14 +23,14 @@ public abstract class Move {
 	 * Armazena as informações base dos ataques.
 	 * 
 	 */
-	private int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
-	private String name;
-	private String desc;
-	private int type;
-	private int maxPoints; // com quantos "usos" o ataque começa;
-	private int points; // quantos "usos" restam ao ataque;
-	private int accuracy; // se for 0 a 100. Se for -1, sempre acerta
-	private int priority;
+	protected int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
+	protected String name;
+	protected String desc;
+	protected int type;
+	protected int maxPoints; // com quantos "usos" o ataque começa;
+	protected int points; // quantos "usos" restam ao ataque;
+	protected int accuracy; // se for 0 a 100. Se for -1, sempre acerta
+	protected int priority;
 	// TODO: Como armazenar o método / efeito especial de cada ataque?
 	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
 	
@@ -56,31 +56,27 @@ public abstract class Move {
 	public String toString() {
 		/*
 		 * Converte informações de Move numa grande string.
-		 * TODO: Preparar um toString no caso de Move de categ. Stat e não SpecAtk ou Atk.
-		 * TODO: Talvez para isso seja necessário dividir cada uma dessas categs em subclasses, na verdade.
-		 * TODO: Atualizar para divisão em subclasses
-		 * 
-		 * ISSO SERÁ OVERRIDDEN É CLARO.
 		 */
 		String newdesc;
-		String categAndPower;
+		String accu = "";
 		String output;
 		
 		if(this.desc == null)
 			newdesc = "Nenhuma descrição disponível.";
 		else
 			newdesc = "Descrição: " + desc;
+		if(accuracy == -1) {
+			accu = "Sempre acerta";
+		}
+		else
+			accu += this.accuracy;
 		
-//		categAndPower = "Categoria: " + Move.categToString(this.categ); // TODO: Atualizar para refletir nova divisão em subclasses
-//		if(this.categ != 2) // adiciona Power se houver
-//			categAndPower += "\n" + "Dano base: " + this.power; // TODO: Só aparecerá em outra subcliasse
-			
 		output = "Move: " + "'"+ this.name + "'\n"
 				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
 //				+ categAndPower + "\n"
 				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
 				+ "Prioridade: " + this.priority + "\n"
-				+ "Precisão: " + this.accuracy + "\n"
+				+ "Precisão: " + accu + "\n"
 				+ newdesc + "\n";
 		
 		return output;

@@ -193,4 +193,23 @@ public class TurnUtils{
 		
 		return lifeBar;
 	}
+	
+	public static void printPokeballAscii() {
+		/*
+		 * Função que imprime uma pokebola
+		 * em ASCII para o final do jogo.
+		 */
+		System.out.print(
+				"\n" +
+				"          .=*#%%%%#*=.          \n" + 
+				"        :#%%########%%#:        \n" +
+				"       +%%############%%+       \n" +
+				"      =%%####%#++#%#####%=      \n" +
+				"      %%%%%%%=    =%%%%%%%      \n" +
+				"      %+--::#=    =#:::-+%      \n" +
+				"      =#.   .+*++*+.    #=      \n" +
+				"       +*.            .*+       \n" +
+				"        :*+:        :+*:        \n" +
+				"          .=++++++++=.          \n" );
+	}
 }

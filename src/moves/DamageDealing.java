@@ -31,7 +31,7 @@ public class DamageDealing extends Move {
 		 */
 		
 		this.spendPp();
-		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
+		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.name + "!\n");
 		
 		// Roll de precisão; inclui evasiveness e accuracy dos dois pokemons em questão
 		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
@@ -40,8 +40,8 @@ public class DamageDealing extends Move {
 		}
 		// Por enquanto, moves não podem falhar, apenas errar.
 		// Modificador de dano baseado em eficácia de tipos
-		float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
-				tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
+		float typeMod = tchart.typeMatch(this.type, pDef.getTipagem()[0]) * 
+				tchart.typeMatch(this.type, pDef.getTipagem()[1]);
 		// Caso de imunidade
 		float error = 0.01f;
 		if(Math.abs(typeMod - 0f) < error) {
@@ -81,5 +81,38 @@ public class DamageDealing extends Move {
 
 	public void setBasePower(int basePower) {
 		this.basePower = basePower;
+	}
+
+	@Override
+	public String toString() {
+		/*
+		 * Semelhante ao super.toString, mas
+		 * muda a ordem de algumas informações
+		 * e adiciona informações novas.
+		 */
+		String newdesc;
+		String accu = "";
+		String output;
+		
+		if(this.desc == null)
+			newdesc = "Nenhuma descrição disponível.";
+		else
+			newdesc = "Descrição: " + desc;
+		if(accuracy == -1) {
+			accu = "Sempre acerta";
+		}
+		else
+			accu += this.accuracy;
+		
+		output = "Move: " + "'"+ this.name + "'\n"
+				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
+				+ "Categoria: " + this.categ + "\n"
+				+ "Poder: " + this.basePower + "\n"
+				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
+				+ "Prioridade: " + this.priority + "\n"
+				+ "Precisão: " + accu + "\n"
+				+ newdesc + "\n";
+		
+		return output;
 	}
 }

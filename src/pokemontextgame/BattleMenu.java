@@ -31,11 +31,11 @@ public class BattleMenu {
 		 * por vários elementos de menu.
 		 */
 		
-		System.out.print("/ / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / /"
-				+ " / / / / / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / \n");
+		System.out.print("/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "\n");
 	}
 	
 	static int scanOption(Scanner scan) {
@@ -99,18 +99,8 @@ public class BattleMenu {
 		Poke mon = field.getLoadedPlayer().getActiveMon();
 		Poke foe = field.getLoadedNpc().getActiveMon();
 		BattleMenu.printMenuSeparator();
-		
-		// Lambda de impressão de informação sobre pokemons
-		BiFunction<Poke, Boolean, String> pokeInfoBar = (pMon, isPlayer) -> {
-			String who = isPlayer ? "ativo" : "inimigo";
-			String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
-					"HP: " + TurnUtils.renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() + "\n");
-			
-			return out;
-		};
-		
-		System.out.print(pokeInfoBar.apply(mon, true));
-		System.out.print(pokeInfoBar.apply(foe, false));
+		System.out.print(pokeInfoBar(mon, true));
+		System.out.print(pokeInfoBar(foe, false));
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
@@ -126,9 +116,9 @@ public class BattleMenu {
 			case 0:{
 				if(mon.isPpDepleted())
 					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
-					field.getPlayerChoice().setFullChoice(choiceType.MOVE, 5, field.getLoadedPlayer());
+					field.getPlayerChoice().setFullChoice(choiceType.MOVE, -10);
 				else {
-					menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
+					menuDisplayMoveset(scan, field.getLoadedPlayer().getActiveMonId(), false, field); // envia o Poke ativo, sempre de id 0
 					break;
 				}
 			} 
@@ -246,7 +236,7 @@ public class BattleMenu {
 				}
 				else {
 					// Enviar ID do move em questão
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId, field.getLoadedPlayer()); // Como enviar?
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId); // Como enviar?
 					break;
 				}
 			}
@@ -266,24 +256,20 @@ public class BattleMenu {
 		 * Recebe um Treinador e o scan e mostra todos os 
 		 * pokemons disponíveis e seus statuses (hp, fainted, burned, etc)
 		 * Abre opções para ver cada pokemon em detalhe (moveset, tipos, abilidade)
-		 * ou trocar o pokemon ativo para o selecionado.
-		 * (Se terá sucesso ou não será checado em TODO outra função).
-		 * 
-		 * TODO: Impedir possibilidade de escolher o pokemon atual ativo
-		 * TODO: Essa função está um lixo. Talvez seja melhor reescrevê-la do zero.
+		 * ou trocar o pokemon ativo para o selecionado
 		 */
 		
-		// TODO: Criar novos pokemons e novos ataques para eles para verificar se essas funções estão sendo tiro e queda mesmo
 		// Parte de impressão de opções
 		BattleMenu.printMenuSeparator();
 		System.out.print("Acessando informações de time... \n");
+		System.out.print(pokeInfoBar(field.getLoadedNpc().getActiveMon(), true));
 		if(!field.getLoadedPlayer().isForcedSwitch()) {
 			System.out.print("Suas opções são: \n");
 			System.out.print("[0] Voltar \n");
 			System.out.print("Ou inspecionar os Pokémons: \n");
 		}
 		else {
-			System.out.print("Escolha o próximo Pokémon para batalhar: \n");
+			System.out.print("Inspecione e escolha o próximo Pokémon para batalhar: \n");
 		}
 		
 		int monCount = BattleMenu.menuPrintTeam(field.getLoadedPlayer()); // Imprimindo e obtendo tamanho do time
@@ -350,10 +336,8 @@ public class BattleMenu {
 		/*
 		 * Recebe um Treinador e o ID do Pokemon a ser inspecionado.
 		 * Printa suas informações e aguarda  opção por parte do jogador.
-		 * TODO: Dar um jeito de "salvarmos" o menu prévio e fazer a opção voltar sempre puxar para ele.
-		 * Dessa forma, podemos reutilizar o displayMoveset e displayMove para pokemons não ativos.
-		 * ID é o índice do pokemon sendo observado.
-		 * */
+		 */
+		
 		Poke mon = field.getLoadedPlayer().getTeam()[id];
 		BattleMenu.printMenuSeparator();
 		
@@ -411,7 +395,8 @@ public class BattleMenu {
 			}
 			// Trocar para este
 			case(3):{
-				field.setFullPlayerChoice(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
+				field.getPlayerChoice().setFullChoice(Choice.choiceType.SWITCH, id);
+				//(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
 				break;
 			}
 		}
@@ -451,7 +436,22 @@ public class BattleMenu {
 			BattleMenu.menuDisplayRoot(scan, field);
 		}
 		else
-			field.setFullPlayerChoice(Choice.choiceType.RUN, 0);
+			field.getPlayerChoice().setFullChoice(Choice.choiceType.RUN, 0);
+	}
+	
+	static String pokeInfoBar(Poke pMon, boolean isPlayer) {
+		/*
+		 * Função que retorna a string de uma barrinha de vida de um Pokémon.
+		 */
+		String status = "";
+		status += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
+		String who = isPlayer ? "ativo" : "inimigo";
+		String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
+				"| HP: " + TurnUtils.renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
+				" | " + TypeChart.fullTypeToString(pMon) + " " + status + "\n");
+		
+		return out;
+		
 	}
 }
 

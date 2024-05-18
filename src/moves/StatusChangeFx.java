@@ -38,11 +38,11 @@ final public class StatusChangeFx extends StatusGeneral {
 		else {
 			// Fracassa se oponente já estiver sob efeito de status
 			if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL) {
-				field.textBufferAdd("Mas " + pAtk.getName() + " falhou!");
+				field.textBufferAdd("Mas " + pAtk.getName() + " falhou!\n");
 				return moveResults.FAIL;
 			}
 			else {
-				field.textBufferAdd(pDef.getName() + " foi afligido por " + fxType + "!");
+				field.textBufferAdd(pDef.getName() + " foi afligido por " + fxType + "!\n");
 				pDef.setStatusFx(fxType);
 				return moveResults.HIT;
 			}
