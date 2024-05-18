@@ -26,16 +26,24 @@ abstract class StatusGeneral extends Move {
 		 * Retorna acerto/erro ou imunidade.
 		 */
 	
+		// TODO: Partes que repetem entre moves diferentes poderiam ser juntadas numa só... de algum jeito.
+		this.spendPp();
+		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
+		
 		// Roll de acerto
-		if(!TurnUtils.rollChance(this.getAccuracy()))
+		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
+			field.textBufferAdd("Mas " + pAtk.getName()  + "errou!\n");
 			return Move.moveResults.MISS;
+		}
 		else {
 			// Verificação de imunidades
 			float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
 					tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
 			float error = 0.01f;
-			if(Math.abs(typeMod - 0f) < error)
+			if(Math.abs(typeMod - 0f) < error) {
+				field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
 				return Move.moveResults.HIT_IMMUNE;
+			}
 			else
 				return Move.moveResults.HIT;
 		}

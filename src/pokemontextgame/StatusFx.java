@@ -94,41 +94,5 @@ public class StatusFx {
 	public void setRemainDuration(int remainDuration) {
 		this.remainDuration = remainDuration;
 	}
-	
-	// TODO: Talvez seja uma boa fazer funcs. para cada Status e fazer cada um ser uma subclasse.
-	// Fazer função de [EffectPre] e [EffectPost] para cada Status; SOBRESCREVER CADA MÉTODO PARA SEU STATUS ESPECÍFICO.
-	
-	
-	/*
 
-	static boolean paralyzedThisTurn(Poke mon) {
-		/*
-		 * Função de saída aleatória que retorna "true" caso
-		 * o pokemon dê azar de não poder mover neste turno.
-		 * TODO: Seria legal mudar a velocidade de animação para um pokemon paralisado.
-		  
-		if(mon.getStatusFx().getId() == 2) {
-			return TurnUtils.rollChance(25);
-		}
-		else
-			return false;
-		// TODO: Otimizar checagens de stats no começo de turnos que envolva Sleep, Frozen, Paralyzed, Confused... etc
-		
-	}
-	static boolean burnHalving(Poke mon, Move move) {
-		/*
-		 * Verifica se o Pokemon terá sua saída de dano
-		 * diminuída por estar queimado.
-		 
-		if(mon.getStatusFx().getId() != 0)
-			return false;
-		else if(move.getCateg() != 0)
-			return false;
-		else // TODO: Colocar condição extra: Habilidade Guts
-			return true;
-	}
-	
-	 */
-	// Getters e Setters
-	
 }

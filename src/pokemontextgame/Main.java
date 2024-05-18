@@ -9,7 +9,7 @@ public class Main {
 		/*
 		 * A classe main chama as outras funções para executar a batalha em texto.
 		 */
-		
+	
 		//
 		//		TODO: REMOVER HABILIDADES, REMOVER HELD ITEMS, REMOVER WEATHER, REMOVER A BAG. TUDO ISSO É ACESSÓRIO.
 		//		⣽⣿⢣⣿⡟⣽⣿⣿⠃⣲⣿⣿⣸⣷⡻⡇⣿⣿⢇⣿⣿⣿⣏⣎⣸⣦⣠⡞⣾⢧⣿⣿ 
@@ -27,7 +27,6 @@ public class Main {
 		// Scan que será fechado ao final do arquivo
 		Scanner scan = new Scanner(System.in);
 		
-
 		// Inicializá-los
 		Treinador player = new Treinador(1, "Placeholder", true);
 		TreinadorNpc npc = new TreinadorNpc(2, "Placeholder", false);
@@ -41,9 +40,10 @@ public class Main {
 		// Parte 2: Escolher os pokemons do Treinador
 		
 		// Vamos criar alguns pokemons quaisquer e atribuí-los ao jogador e ao npc
-		Poke exJirachi1 = new Poke(1, "Jyroo"); // recebe pokedex ID, mas ficará melhor mais tarde.
+		Poke exJirachi1 = new Poke(1, "Joe"); // recebe pokedex ID, mas ficará melhor mais tarde.
 		Poke exJirachi2 = new Poke(2, "John");
 		Poke exJirachi3 = new Poke(3, "James");
+		exJirachi3.dmgMon(280);
 		player.setTeam(0, exJirachi1);
 		player.setTeam(1, exJirachi2);
 		npc.setTeam(0, exJirachi3);
@@ -52,8 +52,8 @@ public class Main {
 		Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
 										StatusFx.typeList.BURN, 30);
 		Move exFirePunch2 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
-				StatusFx.typeList.BURN, 30);	
-		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 100);	
+				StatusFx.typeList.BURN, 30);
+		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 50, Move.moveCategs.PHYSICAL, 100);	
 		exJirachi1.setMove(0, exHammerArm);
 		exJirachi1.setMove(3, exFirePunch1);
 		exJirachi3.setMove(0, exFirePunch2);
@@ -101,7 +101,7 @@ public class Main {
 		// "Renderizar" menu de batalha Root e receber opções do jogador
 		
 		// TODO: apagar esse checkpoint
-		System.out.print("O resultado do roll 50/50 é: " + TurnUtils.rollChance(50)+ "\n");
+		//System.out.print(exJirachi3.getName() + " hp = " + exJirachi3.getCurHp() + "\n");
 		
 		// impedindo resource leak
 		scan.close();

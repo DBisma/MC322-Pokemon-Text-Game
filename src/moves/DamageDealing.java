@@ -30,30 +30,40 @@ public class DamageDealing extends Move {
 		 * Como verificar se não foi muito efetivo?
 		 */
 		
-		// Roll de precisão
-		if(!TurnUtils.rollChance(this.getAccuracy()))
+		this.spendPp();
+		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
+		
+		// Roll de precisão; inclui evasiveness e accuracy dos dois pokemons em questão
+		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
+			field.textBufferAdd("Mas " + pAtk.getName()  + " errou!\n");
 			return Move.moveResults.MISS;
-		
-		// Verificação de falha TODO
-		
+		}
+		// Por enquanto, moves não podem falhar, apenas errar.
 		// Modificador de dano baseado em eficácia de tipos
 		float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
 				tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
 		// Caso de imunidade
 		float error = 0.01f;
-		if(Math.abs(typeMod - 0f) < error)
+		if(Math.abs(typeMod - 0f) < error) {
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
 			return Move.moveResults.HIT_IMMUNE;
+		}
 		// Caso contrário, cálculo e aplicação de dano
 		int dmg = TurnUtils.calcDmg(this, pAtk, pDef, typeMod);
 		pDef.dmgMon(dmg);
 		// TODO: Verificar se pDef tem alguma habilidade interessante que afeta o dano. Mais pra frente.
 		// Comparação de floats para retornar efetividade
-		if(Math.abs(typeMod - 0.5f) < error)
+		if(Math.abs(typeMod - 0.5f) < error) {
+			field.textBufferAdd("Não foi muito eficaz...\n");
 			return Move.moveResults.HIT_NOTVERY;
-		else if(Math.abs(typeMod - 1f) < error)
+		}
+		else if(Math.abs(typeMod - 1f) < error) {
 			return Move.moveResults.HIT;
-		else
+		}
+		else {
+			field.textBufferAdd("Foi super eficaz!\n");
 			return Move.moveResults.HIT_SUPER;
+		}
 	}
 	
 	@Override
@@ -72,7 +82,4 @@ public class DamageDealing extends Move {
 	public void setBasePower(int basePower) {
 		this.basePower = basePower;
 	}
-	
-	// Getters e Setters
-	
 }

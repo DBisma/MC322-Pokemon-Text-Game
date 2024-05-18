@@ -26,14 +26,8 @@ public class Poke {
 	private boolean active; // flag de ser o pokemon ativo em batalha
 	
 	// Stats invariáveis
-	// BaseHP(0), Atk (1), Def (2), SpAtk (3), SpecDef (4), Speed (5); Não muda para dada espécie de Poke.
-	private int baseHp;
-	private int baseAtk;
-	private int baseDef;
-	private int baseSpAtk;
-	private int baseSpDef;
-	private int baseSpeed;
-	private int baseWeight; // em gramas
+	// BaseHP(0), Atk (1), Def (2), SpAtk (3), SpecDef (4), Speed (5), Weight (6) Não mudarão para dada espécie de Poke.
+	private int baseStats[]; 
 
 	// Stats variáveis principais
 	private int maxHp; // varia com Level
@@ -84,13 +78,15 @@ public class Poke {
 		this.speciesName = "Jirachi";
 		this.pokedexEntry = "Nenhuma entrada disponível.";
 		this.tipagem = new int[] {16, 10};
-		this.baseHp = 100;
-		this.baseAtk = 100;
-		this.baseDef = 100;
-		this.baseSpAtk = 100;
-		this.baseSpDef = 100;
-		this.baseSpeed = 100;
-		this.baseWeight = 1100;
+		this.baseStats = new int [7]; 
+		baseStats[0] = 100;		// Hp
+		baseStats[1] = 100; 	// Atk
+		baseStats[2] = 100;		// Def
+		baseStats[3] = 100; 	// SpAtk
+		baseStats[4] = 100;	 	// SpDef
+		baseStats[5] = 100; 	// Speed
+		baseStats[6] = 1100; 	// Weight
+		
 		
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
 		
@@ -100,7 +96,7 @@ public class Poke {
 		// Outros variáveis importantes
 		this.sex = 2; // TODO: Fazer SEX ser um ENUM
 		this.level = 100;
-		this.maxHp = baseHp*(level/100)*2 + level + 10;// cálculo de Hp com base o statBasic de HP
+		this.maxHp = (int) (baseStats[0]*(level/100f)*2 + level + 10);// cálculo de Hp com base o statBasic de HP
 		this.curHp = maxHp;
 		this.active = false; // só se torna ativo em batalha
 
@@ -137,16 +133,16 @@ public class Poke {
 		return out;
 	}
 	
-	public int statCalc(int baseStat) {
+	public int statCalc(int baseStatId) {
 		/*
-		 * Recebe um Pokemon e o id de um stat.
+		 * Recebe um Pokemon e um stat base
 		 * Calcula o número real desse stat
 		 * de um pokemon com base no level
 		 * e no valor do "stat base", por enquanto.
 		 * Retorna essa valor real.
-		 */
-		float stat = baseStat*2*this.level*(0.01f);
-		return (int) stat + 2;
+		 */ 
+		float stat = baseStats[baseStatId]*2*this.level*(0.01f);
+		return (int) (stat + 2);
 	}
 	
 	public boolean dmgMon(int dmg) {
@@ -158,6 +154,7 @@ public class Poke {
 		int resuHp = this.curHp -= dmg;
 		if(resuHp <= 0) {
 			this.curHp = 0;
+			this.fainted = true;
 			return false;
 		}
 		else {
@@ -471,61 +468,68 @@ public class Poke {
 	}
 	
 	public int getBaseHp() {
-		return baseHp;
+		return baseStats[0];
 	}
 
 	public void setBaseHp(int baseHp) {
-		this.baseHp = baseHp;
+		this.baseStats[0] = baseHp;
 	}
 
 	public int getBaseAtk() {
-		return baseAtk;
+		return baseStats[1];
 	}
 
 	public void setBaseAtk(int baseAtk) {
-		this.baseAtk = baseAtk;
+		this.baseStats[1] = baseAtk;
 	}
 
 	public int getBaseDef() {
-		return baseDef;
+		return baseStats[2];
 	}
 
 	public void setBaseDef(int baseDef) {
-		this.baseDef = baseDef;
+		this.baseStats[2] = baseDef;
 	}
 
 	public int getBaseSpAtk() {
-		return baseSpAtk;
+		return baseStats[3];
 	}
 
 	public void setBaseSpAtk(int baseSpAtk) {
-		this.baseSpAtk = baseSpAtk;
+		this.baseStats[3] = baseSpAtk;
 	}
 
 	public int getBaseSpDef() {
-		return baseSpDef;
+		return baseStats[4];
 	}
 
 	public void setBaseSpDef(int baseSpDef) {
-		this.baseSpDef = baseSpDef;
+		this.baseStats[4] = baseSpDef;
 	}
 
 	public int getBaseSpeed() {
-		return baseSpeed;
+		return baseStats[5];
 	}
 
 	public void setBaseSpeed(int baseSpeed) {
-		this.baseSpeed = baseSpeed;
+		this.baseStats[5] = baseSpeed;
 	}
 
 	public int getBaseWeight() {
-		return baseWeight;
+		return baseStats[6];
 	}
 
 	public void setBaseWeight(int baseWeight) {
-		this.baseWeight = baseWeight;
+		this.baseStats[6] = baseWeight;
 	}
-
+	
+	public void setBaseGeneral(int baseStat, int id) {
+		this.baseStats[id] = baseStat;
+	}
+	
+	public int getBaseGeneral(int id) {
+		return baseStats[id];
+	}
 	public String getSpeciesName() {
 		return speciesName;
 	}

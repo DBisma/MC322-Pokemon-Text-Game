@@ -1,5 +1,6 @@
 package pokemontextgame;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -19,7 +20,7 @@ public class Battlefield {
 	private Weather weather; // Provavelmente não usaremos por enquanto. TODO;
 	private TreinadorNpc lNpc;
 	private Treinador lPlayer;
-	private Poke npcMon; // talvez redunante
+	private Poke npcMon; // talvez redundante
 	private Poke playerMon; // talvez redundante
 	private TypeChart tchart;
 	private boolean end; // flag para fim da batalha ao se passarem todos os turnos TODO talvez desnecessário
@@ -27,9 +28,10 @@ public class Battlefield {
 	private Struggle struggle = new Struggle(); // ataque de emergência com PP infinito
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
-	// Leitura de informação
+	// Leitura e impressão de informação
 	private Choice playerChoice;
 	private Choice npcChoice;
+	private TextBoxBuffer textBoxBuffer;
 	
 	public class Choice {
 		/*
@@ -75,6 +77,22 @@ public class Battlefield {
 		}
 	}
 	
+	class TextBoxBuffer{
+		/*
+		 * Classe que armazena as informações textuais
+		 * do turno que serão impressas. O turno acontece
+		 * num único instante, mas com esta classe,
+		 * temos mais controle sobre o fluxo de informações
+		 * que chegam ao jogador e maior flexibilidade
+		 * para mudanças futuras.
+		 */
+		protected LinkedList<String> textQueue;
+		
+		public TextBoxBuffer() {
+			textQueue = new LinkedList<String>();
+		}
+	}
+	
 	public Battlefield(Treinador player, TreinadorNpc npc, boolean trainerBattle) {
 		this.turnCount = 0;
 		this.weather = new Weather(true, 1, -1); // TODO: Se livrar logo.
@@ -90,6 +108,7 @@ public class Battlefield {
 		this.npcMon = npc.getTeam()[0];
 		npcMon.setActive(true);
 		
+		textBoxBuffer = new TextBoxBuffer();
 		
 		this.tchart = new TypeChart();
 	}
@@ -137,6 +156,7 @@ public class Battlefield {
 			BattleMenu.menuDisplayTeam(scan, this); 
 		}
 		
+		// Criaremos uma fila para processar de decisões
 		final class ChoiceTuple {
 			/*
 			 * Como as escolhas não armazenam o seu dono 
@@ -155,12 +175,11 @@ public class Battlefield {
 			}
 		}
 		
-		ChoiceTuple npcChoicePair = new ChoiceTuple(npcChoice, lNpc);
-		ChoiceTuple playerChoicePair = new ChoiceTuple(playerChoice, lPlayer);
-		
-		// Criaremos uma fila para processar de decisões
+		// Armazenando decisões e seus donos para enfileirar e processar
+		ChoiceTuple npcChoiceTuple = new ChoiceTuple(npcChoice, lNpc);
+		ChoiceTuple playerChoiceTuple = new ChoiceTuple(playerChoice, lPlayer);
 		LinkedList<ChoiceTuple> choiceQueue = new LinkedList<ChoiceTuple>();
-
+		
 		// Prioridade do Switch do Npc é sempre a maior
 		// Switch de player recebe segunda prioridade
 		// Moves têm suas prioridades comparadas, e se forem iguais, comparamos a velocidade do Pokemon
@@ -171,12 +190,12 @@ public class Battlefield {
 		
 		// Lidando com prioridades maiores que Move
 		if(npcChoice.getType() != Choice.choiceType.MOVE)
-			choiceQueue.add(npcChoicePair);
+			choiceQueue.add(npcChoiceTuple);
 		else
-			npcMove = npcMon.getMove(npcChoice.getId());
+			npcMove = npcMon.getMove(Math.abs(npcChoice.getId()));
 			
 		if(playerChoice.getType() != Choice.choiceType.MOVE)
-			choiceQueue.add(playerChoicePair);
+			choiceQueue.add(playerChoiceTuple);
 		else
 			playerMove = playerMon.getMove(playerChoice.getId());
 		
@@ -184,24 +203,24 @@ public class Battlefield {
 		if(playerMove != null || npcMove != null) {
 			// Player não ataca
 			if(playerMove == null)
-				choiceQueue.add(npcChoicePair);
+				choiceQueue.add(npcChoiceTuple);
 			// NPC não ataca
 			else if(npcMove == null)
-				choiceQueue.add(playerChoicePair);
+				choiceQueue.add(playerChoiceTuple);
 			// Os dois atacam
 			else {
 				// Comparar prioridade
 				if(playerMove.getPriority() > npcMove.getPriority()) {
-					choiceQueue.add(playerChoicePair);
-					choiceQueue.add(npcChoicePair);
+					choiceQueue.add(playerChoiceTuple);
+					choiceQueue.add(npcChoiceTuple);
 				}
 				else if(playerMove.getPriority() < npcMove.getPriority()) {
-					choiceQueue.add(npcChoicePair);
-					choiceQueue.add(playerChoicePair);
+					choiceQueue.add(npcChoiceTuple);
+					choiceQueue.add(playerChoiceTuple);
 				}
 				else {
 					
-					// Lambda de redução de velocidade por paralisia
+					// Função lambda local de redução de velocidade por paralisia
 					Function<Poke, Float> paralysisSlowdown = (mon) -> {
 						if(mon.getStatusFx().getType() == StatusFx.typeList.PARALYSIS)
 							return 0.75f;
@@ -213,17 +232,17 @@ public class Battlefield {
 					int npcSpeed =  (int) (TurnUtils.getModStat(4, npcMon)*paralysisSlowdown.apply(npcMon));
 					// Comparar velocidade, levando em conta possibilidade de Paralysis TODO
 					if(playerSpeed > npcSpeed) {
-						choiceQueue.add(playerChoicePair);
-						choiceQueue.add(npcChoicePair);
+						choiceQueue.add(playerChoiceTuple);
+						choiceQueue.add(npcChoiceTuple);
 					}
 					else if(playerSpeed < npcSpeed) {
-						choiceQueue.add(npcChoicePair);
-						choiceQueue.add(playerChoicePair);
+						choiceQueue.add(npcChoiceTuple);
+						choiceQueue.add(playerChoiceTuple);
 					}
 					// Se empatar, favorece o Player
 					else {
-						choiceQueue.add(playerChoicePair);
-						choiceQueue.add(npcChoicePair);
+						choiceQueue.add(playerChoiceTuple);
+						choiceQueue.add(npcChoiceTuple);
 					}
 				}
 			}
@@ -235,62 +254,79 @@ public class Battlefield {
 			int choiceId = currentCT.choice.getId();
 			Choice.choiceType choiceType = currentCT.choice.getType();
 			
-			// Determinando quem age e quem recebe
-			Treinador movingT, receivingT;
-			Poke movingMon, receivingMon;
-			if(currentCT.owner == lPlayer) {
-				movingT = lPlayer;
-				receivingT = lNpc;
+			// Atualizando Mons ativos desde a decisão anterior
+			playerMon = lPlayer.getActiveMon();
+			npcMon = lNpc.getActiveMon();
+			
+			// E processando decisões em si
+			if(choiceType == Choice.choiceType.SWITCH) {
+				currentCT.owner.setActiveMonId(choiceId);
 			}
-			else {
-				movingT = lNpc;
-				receivingT = lPlayer;
+			else { // Por enquanto, esse Else pode apenas ser um Move. Ver notas em Battlefield.Choice.choiceType
+				Treinador movingTr, receivingTr;
+				Poke movingMon, receivingMon;
+				if(currentCT.owner == lPlayer) {
+					movingTr = lPlayer;
+					movingMon = playerMon;
+					receivingTr = lNpc;
+					receivingMon = npcMon;
+				}
+				else {
+					movingTr = lNpc;
+					movingMon = npcMon;
+					receivingTr = lPlayer;
+					receivingMon = playerMon;
+				}
+				
+				// Settando o Move
+				Move qdMove;
+				if(Math.abs(choiceId) == 5)
+					qdMove = struggle;
+				else
+					qdMove = movingMon.getMove(choiceId);
+				
+				// TODO: Isso dará o dano? Como calcular o dano? RESPOSTA: move já faz isso em calcDamage
+				// E habilidades? Receber modificadores delas?
+				// E a weather do field? Afeta alguns tipos, certo?
+				// Como retornar as notificações? De status? De efeito volátil, etc?
+				// Devemos dar um jeito de imprimir isso
+				// Por enquanto, vamos deixar a impressão dentro de USE MOVE.
+				// Embora eu goste mais da idéia de useMove retornar várias informações para imprirmos aqui dentro do turno...
+				// E se fizermos o field ter uma FILA de impressão?
+				// Cada move adiciona informações próprias à fila de impressão... que podemos
+				// Depois imprimir!!!
+				// Dessa forma, podemos iterar sobre as informações que iremos imprimir de vários modos diferentes.
+				qdMove.useMove(this, movingMon, receivingMon, tchart);
+				
+				// Imprimindo mensagem do poke fainted e livrando-se da escolha dele
+				if(receivingMon.isFainted()) {
+					this.getTextBoxBuffer().textQueue.add(receivingMon.getName() + " sofreu um K.O.!\n");
+					if(choiceQueue.size() != 0 && choiceQueue.getFirst().owner == receivingTr) {
+						choiceQueue.remove();
+					}
+				}
 			}
 			
-			// E o que faz
-			if(choiceType == Choice.choiceType.SWITCH) {
-				
-			}
-			else { // por enquanto, esse Else pode apenas ser um Move. Ver notas em Battlefield.Choice.choiceType
-				
-				// TODO: Temos que atualizar NpcMon e PlayerMon. Mas como?
-				movingT.setActiveMonId(choiceId);
-				
-			}
+			// Aqui fora, temos o Aftermath entre cada decisão. Faremos depois TODO:
 		}
 		
-		// Causando dano de fMon sobre sMon; incluir BURN no cálculo
+		// Aftermath total do turno.
 		
-		// Verificar se alguma habilidade ativou
+		this.printTurn();
 		
-		// Aplicar status ou efeito de status?
-		
-		// Verificar danos de habilidade sobre fMon (e.g: Aftermath)? Matou?
-		
-		// Verificar danos de status (burn, poison)
-		
-		// Verificar se alguma habilidade pode ativar;
-		
-		// TODO: Subtrair PP de cada move utilizado depois do uso;
-		
-		// TODO: Verificação de Stats voláteis e não voláteis
-		
-		// TODO: Verificar se habilidades ativam? No começo ou no final do turno?
-		
-		// TODO: E se os dois morrerem no mesmo turno? Dano de veneno ou ataques como Explosion
-		
-		// TODO: Toda a patacoada de display de texto.
 		
 		// Verificar se resta algém vivo para batalhar terminou TODO: Existe um jeito mais bonito e eficiente de fazer isso? ENUMs talvez?
 		int i;
 		for(i = 0; i < 6; i++) {
-			if(!this.lPlayer.getTeam()[i].isFainted()) 
+			Poke current = this.lPlayer.getTeam()[i];
+			if(current != null && !current.isFainted()) 
 				break;
 			else if (i == 5)
 				return 1; // todos pokes do npc desmaiados; vencedor = jogador
 		}
 		for(i = 0; i < 6; i++) {
-			if(!this.lNpc.getTeam()[i].isFainted()) 
+			Poke current = this.lNpc.getTeam()[i];
+			if(current != null && !current.isFainted()) 
 				break;
 			else if (i == 5)
 				return 2; // todos pokes do jogador desmaiados; vencedor = NPC
@@ -353,5 +389,23 @@ public class Battlefield {
 	public void setNpcChoice(Choice npcChoice) {
 		this.npcChoice = npcChoice;
 	}
+
+	public TextBoxBuffer getTextBoxBuffer() {
+		return textBoxBuffer;
+	}
 	
+	public void textBufferAdd(String message) {
+		// Recebe uma linha de texto e adiciona
+		// à fila de processamento e impressão
+		this.textBoxBuffer.textQueue.add(message);
+	}
+	
+	public void printTurn() {
+		/*
+		 * Imprime todas as mensagens do turno de cara.
+		 */
+		while(textBoxBuffer.textQueue.size() != 0) {
+			System.out.print(this.textBoxBuffer.textQueue.remove());
+		}
+	}
 };

@@ -37,9 +37,8 @@ public class DmgPlusFx extends DamageDealing {
 		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE)
 			if(TurnUtils.rollChance(this.fxChance)) {
 				pDef.setStatusFx(fxType);
+				field.textBufferAdd(pDef.getName() + " foi afligido com " + fxType + "!");
 			}
-		
-		// TODO: Como enviar a notificação de aplicação de efeito?
 		return result;
 	}
 

@@ -49,8 +49,8 @@ public abstract class Move {
 		this.accuracy = accu; // TODO: Lidar com moves que *nunca erram*.
 	}
 	
-	// Será overridden. TODO: Qual o melhor jeito? Interfaces? Classe abstrata e métodos abstratos?
-	abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
+	// É overridden
+	public abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
 	
 	@Override
 	public String toString() {
@@ -131,6 +131,9 @@ public abstract class Move {
 	}
 	public void setPoints(int points) {
 		this.points = points;
+	}
+	public void spendPp(){
+		this.points += -1;
 	}
 	public int getTipagem() {
 		return type;

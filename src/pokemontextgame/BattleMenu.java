@@ -1,6 +1,8 @@
 package pokemontextgame;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import moves.Move;
 import pokemontextgame.Battlefield.Choice;
@@ -15,16 +17,13 @@ public class BattleMenu {
 	 * para a classe BattleField, que tem funções de efetuação de turno.
 	 */
 	
-	// TODO: Filosofia do nosso design: Toda função roda uma vez só, mas pode ter
-	// dentro dela um loop disparando outras funções.
-	// Exemplo: Uma função de receber uma entrada sempre vai recebê-la apenas uma vez.
-	// Se quisermos fazer um loop de recepção, deverá ser fora dessa função,
-	// mas chamando a ela quantas vezes quisermos
+	/*
+	 * Cada função cria um display, aguarda uma entrada do jogador, 
+	 * valida essa entrada e manda para a próxima função de display.
+	 * Algumas por fim recebem uma entrada final que armazenam numa
+	 * decisão na classe BattleField.
+	 */
 	
-	// TODO: Talvez possamos montar isso com ENUMs e máquinas de estado finita
-	
-	// TODO: Caso o PP acabe, o menu deve mudar. Moves não devem ser mostrados, devemos pular direto para struggle.
-	// TODO: Caso o PP acabe para um dado pokemon, "Attack" deve resultar em Struggle. Como enviar?
 	static void printMenuSeparator() {
 		/*
 		 * Imprime um separador de menu bem longo.
@@ -98,9 +97,20 @@ public class BattleMenu {
 		 */
 		
 		Poke mon = field.getLoadedPlayer().getActiveMon();
-		// Choice playerchoice = field.new Choice(); TODO: Vamos evitar isso por um momento.
+		Poke foe = field.getLoadedNpc().getActiveMon();
 		BattleMenu.printMenuSeparator();
-		System.out.print("Pokémon ativo: " + "'" + mon.getName() + "' (" + mon.getSpeciesName() + ") "+ "\n");
+		
+		// Lambda de impressão de informação sobre pokemons
+		BiFunction<Poke, Boolean, String> pokeInfoBar = (pMon, isPlayer) -> {
+			String who = isPlayer ? "ativo" : "inimigo";
+			String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
+					"HP: " + TurnUtils.renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() + "\n");
+			
+			return out;
+		};
+		
+		System.out.print(pokeInfoBar.apply(mon, true));
+		System.out.print(pokeInfoBar.apply(foe, false));
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
