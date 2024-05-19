@@ -2,9 +2,16 @@ package moves;
 
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
+<<<<<<< HEAD
 import pokemontextgame.TypeChart;
 
 public class StatChange extends StatusGeneral {
+=======
+import pokemontextgame.TurnUtils;
+import pokemontextgame.TypeChart;
+
+final public class StatChange extends StatusGeneral {
+>>>>>>> backup-main-18-05-2024
 	/*
 	 * Classe para Moves de categ Status que
 	 * causam uma mudança de Stat no oponente.
@@ -24,12 +31,17 @@ public class StatChange extends StatusGeneral {
 		this.boostSelf = boostSelf;
 	}
 	
+<<<<<<< HEAD
+=======
+	@Override
+>>>>>>> backup-main-18-05-2024
 	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
 		 * Tenta aumentar ou abaixar o status de algum pokemon (si ou o inimigo).
 		 * Armazena o resultado da tentativa e retorna o tipo (aumento / redução)
 		 * juntamente do sucesso / fracasso entre quatro enums possíveis.
 		 */
+<<<<<<< HEAD
 		boolean output;
 		moveResults resu;
 		if(this.boostSelf) 
@@ -52,6 +64,57 @@ public class StatChange extends StatusGeneral {
 		// TODO: Como enviar notificações de sucesso / fracasso / reduzir / aumentar stats?
 		
 		return resu;
+=======
+
+		boolean sucess;
+		moveResults resu = super.useMove(field, pAtk, pDef, tchart);
+		if(resu == moveResults.FAIL || resu == moveResults.MISS|| resu == moveResults.HIT_IMMUNE) {
+			return resu;
+		}
+		
+		// TODO: Deve ter um jeito de fundir isso com a parte de StatChange dos dmgPlusStat...
+		// São bastante parecidas.
+		
+		else {
+			String verb;
+			String who;
+			if(this.boostSelf) {
+				sucess = pAtk.boostStat(statId, boostStages);
+				who = pAtk.getName();
+			}
+			else {
+				sucess = pDef.boostStat(statId, boostStages);
+				who = pDef.getName();
+			}
+			
+			if(sucess) {
+				if(boostStages > 0) {
+					resu = moveResults.RAISE_YES;
+					verb = "aumentado";
+				}
+				else {
+					resu = moveResults.LOWER_YES;
+					verb = "reduzido";
+				}
+				
+				field.textBufferAdd(who + " teve seu " + TurnUtils.getStatName(statId) 
+				+ " " + verb + " em " + Math.abs(boostStages) + " estágios!\n");
+			}
+			else {
+				if(boostStages > 0) {
+					resu = moveResults.RAISE_FAIL;
+					verb = "crescer";
+				}
+				else {
+					resu = moveResults.LOWER_FAIL;
+					verb = "diminuir";
+				}
+				field.textBufferAdd(TurnUtils.getStatName(statId) + " de " + who
+				+ " não consegue " + verb + " mais!\n");
+			}
+			return resu;
+		}
+>>>>>>> backup-main-18-05-2024
 	}
 	
 }

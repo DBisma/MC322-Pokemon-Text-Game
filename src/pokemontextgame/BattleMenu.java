@@ -6,7 +6,6 @@ import moves.Move;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 import pokemontextgame.StatusFx.typeList;
-import pokemontextgame.Battlefield;
 
 public class BattleMenu {
 	/*
@@ -15,16 +14,13 @@ public class BattleMenu {
 	 * para a classe BattleField, que tem funções de efetuação de turno.
 	 */
 	
-	// TODO: Filosofia do nosso design: Toda função roda uma vez só, mas pode ter
-	// dentro dela um loop disparando outras funções.
-	// Exemplo: Uma função de receber uma entrada sempre vai recebê-la apenas uma vez.
-	// Se quisermos fazer um loop de recepção, deverá ser fora dessa função,
-	// mas chamando a ela quantas vezes quisermos
+	/*
+	 * Cada função cria um display, aguarda uma entrada do jogador, 
+	 * valida essa entrada e manda para a próxima função de display.
+	 * Algumas por fim recebem uma entrada final que armazenam numa
+	 * decisão na classe BattleField.
+	 */
 	
-	// TODO: Talvez possamos montar isso com ENUMs e máquinas de estado finita
-	
-	// TODO: Caso o PP acabe, o menu deve mudar. Moves não devem ser mostrados, devemos pular direto para struggle.
-	// TODO: Caso o PP acabe para um dado pokemon, "Attack" deve resultar em Struggle. Como enviar?
 	static void printMenuSeparator() {
 		/*
 		 * Imprime um separador de menu bem longo.
@@ -32,11 +28,11 @@ public class BattleMenu {
 		 * por vários elementos de menu.
 		 */
 		
-		System.out.print("/ / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / /"
-				+ " / / / / / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / / "
-				+ "/ / / / / / / / / / / / / / / / / / \n");
+		System.out.print("/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "/ / / / / / / / / / "
+				+ "\n");
 	}
 	
 	static int scanOption(Scanner scan) {
@@ -98,9 +94,10 @@ public class BattleMenu {
 		 */
 		
 		Poke mon = field.getLoadedPlayer().getActiveMon();
-		// Choice playerchoice = field.new Choice(); TODO: Vamos evitar isso por um momento.
+		Poke foe = field.getLoadedNpc().getActiveMon();
 		BattleMenu.printMenuSeparator();
-		System.out.print("Pokémon ativo: " + "'" + mon.getName() + "' (" + mon.getSpeciesName() + ") "+ "\n");
+		System.out.print(pokeInfoBar(mon, true));
+		System.out.print(pokeInfoBar(foe, false));
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
@@ -116,9 +113,9 @@ public class BattleMenu {
 			case 0:{
 				if(mon.isPpDepleted())
 					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
-					field.getPlayerChoice().setFullChoice(choiceType.MOVE, 5, field.getLoadedPlayer());
+					field.getPlayerChoice().setFullChoice(choiceType.MOVE, -10);
 				else {
-					menuDisplayMoveset(scan, 0, false, field); // envia o Poke ativo, sempre de id 0
+					menuDisplayMoveset(scan, field.getLoadedPlayer().getActiveMonId(), false, field); // envia o Poke ativo, sempre de id 0
 					break;
 				}
 			} 
@@ -236,7 +233,7 @@ public class BattleMenu {
 				}
 				else {
 					// Enviar ID do move em questão
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId, field.getLoadedPlayer()); // Como enviar?
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId); // Como enviar?
 					break;
 				}
 			}
@@ -256,24 +253,20 @@ public class BattleMenu {
 		 * Recebe um Treinador e o scan e mostra todos os 
 		 * pokemons disponíveis e seus statuses (hp, fainted, burned, etc)
 		 * Abre opções para ver cada pokemon em detalhe (moveset, tipos, abilidade)
-		 * ou trocar o pokemon ativo para o selecionado.
-		 * (Se terá sucesso ou não será checado em TODO outra função).
-		 * 
-		 * TODO: Impedir possibilidade de escolher o pokemon atual ativo
-		 * TODO: Essa função está um lixo. Talvez seja melhor reescrevê-la do zero.
+		 * ou trocar o pokemon ativo para o selecionado
 		 */
 		
-		// TODO: Criar novos pokemons e novos ataques para eles para verificar se essas funções estão sendo tiro e queda mesmo
 		// Parte de impressão de opções
 		BattleMenu.printMenuSeparator();
 		System.out.print("Acessando informações de time... \n");
+		System.out.print(pokeInfoBar(field.getLoadedNpc().getActiveMon(), true));
 		if(!field.getLoadedPlayer().isForcedSwitch()) {
 			System.out.print("Suas opções são: \n");
 			System.out.print("[0] Voltar \n");
 			System.out.print("Ou inspecionar os Pokémons: \n");
 		}
 		else {
-			System.out.print("Escolha o próximo Pokémon para batalhar: \n");
+			System.out.print("Inspecione e escolha o próximo Pokémon para batalhar: \n");
 		}
 		
 		int monCount = BattleMenu.menuPrintTeam(field.getLoadedPlayer()); // Imprimindo e obtendo tamanho do time
@@ -340,10 +333,8 @@ public class BattleMenu {
 		/*
 		 * Recebe um Treinador e o ID do Pokemon a ser inspecionado.
 		 * Printa suas informações e aguarda  opção por parte do jogador.
-		 * TODO: Dar um jeito de "salvarmos" o menu prévio e fazer a opção voltar sempre puxar para ele.
-		 * Dessa forma, podemos reutilizar o displayMoveset e displayMove para pokemons não ativos.
-		 * ID é o índice do pokemon sendo observado.
-		 * */
+		 */
+		
 		Poke mon = field.getLoadedPlayer().getTeam()[id];
 		BattleMenu.printMenuSeparator();
 		
@@ -401,7 +392,8 @@ public class BattleMenu {
 			}
 			// Trocar para este
 			case(3):{
-				field.setFullPlayerChoice(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
+				field.getPlayerChoice().setFullChoice(Choice.choiceType.SWITCH, id);
+				//(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
 				break;
 			}
 		}
@@ -441,7 +433,76 @@ public class BattleMenu {
 			BattleMenu.menuDisplayRoot(scan, field);
 		}
 		else
-			field.setFullPlayerChoice(Choice.choiceType.RUN, 0);
+			field.getPlayerChoice().setFullChoice(Choice.choiceType.RUN, 0);
+	}
+	
+	static String pokeInfoBar(Poke pMon, boolean isPlayer) {
+		/*
+		 * Função que retorna a string de uma barra de informação de um Pokémon.
+		 */
+		String statusfx = "";
+		statusfx += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
+		String who = isPlayer ? "ativo" : "inimigo";
+		String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
+				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
+				" | " + TypeChart.fullTypeToString(pMon) + " " + statusfx + "\n");
+		int i = 0;
+		int statBoost;
+		String statBoostTxt = "Status modificados de " + pMon.getName() + " são [";
+		boolean add = false;
+		for(i = 0; i < 8; i++) {
+			statBoost = pMon.getStatModGeneral(i);
+			if(statBoost != 0) {
+				add = true;
+				statBoostTxt += TurnUtils.getStatName(i) + ": " + statBoost;
+			}
+		}
+		if(add) {
+			out += statBoostTxt + "]\n";
+		}
+		return out;
+		
+	}
+	
+	public static String renderTextLifeBar(Poke mon) {
+		/*
+		 * Uma função visual que cria uma pequena
+		 * barrinha de vida para display nos menus.
+		 * Basea-se em quanto de vida o pokemon tem.
+		 */
+		String lifeBar = "";
+		// Encontrando a porcentagem de vida do Pokemon
+		int lifePercentage = Math.round((100*((float)mon.getCurHp()/mon.getMaxHp())));
+		// Arredondando para um múltiplo de 10 e convertendo em número de 0 a 10
+		lifePercentage = ((lifePercentage / 10)*10)/10;
+		int i;
+		for(i = 0; i < lifePercentage; i++) {
+			lifeBar += "█";
+		}
+		for(i = 0; i < 10 - lifePercentage; i++) {
+			lifeBar += "░";
+		}
+		
+		return lifeBar;
+	}
+	
+	public static void printPokeballAscii() {
+		/*
+		 * Função que imprime uma pokebola
+		 * em ASCII para o final do jogo.
+		 */
+		System.out.print(
+				"\n" +
+				"          .=*#%%%%#*=.          \n" + 
+				"        :#%%########%%#:        \n" +
+				"       +%%############%%+       \n" +
+				"      =%%####%#++#%#####%=      \n" +
+				"      %%%%%%%=    =%%%%%%%      \n" +
+				"      %+--::#=    =#:::-+%      \n" +
+				"      =#.   .+*++*+.    #=      \n" +
+				"       +*.            .*+       \n" +
+				"        :*+:        :+*:        \n" +
+				"          .=++++++++=.          \n" );
 	}
 }
 

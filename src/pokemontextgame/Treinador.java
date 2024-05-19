@@ -84,30 +84,39 @@ public class Treinador {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
+	
+		public String getName() {
 		return name;
 	}
-	public void setNome(String nome) {
+	
+	public void setName(String nome) {
 		this.name = nome;
 	}
+	
 	public String getDesc() {
 		return desc;
 	}
+	
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+	
 	public boolean isPlayer() {
 		return isPlayer;
 	}
+	
 	public void setPlayer(boolean isPlayer) {
 		this.isPlayer = isPlayer;
 	}
+	
 	public Poke[] getTeam() {
 		return team;
 	}
+	
 	public void setTeam(int index, Poke mon) { // provavelmente será desnecessário no futuro
 		this.team[index] = mon;
 	}

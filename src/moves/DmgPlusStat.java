@@ -5,7 +5,7 @@ import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
-public class DmgPlusStat extends DamageDealing {
+final public class DmgPlusStat extends DamageDealing {
 	/*
 	 * Subclasse para moves que dão dano
 	 * e podem afetar alguém com um Stat Change.
@@ -30,24 +30,53 @@ public class DmgPlusStat extends DamageDealing {
 		/*
 		 * Difere do useMove da superclasse DamageDealing
 		 * ao incluir a chance de modificar stats
+		 * 
+		 * TODO: O resultado é sempre HIT se a parte importante ativar...
+		 * O resultado ignora se o stat change foi obtido ou não.
 		 */
 		
 		Move.moveResults result = super.useMove(field, pAtk, pDef, tchart);
 		
 		// Aplicação de efeitos secundários
-		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE)
-			if(TurnUtils.rollChance(this.getBoostChance())) {
-				// si
-				if(this.isBoostSelf()) {
-					pAtk.boostStat(getStatId(), getBoostStages());
-				}
-				// outrem
+		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE) {
+			
+			String who;
+			// Si
+			if(TurnUtils.rollChance(boostChance)) {
+				if(this.isBoostSelf())
+					// Verificação de limite de statBoost para Atacante
+					if(Math.abs(boostChance + pAtk.getStatModGeneral(statId)) > 6){
+						return result;
+					}
+					else {
+						pAtk.boostStat(statId, boostStages);
+						who = pAtk.getName();
+					}
 				else {
-					pDef.boostStat(getStatId(), getBoostStages());
+					// Verificação de limite de statBoost para Defensor
+					if(Math.abs(boostChance + pDef.getStatModGeneral(statId)) > 6){
+						return result;
+					}
+					else {
+						pDef.boostStat(statId, boostStages);
+						who = pDef.getName();
+					}
 				}
+				
+				String verb;
+				
+				if(boostStages > 0)
+					verb = "aumentado";
+				else
+					verb = "reduzido";
+				
+				field.textBufferAdd(who + " teve seu" + TurnUtils.getStatName(statId) 
+				+ verb + " em " + Math.abs(boostStages) + " estágios!\n");
 			}
+		}
 		
-		// TODO: Como enviar a notificação de aplicação de efeito?
+		// TODO: Como enviar o RESULTADO de mudança de stat? Apenas enviamos HIT por enquanto...
+		// Temos a notificação em texto, mas e em dados da forma RESULT?
 		return result;
 	}
 

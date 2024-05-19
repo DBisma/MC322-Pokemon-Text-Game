@@ -6,7 +6,7 @@ import pokemontextgame.StatusFx;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
-public class StatusChangeFx extends StatusGeneral {
+final public class StatusChangeFx extends StatusGeneral {
 	/*
 	 * Subclasse dedicada para ataques que apenas
 	 * aplicam um status no em alguém.
@@ -22,6 +22,7 @@ public class StatusChangeFx extends StatusGeneral {
 		this.fxType = fxType;
 	}
 	
+	@Override
 	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
 		 * Tenta aplicar StatusFx sempre no pokemon inimigo. Fracassa
@@ -35,10 +36,14 @@ public class StatusChangeFx extends StatusGeneral {
 		if(firstResu == moveResults.MISS || firstResu == moveResults.HIT_IMMUNE)
 			return firstResu;
 		else {
-			if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL)
+			// Fracassa se oponente já estiver sob efeito de status
+			if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL) {
+				field.textBufferAdd("Mas " + pAtk.getName() + " falhou!\n");
 				return moveResults.FAIL;
+			}
 			else {
-				pDef.setStatusFx(fxType); // TODO: Permitir soma de voláteis e não voláteis
+				field.textBufferAdd(pDef.getName() + " foi afligido por " + fxType + "!\n");
+				pDef.setStatusFx(fxType);
 				return moveResults.HIT;
 			}
 		}
