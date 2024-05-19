@@ -1,7 +1,8 @@
 package pokemontextgame;
 
-import moves.Move;
 import pokemontextgame.StatusFx.typeList;
+import pokemontextgame.moves.Move;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 

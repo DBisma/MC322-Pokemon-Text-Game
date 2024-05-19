@@ -5,13 +5,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pokemontextgame.moves.*;
+import pokemontextgame.moves.Move.moveCategs;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import moves.*;
-import moves.Move.moveCategs;
 
 public class JSONReader{
 	ClassLoader cl = getClass().getClassLoader();

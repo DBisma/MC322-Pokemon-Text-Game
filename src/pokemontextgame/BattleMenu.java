@@ -2,10 +2,10 @@ package pokemontextgame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import moves.Move;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 import pokemontextgame.StatusFx.typeList;
+import pokemontextgame.moves.Move;
 
 public class BattleMenu {
 	/*

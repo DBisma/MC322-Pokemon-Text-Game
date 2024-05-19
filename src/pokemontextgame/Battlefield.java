@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.function.Function;
 
-import moves.Move;
-import moves.Struggle;
+import pokemontextgame.moves.Move;
+import pokemontextgame.moves.Struggle;
 
 public class Battlefield {
 	/*

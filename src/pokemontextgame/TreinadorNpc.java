@@ -1,9 +1,10 @@
 package pokemontextgame;
 
-import moves.*;
-import moves.Move.moveCategs;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
+import pokemontextgame.moves.*;
+import pokemontextgame.moves.Move.moveCategs;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

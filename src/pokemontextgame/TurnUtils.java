@@ -2,7 +2,7 @@ package pokemontextgame;
 
 import java.util.Random;
 
-import moves.*;
+import pokemontextgame.moves.*;
 
 public final class TurnUtils{
 	/*
