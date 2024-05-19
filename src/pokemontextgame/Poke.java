@@ -44,6 +44,7 @@ public class Poke {
 	 */
 	
 	// Moves disponíveis, sempre 4 no máximo (por isso um array simples), e outras informações
+	private int [] movesetList;
 	private Move[] moveset; // esse último será um pouco mais complicado. TODO: Resolver leitura e referência de moves.
 	private Item heldItem;
 	private Ability abil;
@@ -56,17 +57,19 @@ public class Poke {
 	private int turnsOnField; // usado para calcular algumas formas de dano
 	//private ArrayList<StatusFx> volatileFxArray; // pode conter vários TODO: Separar voláteis e não voláteis em ArrayLists
 	
+	JSONReader moveJson;
+	
 	/*
 	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
 	 */
 	
-	public Poke(int ID, int pokedexID, String name, int sex, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSet) {
+	public Poke(int ID, int pokedexID, String name, int sex, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSetList) {
 		/*
 		 * Placeholder de construtor. Exemplo para Metang.
 		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
 		 * TODO: classe Enum de Natures?? IVs e EVs??
 		 */
-		
+				
 		// Parte Variável
         this.id = ID; // Gerar um ID de algum jeito; deverá ser único. Algum hashing talvez? TODO
 		this.name = name; // Nickname do Pokemon
@@ -106,12 +109,20 @@ public class Poke {
 
 		// Moves são adicionados subsequentemente
 		// TODO: Preencher com um MOVE inicial placeholder? Que tal Hidden Power? Lol
+		this.movesetList = moveSetList;
 		this.moveset = new Move[4];
-		
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
 		// TODO: instanciar o Arraylist e adicionar o stat Não-Volátil nele TODO: Por enquanto só há um stat possível.
 		this.statusFx = new StatusFx(StatusFx.typeList.NEUTRAL); // TODO: isso talvez deva mudar. ver Status.java
+	}
+
+	public int[] getMovesetList() {
+		return movesetList;
+	}
+
+	public void setMovesetList(int[] movesetList) {
+		this.movesetList = movesetList;
 	}
 
 	@Override

@@ -208,6 +208,24 @@ public class JSONReader{
 		}
 	}
 	
+	public void atribuiMoveAPoke(Treinador player) {
+		for (int i = 0; i < player.getTeam().length; i++) {
+			Poke playerPoke = player.getTeam()[i];
+			for (int j = 0; j < 4; j++) {
+				Move moveFromList = null;
+				int [] mvList = playerPoke.getMovesetList();
+				int idx = 0;
+				if (moveList.get(idx).getId() == mvList[j]) {
+					moveFromList = moveList.get(idx);
+				}
+				else {
+					idx++;
+				}
+				playerPoke.setMove(j, moveFromList);
+			}
+		}
+	}
+	
 	public ArrayList<Poke> getPkmnList(){
 		return pkmnList;
 	}

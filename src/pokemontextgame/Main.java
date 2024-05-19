@@ -55,21 +55,13 @@ public class Main {
 		moveArray = jsonReader.getMoveList();
 		pokeArray = jsonReader.getPkmnList();
 		
-		int i = 0;
-		for(i = 0; i < moveArray.size(); i++) {
-			if(moveArray.get(i) != null) {
-				System.out.println(moveArray.get(i).toString());
-			}
-		}
-
-		
 		//exJirachi3.dmgMon(280);
 		//player.setTeam(0, myJirachi);
 		//player.setTeam(1, secondJirachi);
 		//npc.setTeam(0, foeJirachi);
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
-		Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
+		/*Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
 										StatusFx.typeList.BURN, 100);
 		Move exFirePunch2 =  new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 100, 
 										StatusFx.typeList.BURN, 100);
@@ -77,13 +69,16 @@ public class Main {
 		Move testingMove = new DamageDealing(2, "Testing Move", 6, 10, 0, -1, Move.moveCategs.PHYSICAL, 1);	
 		Move superSwordsDance = new StatChange(999, "Swords++", 0, 5, 0, -1, 0, 3, true);
 		
-		/*
+		
 		myJirachi.setMove(0, exHammerArm);
 		myJirachi.setMove(1, exFirePunch1);
 		myJirachi.setMove(2, superSwordsDance);
 		foeJirachi.setMove(0, exFirePunch2);
 		secondJirachi.setMove(0, testingMove);
 		*/
+		
+		jsonReader.atribuiMoveAPoke(player);
+		jsonReader.atribuiMoveAPoke(npc);
 		
 		// E agora, a parte dos held items;
 		// TODO: Como fazer cada um ter seu método próprio?
