@@ -2,7 +2,10 @@
 	{ 
 		"Id": 7,
   		"Name": "Fire Punch",
+  		"MoveType": 1,
   		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 10,
   		"BasePower": 75,
   		"Accuracy": 100,
   		"Subclass": "DmgPlusFx",

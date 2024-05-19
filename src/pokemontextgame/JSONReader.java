@@ -102,22 +102,25 @@ public class JSONReader{
 			JSONObject jsonObject = pokeArray.getJSONObject(i);
 			int moveId = jsonObject.getInt("Id");
 			String moveName = jsonObject.getString("Name");
+			int moveType = jsonObject.getInt("MoveType");
+			int moMaxPT = jsonObject.getInt("MaxPoints");
+			int movePriority = jsonObject.getInt("MovePriority");
+			int moveAcc = jsonObject.getInt("Accuracy");
 			String moveCat = jsonObject.getString("Category"); // String com o valor do enum, fazer cast para enum com .valueOf(moveCat)
 			int basePower = jsonObject.getInt("BasePower");
-			int moveAcc = jsonObject.getInt("Accuracy");
 			String subClass = jsonObject.getString("Subclass");
 			switch (subClass) {                               // Os cases estão em escopo pois alguns nomes de variáveis são reutilizados
 			
 				case "DamageDealing":
 				{
-					DamageDealing novoDmgDeal = new DamageDealing(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					DamageDealing novoDmgDeal = new DamageDealing(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoDmgDeal);
 				break;
 				}
 					
 				case "DmgMisc":
 				{
-					DmgMisc dmgM = new DmgMisc(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					DmgMisc dmgM = new DmgMisc(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(dmgM);
 				break;
 				}
@@ -126,7 +129,7 @@ public class JSONReader{
 				{
 					int fxChance = jsonObject.getInt("FxChance");
 					String fxType = jsonObject.getString("FxType");
-					DmgPlusFx novoDPFX = new DmgPlusFx(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower, StatusFx.typeList.valueOf(fxType), fxChance);
+					DmgPlusFx novoDPFX = new DmgPlusFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower, StatusFx.typeList.valueOf(fxType), fxChance);
 					moveList.add(novoDPFX);
 				break;
 				}
@@ -137,7 +140,7 @@ public class JSONReader{
 					int boostSt = jsonObject.getInt("BoostStage");
 					int boostCh = jsonObject.getInt("BoostChance");
 					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
-					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, -1, -1, -1, moveAcc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
+					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
 					moveList.add(novoDMS);
 				break;
 				}
@@ -147,7 +150,7 @@ public class JSONReader{
 					int statId = jsonObject.getInt("StatId");
 					int boostSt = jsonObject.getInt("BoostStage");
 					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
-					StatChange novoSTCH = new StatChange(moveId, moveName, -1, -1, -1, moveAcc, statId, boostSt, boostSelf);
+					StatChange novoSTCH = new StatChange(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, statId, boostSt, boostSelf);
 					moveList.add(novoSTCH);
 				break;
 				}
@@ -157,7 +160,7 @@ public class JSONReader{
 					String fxType = jsonObject.getString("FxType");
 					int fxDuration = jsonObject.getInt("FxDuration");
 					boolean voltl = jsonObject.getBoolean("IsVolatile");
-					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, -1, -1, -1, moveAcc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
+					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
 					moveList.add(novoSCF);
 				break;
 				}

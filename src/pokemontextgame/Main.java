@@ -57,7 +57,7 @@ public class Main {
 		int i = 0;
 		for(i = 0; i < moveArray.size(); i++) {
 			if(moveArray.get(i) != null) {
-				moveArray.get(i).toString();
+				System.out.println(moveArray.get(i).toString());
 			}
 		}
 
