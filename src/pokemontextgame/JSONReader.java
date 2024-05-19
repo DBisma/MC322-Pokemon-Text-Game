@@ -133,7 +133,8 @@ public class JSONReader{
 			int movePriority = jsonObject.getInt("MovePriority");
 			int moveAcc = jsonObject.getInt("Accuracy");
 			String moveCat = jsonObject.getString("Category"); // String com o valor do enum, fazer cast para enum com .valueOf(moveCat)
-			int basePower = jsonObject.getInt("BasePower");
+			int basePower = 0;
+			if (jsonObject.has("BasePower")) { basePower = jsonObject.getInt("BasePower");}
 			String subClass = jsonObject.getString("Subclass");
 			switch (subClass) {                               // Os cases estão em escopo pois alguns nomes de variáveis são reutilizados
 			
@@ -162,10 +163,10 @@ public class JSONReader{
 				
 				case "DmgPlusStat":
 				{
-					int statId = jsonObject.getInt("StatId");
-					int boostSt = jsonObject.getInt("BoostStage");
-					int boostCh = jsonObject.getInt("BoostChance");
-					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
+					int statId = jsonObject.getInt("statId");
+					int boostSt = jsonObject.getInt("boostStages");
+					int boostCh = jsonObject.getInt("boostChance");
+					boolean boostSelf = jsonObject.getBoolean("boostSelf");
 					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
 					moveList.add(novoDMS);
 				break;
@@ -173,9 +174,9 @@ public class JSONReader{
 				
 				case "StatChange":
 				{
-					int statId = jsonObject.getInt("StatId");
-					int boostSt = jsonObject.getInt("BoostStage");
-					boolean boostSelf = jsonObject.getBoolean("BoostSelf");
+					int statId = jsonObject.getInt("statId");
+					int boostSt = jsonObject.getInt("boostStages");
+					boolean boostSelf = jsonObject.getBoolean("boostSelf");
 					StatChange novoSTCH = new StatChange(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, statId, boostSt, boostSelf);
 					moveList.add(novoSTCH);
 				break;

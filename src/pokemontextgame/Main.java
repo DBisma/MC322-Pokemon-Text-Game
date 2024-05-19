@@ -76,9 +76,11 @@ public class Main {
 		foeJirachi.setMove(0, exFirePunch2);
 		secondJirachi.setMove(0, testingMove);
 		*/
-		
+		player.setTeam(0, pokeArray.get(2));
 		jsonReader.atribuiMoveAPoke(player);
-		jsonReader.atribuiMoveAPoke(npc);
+		//jsonReader.atribuiMoveAPoke(npc);
+		
+		System.out.println(player.getTeam()[0].toString());
 		
 		// E agora, a parte dos held items;
 		// TODO: Como fazer cada um ter seu método próprio?
