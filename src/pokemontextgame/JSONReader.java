@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import pokemontextgame.moves.*;
 import pokemontextgame.moves.Move.moveCategs;
+import pokemontextgame.moves.StatusMiscPackage.*;
+import pokemontextgame.moves.DmgMiscPackage.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,18 +19,15 @@ public class JSONReader{
 	ClassLoader cl = getClass().getClassLoader();
 	
 	String pokej = new String("src/pokemontextgame/pokeJsons/poke.json");
-	String itemj = new String("src/pokemontextgame/pokeJsons/item.json");
 	String movej = new String("src/pokemontextgame/pokeJsons/moves.json");
 	
 	String pokePath = new File(pokej).getAbsolutePath();
-	String itemPath = new File(itemj).getAbsolutePath();
 	String movePath = new File(movej).getAbsolutePath();
 	
 	private ArrayList<Poke> pkmnList;
 	private ArrayList<Move> moveList;
 	
 	private String pokeStr;
-	private String itemStr;
 	private String moveStr;
 	
 	public JSONReader(){
@@ -85,29 +84,6 @@ public class JSONReader{
 		}
 	}
 	
-	public void buildItems() throws IOException, JSONException {
-		
-		StringBuilder cb = new StringBuilder();
-		try (BufferedReader br = new BufferedReader(new FileReader(itemPath))) {
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            cb.append(line).append("\n");
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
-		itemStr = cb.toString();
-		JSONArray itemArray = new JSONArray(itemStr);
-		for (int i = 0; i < itemArray.length(); i++) {
-			JSONObject jsonObject = itemArray.getJSONObject(i);
-			int itemId = jsonObject.getInt("itemId");
-			String itemNome = jsonObject.getString("nome");
-			Item novoItem = new Item(itemId, itemNome);
-			itemList.add(novoItem);
-		}
-	}
-	
 	public void buildMoves() throws IOException, JSONException {
 		
 		StringBuilder cb = new StringBuilder();
@@ -130,7 +106,8 @@ public class JSONReader{
 			int moMaxPT = jsonObject.getInt("MaxPoints");
 			int movePriority = jsonObject.getInt("MovePriority");
 			int moveAcc = jsonObject.getInt("Accuracy");
-			String moveCat = jsonObject.getString("Category"); // String com o valor do enum, fazer cast para enum com .valueOf(moveCat)
+			String moveCat = null;
+			if (jsonObject.has("Category")) { moveCat = jsonObject.getString("Category");} // String com o valor do enum, fazer cast para enum com .valueOf(moveCat)
 			int basePower = 0;
 			if (jsonObject.has("BasePower")) { basePower = jsonObject.getInt("BasePower");}
 			String subClass = jsonObject.getString("Subclass");
@@ -190,17 +167,129 @@ public class JSONReader{
 				break;
 				}
 				
-				case "StatusGeneral": // classe abstrata?
+				case "SuperclassTwoStatModifiers": 
 				{
-					//StatusGeneral novoSTGN = new StatusGeneral(moveId, moveName, -1, -1, -1, moveAcc);
-					//moveList.add(novoSTGN);
+					int statIdA = jsonObject.getInt("statIdA");
+					int statIdB = jsonObject.getInt("statIdB");
+					int boostStA = jsonObject.getInt("boostStageA");
+					int boostStB = jsonObject.getInt("boostStageB");
+					boolean boostSelfA = jsonObject.getBoolean("boostSelfA");
+					boolean boostSelfB = jsonObject.getBoolean("boostSelfB");
+					SuperclassTwoStatModifiers novoSCTSM = new SuperclassTwoStatModifiers(moveId, moveName, moveType, moMaxPT, movePriority, 
+																	 moveAcc, statIdA, statIdB, boostStA, boostStB, boostSelfA, boostSelfB);
+					moveList.add(novoSCTSM);
 				break;
 				}
 				
-				case "StatusMisc": // classe abstrata?
+				case "SuperclassSelfHealingMove": 
 				{
-					//StatusGeneral novoSTGN = new StatusGeneral(moveId, moveName, -1, -1, -1, moveAcc);
-					//moveList.add(novoSTGN);
+					SuperclassSelfHealingMove novoSCHM = new SuperclassSelfHealingMove(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					moveList.add(novoSCHM);
+				break;
+				}
+				
+				case "HealBell":
+				{
+					HealBell novoHealBell = new HealBell(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					moveList.add(novoHealBell);
+				break;
+				}
+				
+				case "ShellSmash":
+				{
+					ShellSmash novoShellSmash = new ShellSmash(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					moveList.add(novoShellSmash);
+				break;
+				}
+				
+				case "BraveBird":
+				{
+					BraveBird novoBraveBird = new BraveBird(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoBraveBird);
+				break;
+				}
+				
+				case "DoubleEdge":
+				{
+					DoubleEdge novoDoubleEdge = new DoubleEdge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoDoubleEdge);
+				break;
+				}
+				
+				case "Explosion":
+				{
+					Explosion novoExplosion = new Explosion(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoExplosion);
+				break;
+				}
+				
+				case "FlareBlitz":
+				{
+					FlareBlitz novoFlareBlitz = new FlareBlitz(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoFlareBlitz);
+				break;
+				}
+				
+				case "GigaDrain":
+				{
+					GigaDrain novoGigaDrain = new GigaDrain(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoGigaDrain);
+				break;
+				}
+				
+				case "GrassKnot":
+				{
+					GrassKnot novoGrassKnot = new GrassKnot(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoGrassKnot);
+				break;
+				}
+				
+				case "GyroBall":
+				{
+					GyroBall novoGyroBall = new GyroBall(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoGyroBall);
+				break;
+				}
+				
+				case "LowKick":
+				{
+					LowKick novoLowKick = new LowKick(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoLowKick);
+				break;
+				}
+				
+				case "SeismicToss":
+				{
+					SeismicToss novoSeismicToss = new SeismicToss(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoSeismicToss);
+				break;
+				}
+				
+				case "Superpower":
+				{
+					Superpower novoSuperpower = new Superpower(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoSuperpower);
+				break;
+				}
+				
+				case "TriAttack":
+				{
+					TriAttack novoTriAttack = new TriAttack(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoTriAttack);
+				break;
+				}
+				
+				case "VCreate":
+				{
+					VCreate novoVCreate = new VCreate(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoVCreate);
+				break;
+				}
+				
+				case "WildCharge":
+				{
+					WildCharge novoWildCharge = new WildCharge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoWildCharge);
 				break;
 				}
 			}
