@@ -60,7 +60,7 @@ public class Poke {
 	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
 	 */
 	
-	public Poke(int pokedexID, String name) {
+	public Poke(int ID, int pokedexID, String name, int sex, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSet) {
 		/*
 		 * Placeholder de construtor. Exemplo para Metang.
 		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
@@ -68,26 +68,29 @@ public class Poke {
 		 */
 		
 		// Parte Variável
-		this.id = 123456; // Gerar um ID de algum jeito; deverá ser único. Algum hashing talvez? TODO
+        this.id = ID; // Gerar um ID de algum jeito; deverá ser único. Algum hashing talvez? TODO
 		this.name = name; // Nickname do Pokemon
-		this.sex = 2;
-		this.level = 100;
+		this.sex = sex;
+		this.level = lvl;
 		// Desconsiderar IVs e EVs. Complexo demais para o escopo desse trabalho.
 		
 		// O resto deverá vir do Json TODO
 		this.pokedexId = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
-		this.speciesName = "Jirachi";
-		this.pokedexEntry = "Nenhuma entrada disponível.";
-		this.tipagem = new int[] {16, 10};
-		this.baseStats = new int [7]; 
-		baseStats[0] = 100;		// Hp
-		baseStats[1] = 100; 	// Atk
-		baseStats[2] = 100;		// Def
-		baseStats[3] = 100; 	// SpAtk
-		baseStats[4] = 100;	 	// SpDef
-		baseStats[5] = 100; 	// Speed
-		baseStats[6] = 1100; 	// Weight
 		
+		
+		this.speciesName = speciesName;
+		this.pokedexEntry = pokeDexEntry;
+		this.tipagem = tipagem;
+
+		//baseStats[0]	 Hp
+		//baseStats[1] 	 Atk
+		//baseStats[2]   Def
+		//baseStats[3] 	 SpAtk
+		//baseStats[4]	 SpDef
+		//baseStats[5] 	 Speed
+		//baseStats[6] 	 Weight
+		
+		this.baseStats = baseStats;		
 		
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
 		
@@ -95,8 +98,8 @@ public class Poke {
 		Arrays.fill(statMods, 0); // TODO: Talvez redundante?
 		
 		// Outros variáveis importantes
-		this.sex = 2; // TODO: Fazer SEX ser um ENUM
-		this.level = 100;
+		//this.sex = 2; // TODO: Fazer SEX ser um ENUM
+		//this.level = 100;
 		this.maxHp = (int) (baseStats[0]*(level/100f)*2 + level + 10);// cálculo de Hp com base o statBasic de HP
 		this.curHp = maxHp;
 		this.active = false; // só se torna ativo em batalha
@@ -104,6 +107,7 @@ public class Poke {
 		// Moves são adicionados subsequentemente
 		// TODO: Preencher com um MOVE inicial placeholder? Que tal Hidden Power? Lol
 		this.moveset = new Move[4];
+		
 		
 		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
 		// TODO: instanciar o Arraylist e adicionar o stat Não-Volátil nele TODO: Por enquanto só há um stat possível.

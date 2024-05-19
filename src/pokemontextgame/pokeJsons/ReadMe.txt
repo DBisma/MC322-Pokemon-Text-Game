@@ -6,7 +6,7 @@ Não é necessário escrever os objetos na ordem em que estão os valores no con
 procura pelo label da variável e então o JSONReader se encarrega de construir o objeto, isso funciona também para a cons-
 trução das subclasses de move, existe um switch que lê o tipo de move no json e chama o construtor daquele move.
 
-LEMBRE-SE DE ESCREVER AS LABELS EXATAMENTE COMO ESTÃO SENDO PROCURADAS NO .get-tipo-() DO JSONObject
+LEMBRE-SE DE ESCREVER AS LABELS EXATAMENTE COMO ESTÃO SENDO PROCURADAS NO .get<Tipo>("NomeDaLabel") DO JSONObject
 
 Ex. de Move:
 
@@ -20,13 +20,9 @@ Ex. de Move:
     	"FxChance": 30,
     	"FxType": "BURN"
 	}
-	
-Type, Max Points e Priority estão sendo inicializadas com -1 por enquanto
 
 Cada objeto no json é separado por uma vírgula depois dos colchetes.
 
 TOME CUIDADO PARA NÃO COLOCAR UM OBJETO DENTRO DE OUTRO
-
-O construtor dos Pokémons não está atualizado, Israel plz fix
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,9 +54,35 @@ public class JSONReader{
 		JSONArray pokeArray = new JSONArray(pokeStr);
 		for (int i = 0; i < pokeArray.length(); i++) {
 			JSONObject jsonObject = pokeArray.getJSONObject(i);
-			int pokedexId = jsonObject.getInt("pokedexId");
-			String nome = jsonObject.getString("nome");
-			Poke novoPoke = new Poke(pokedexId, nome);
+			
+			int        pokeID =     jsonObject.getInt("ID");
+			String     nome =       jsonObject.getString("Nome");
+			int        sexo =       jsonObject.getInt("Sexo");
+			int        pokedexId =  jsonObject.getInt("PokeDexId");
+			int        pokeLevel =  jsonObject.getInt("Level");         // por padrão, inicializado com 50 no json
+			String     spcName =    jsonObject.getString("SpeciesName");
+			String     dexEntry =   jsonObject.getString("DexEntry");
+			
+			JSONArray  tipagem =    jsonObject.getJSONArray("Tipagem");
+			JSONArray  moves =      jsonObject.getJSONArray("MoveSet");
+			JSONArray  bSTTS =      jsonObject.getJSONArray("BaseStats");
+			
+			int[] typeArray = new int[tipagem.length()];
+			for (int j = 0; j < tipagem.length(); j++) {
+			    typeArray[j] = tipagem.getInt(j);
+			}
+			
+			int[] moveArray = new int[moves.length()];
+			for (int j = 0; j < moves.length(); j++) {
+			    moveArray[j] = moves.getInt(j);
+			}
+			
+			int[] baseSTArray = new int[bSTTS.length()];
+			for (int j = 0; j < bSTTS.length(); j++) {
+			    baseSTArray[j] = bSTTS.getInt(j);
+			}
+			
+			Poke novoPoke = new Poke(pokeID, pokedexId, nome, sexo, pokeLevel, spcName, dexEntry, typeArray, baseSTArray, moveArray);
 			pkmnList.add(novoPoke);
 		}
 	}

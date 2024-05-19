@@ -1,5 +1,14 @@
 [
-	{"pokedexId": 616, "nome": "Shelmet"}, 
-	{ "pokedexId": 666, "nome": "Vivillon"}, 
-	{ "pokedexId": 333, "nome": "Swablu"}
+	{	
+		"PokeDexId": 616, 
+	 	"Nome": "Shelmet",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Shelmet",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [11, -1],
+		"BaseStats": [110, 40, 85, 40, 65, 25, 17],
+		"MoveSet": [0]
+	}
+	
 ]

@@ -44,16 +44,17 @@ public class Main {
 		// Parte 2: Escolher os pokemons do Treinador
 		
 		// Vamos criar alguns pokemons quaisquer e atribuí-los ao jogador e ao npc
-		Poke myJirachi = new Poke(1, "MyOwnJirachi"); // recebe pokedex ID, mas ficará melhor mais tarde.
-		Poke secondJirachi = new Poke(2, "John");
-		Poke foeJirachi = new Poke(3, "FoeJirachi");
-		
-		// Por teste, vamos tentar construir um pokemon novo com o JSON.
-		Poke jSonMon = new Poke(4, "JSON Mon");
+
 		JSONReader jsonReader = new JSONReader();
 		ArrayList<Move> moveArray = new ArrayList<Move>();
+		ArrayList<Poke> pokeArray = new ArrayList<Poke>();
+		
 		jsonReader.buildMoves();
+		jsonReader.buildPokemons();
+		
 		moveArray = jsonReader.getMoveList();
+		pokeArray = jsonReader.getPkmnList();
+		
 		int i = 0;
 		for(i = 0; i < moveArray.size(); i++) {
 			if(moveArray.get(i) != null) {
@@ -63,9 +64,9 @@ public class Main {
 
 		
 		//exJirachi3.dmgMon(280);
-		player.setTeam(0, myJirachi);
-		player.setTeam(1, secondJirachi);
-		npc.setTeam(0, foeJirachi);
+		//player.setTeam(0, myJirachi);
+		//player.setTeam(1, secondJirachi);
+		//npc.setTeam(0, foeJirachi);
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
 		Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
@@ -76,11 +77,13 @@ public class Main {
 		Move testingMove = new DamageDealing(2, "Testing Move", 6, 10, 0, -1, Move.moveCategs.PHYSICAL, 1);	
 		Move superSwordsDance = new StatChange(999, "Swords++", 0, 5, 0, -1, 0, 3, true);
 		
+		/*
 		myJirachi.setMove(0, exHammerArm);
 		myJirachi.setMove(1, exFirePunch1);
 		myJirachi.setMove(2, superSwordsDance);
 		foeJirachi.setMove(0, exFirePunch2);
 		secondJirachi.setMove(0, testingMove);
+		*/
 		
 		// E agora, a parte dos held items;
 		// TODO: Como fazer cada um ter seu método próprio?
@@ -89,6 +92,7 @@ public class Main {
 		Item exChoiceScarf = new Item(287, "Choice Scarf");
 		Item exLeftovers = new Item(234, "Leftovers");
 		
+		/*
 		myJirachi.setHeldItem(exLeftovers);
 		myJirachi.setHeldItem(exChoiceScarf);
 		
