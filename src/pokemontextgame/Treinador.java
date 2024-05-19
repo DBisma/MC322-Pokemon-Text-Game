@@ -8,7 +8,7 @@ public class Treinador {
 	 */
 	
 	private int id;
-	private String nome;
+	private String name;
 	private String desc;
 	private boolean isPlayer;
 	private Poke[] team; // time do treinador. max 6 pokemons. Pokemon ativo sempre estará na pos. 0
@@ -17,9 +17,9 @@ public class Treinador {
 	
 	// TODO: INICIALIZAÇÃO DE VERDADE
 	
-	public Treinador(int id, String nome, boolean player) {
+	public Treinador(int id, String name, boolean player) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.isPlayer = player;
 		this.team = new Poke[6];
 	}
@@ -46,7 +46,7 @@ public class Treinador {
 		
 		System.out.print("\n");
 		
-		this.nome = name;
+		this.name = name;
 		return true;
 	}
 
@@ -84,30 +84,39 @@ public class Treinador {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+	
+		public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	
+	public void setName(String nome) {
+		this.name = nome;
 	}
+	
 	public String getDesc() {
 		return desc;
 	}
+	
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+	
 	public boolean isPlayer() {
 		return isPlayer;
 	}
+	
 	public void setPlayer(boolean isPlayer) {
 		this.isPlayer = isPlayer;
 	}
+	
 	public Poke[] getTeam() {
 		return team;
 	}
+	
 	public void setTeam(int index, Poke mon) { // provavelmente será desnecessário no futuro
 		this.team[index] = mon;
 	}
@@ -116,7 +125,7 @@ public class Treinador {
 		/*
 		 * Retorna o poke ativo, e não seu ID.
 		 */
-		return this.getTeam()[activeMonId];
+		return this.team[activeMonId];
 	}
 	
 	public int getActiveMonId() {
@@ -128,9 +137,9 @@ public class Treinador {
 		 * Muda o pokemon ativo para o de novo ID escolhido.
 		 * Muda o pokemon ativo anterior para não-ativo.
 		 */
-		this.getTeam()[this.getActiveMonId()].setActive(false);
+		this.team[this.activeMonId].setActive(false);
+		this.team[newId].setActive(true);
 		this.activeMonId = newId;
-		this.getTeam()[newId].setActive(true);
 	}
 
 	public boolean isForcedSwitch() {
@@ -140,5 +149,4 @@ public class Treinador {
 	public void setForcedSwitch(boolean forcedSwitch) {
 		this.forcedSwitch = forcedSwitch;
 	}
-	
 }

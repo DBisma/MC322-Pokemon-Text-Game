@@ -1,6 +1,11 @@
 package pokemontextgame;
 
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.function.Function;
+
+import moves.Move;
+import moves.Struggle;
 
 public class Battlefield {
 	/*
@@ -10,202 +15,371 @@ public class Battlefield {
 	 * troca de pokémon, finalização de batalha, etc.
 	 */
 	private int turnCount;
-	private Weather weather;
-	private Treinador loadedNpc;
-	private Treinador loadedPlayer;
-	private Poke npcMon;
-	private Poke playerMon;
-	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
+	private Weather weather; // Provavelmente não usaremos por enquanto. TODO;
+	private TreinadorNpc lNpc;
+	private Treinador lPlayer;
+	private Poke npcMon; // talvez redundante
+	private Poke playerMon; // talvez redundante
+	private TypeChart tchart;
+	private boolean koSwitch; // flag que permite uma troca extra que não gasta a escolha para casos em que o último pokemon tomou K.O.
+	private boolean end; // flag para fim da batalha ao se passarem todos os turnos TODO talvez desnecessário
 	private boolean trainerBattle; // flag para batalha contra pokemon selvagem ou contra treinador
+	private Struggle struggle = new Struggle(); // ataque de emergência com PP infinito
 	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
-	// TODO: Gets e sets de cada uma dessas variáveis.
+	// Leitura e impressão de informação
+	private Choice playerChoice;
+	private Choice npcChoice;
+	private TextBoxBuffer textBoxBuffer;
 	
-	public Battlefield(Treinador player, Treinador npc, boolean trainerBattle) {
-		this.turnCount = 0;
-		this.weather = new Weather(true, 1, -1);
-		this.setTrainerBattle(trainerBattle);
-	
-		// as próximas duas linhas talvez sejam desnecessárias
-		this.setLoadedPlayer(player);
-		this.loadedNpc = npc;
+	public class Choice {
+		/*
+		 * Subclasse que lida com a escolha em si.
+		 * Pode ser de 7 tipos.
+		 * O id se refere qual decisão em si foi tomada.
+		 */
 		
-		// pokemon ativo é sempre 0
-		this.playerMon = player.getTeam()[0];
-		this.npcMon = npc.getTeam()[0];
+		// TODO: Deixar ENUM público mesmo?
+		// Por enquanto, não implementaremos BAG_HEAL, BAG_STATUS, BAG_POKEBALL, BAG_BOOST;
+		// RUN nunca dará certo porque por enquanto estamos apenas lidando com batalhas com treinadores.
+		public enum choiceType {MOVE, SWITCH, RUN};
+		private choiceType type;
+		private int id;
+		private Treinador owner;
 		
+		public Choice() {};
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public choiceType getType() {
+			return type;
+		}
+		public void setType(choiceType type) {
+			this.type = type;
+		}
+		public void setFullChoice(choiceType type, int id) {
+			this.type = type;
+			this.id = id;
+		}
+		public Choice getFullChoice() {
+			return this;
+		}
+		public Treinador getOwner() {
+			return owner;
+		}
+		public void setOwner(Treinador owner) {
+			this.owner = owner;
+		}
 	}
 	
-	static boolean turnLoops(Battlefield field, TypeChart tchart, Scanner scan) {
+	class TextBoxBuffer{
+		/*
+		 * Classe que armazena as informações textuais
+		 * do turno que serão impressas. O turno acontece
+		 * num único instante, mas com esta classe,
+		 * temos mais controle sobre o fluxo de informações
+		 * que chegam ao jogador e maior flexibilidade
+		 * para mudanças futuras.
+		 */
+		protected LinkedList<String> textQueue;
+		
+		public TextBoxBuffer() {
+			textQueue = new LinkedList<String>();
+		}
+	}
+	
+	public Battlefield(Treinador player, TreinadorNpc npc, boolean trainerBattle) {
+		this.turnCount = 0;
+		this.weather = new Weather(true, 1, -1); // TODO: Se livrar logo.
+		this.trainerBattle = true;
+		this.end = false;
+		// as próximas duas linhas talvez sejam desnecessárias
+		this.lNpc = npc;
+		this.lPlayer = player;
+		
+		// Primeiro pokemon ativo na batalha é sempre o de ID 0;
+		this.playerMon = player.getTeam()[0];
+		playerMon.setActive(true);
+		this.npcMon = npc.getTeam()[0];
+		npcMon.setActive(true);
+		
+		textBoxBuffer = new TextBoxBuffer();
+		
+		this.tchart = new TypeChart();
+	}
+	
+	public boolean turnLoops(Scanner scan) {
 		/*
 		 * Função que rege um confronto inteiro.
 		 * Lê as opções do jogador por meio do BattleMenu;
 		 * Chama quantos turns forem necessários até o fim da batalha.
-		 * Retorna true se batalha tiver acabado, false caso contrário.
+		 * Retorna true se deve continuar, false caso a batalha tenha terminado.
 		 */
 		
 		// Registrar escolha do jogador e enviar para um turno
-		BattleMenu.menuDisplayRoot(scan, field);
-		
-		
-		return false;
+		String winner = "";
+		while(!this.end) {
+			switch(turn(scan)) {
+				case(0):{
+					break;
+				}
+				case(1):{
+					winner = this.getLoadedPlayer().getName(); 
+					end = true;
+				}
+				case(2):{
+					winner = this.getLoadedNpc().getName(); 
+					end = true;
+				}
+			}
+		}
+		System.out.print("O vencedor da batalha é " + winner + "!\n");
+		return end;
 	}
 	
-	public int turn(Scanner scan, Battlefield field, TypeChart tchart) {
+	public int turn(Scanner scan) {
 		/*
-		 * Recebe as ações do jogador. Efetua os turnos de combate.
+		 * Recebe as ações do jogador e decisões do NPC.
+		 * Efetua os turnos de combate. Imprime resultados.
 		 * Mais explicações adiante.
-		 * Versão simplificada dessa insanidade: 
-		 * https://bulbapedia.bulbagarden.net/wiki/User:FIQ/Turn_sequence
-		 * 
-		 * Essa função consegue ficar bastante complexa, mas não precisamos fazer tudo.
+		 * É uma versão simplificada disso: https://bulbapedia.bulbagarden.net/wiki/User:FIQ/Turn_sequence
 		 */
 		
 		this.turnCount++;
 		
-		// Fazer um objeto Weather? Talvez seja uma boa.
-	
-		// Verificar se o pokemon ativo do NPC está morto
-		
-		// Se o pokemon ativo do Jogador estiver vivo
-		if(!field.getLoadedPlayer().getActiveMon().isFainted()) {
-			BattleMenu.menuDisplayRoot(scan, field);
+		// Criaremos uma fila para processar de decisões
+		final class ChoiceTuple {
+			/*
+			 * Como as escolhas não armazenam o seu dono 
+			 * (desnecessário em quase todos os casos),
+			 * é necessário criarmos um classe local
+			 * que armazene a escolha e seu dono para
+			 * uso na fila de escolhas.
+			 */
+			
+			protected Choice choice;
+			protected Treinador owner;
+			
+			protected ChoiceTuple(Choice choice, Treinador owner) {
+				this.choice = choice;
+				this.owner = owner;
+			}
 		}
-		// força troca caso contrário
-		else { 
-			getLoadedPlayer().setForcedSwitch(true);
-			BattleMenu.menuDisplayTeam(scan, field); 
-		}
+
+		// Inicializando escolhas sem valores por enquanto
+		playerChoice = new Choice();
+		npcChoice = new Choice();
 		
-		// Receber a opção e verificar sua validade
-		/*
-		 * Opções possíveis
-		 * Talvez agora seja uma boa tentar um enum. Onde deveremos guardá-lo?
-		 * No próprio field! O field sempre tem acesso ao player loadado e suas opções.
-		 * ATAQUE 0-3;
-		 * TROCA 0-6
-		 * BAG
-		 * FUGIR
-		 */
+		// Fazer um objeto Weather? Talvez seja uma boa. TODO: Se não formos deletar weather
 		
-		// >Fugir, Ver Pokemons Novos, Informação sobre Pokes Novos, Enviar;
+		// Atualizando
+		playerMon = lPlayer.getActiveMon();
+		npcMon = lNpc.getActiveMon();
 		
-		// No mais das vezes, puxar um pokemon novo.
-		
-		// Receber a ação do jogador (trocar de pokemon, usar um move)
-		// TODO: Encoding. 0-3 (4): Moves; 4-9 (6): Trocar para pokemons 0-5 (6)?
-		// TODO: Função de seleção de opções? Turno começa depois de uma opção ser selecionada?
-			// Alternativamente, Array de 2 dígitos.
-			// index 0: 0 	(move)		ou		1 	(switch)
-			// index 1: 0-3 (move) 		ou 		0-5 (switch)
-		
-		// Ademais, o jogador pode querer ler informações de seu pokemon.
-		// Isso não avança o turno. Devemos dar um jeito de loopar.
-		
-		// Devemos primeiro criar um encoding para cada ação possível... 
-		// ou fazer uma função para selecionar a opção.
-		// Escolher move ou troca avança turno
-		
-		int playerOption = 0; // TODO: mudar isso depois
-		Move playerMove = field.playerMon.getMove(playerOption);
-		
-		// Escolher move do NPC.
-		int npcOption = 0; // TODO: essa escolha será feita por uma inteligência artificial 
-		Move npcMove = field.npcMon.getMove(npcOption);
-		
-		// Troca possui prioridade exceto no caso de o move inimigo ser PURSUIT
-		
-		// Se os dois trocarem, a troca dos dois ocorre num turno só, mas o pokemon inimigo é renderizado primeiro;
-		
-		// Se 2 moves foram escolhidos...
-		// Determinar quem age primeiro
-		Poke firstMon, secondMon;
-		Move firstMove, secondMove; //TODO: Existe problemas de fazer esses alias?
-		
-		// Se for ataque, verificar se a paralisia não impede o ataque;
-		
-		// Se for ataque, compara prioridade
-		if(playerMove.getPriority() > npcMove.getPriority()) {
-			firstMon = playerMon; firstMove = playerMove; //TODO: Posso deixar coisas em linha assim:
-			secondMon = npcMon;	secondMove = npcMove;
-		}
-		else if(playerMove.getPriority() < npcMove.getPriority()) {
-			firstMon = npcMon; firstMove = npcMove;
-			secondMon = playerMon; secondMove = playerMove;
+		// Caso alguém tenha tomado um KO, deve colocar novo Pokemon no field sem gastar o turno presente
+		if(koSwitch) {
+			if(npcMon.isFainted()) {
+				lNpc.isForcedSwitch();
+				npcChoice = TreinadorNpc.npcThink(this);
+				SwitchMons(lNpc, npcChoice.id);
+			}
+			if(playerMon.isFainted()) {
+				lPlayer.isForcedSwitch();
+				BattleMenu.menuDisplayTeam(scan, this); 
+				SwitchMons(lPlayer, playerChoice.id);
+			}
+			
+			koSwitch = false;
+			printTurn();
+			// Novamente atualizando
+			playerMon = lPlayer.getActiveMon();
+			npcMon = lNpc.getActiveMon();
 		}
 		
+		// Atualizando contagem de turnos dos pokes para cálculo de alguns danos
+		playerMon.turnOnFieldIncr();
+		npcMon.turnOnFieldIncr();
+		playerMon.getStatusFx().statusTurnPass();
+		npcMon.getStatusFx().statusTurnPass();
 		
-		// Se a prioridade for igual, comparar velocidade; incluir paralisia no cálculo
-		// Se por algum milagre velocidades forem iguais, o player é privilegiado
+		// Tomando decisões
+		npcChoice = TreinadorNpc.npcThink(this);
+		// Loading de opções do jogador no menu
+		if(!playerMon.isFainted()) { // se mon ativo estiver vivo 
+			BattleMenu.menuDisplayRoot(scan, this);
+		}
+		else { // força troca caso contrário TODO Talvez seja desnecessário com a nova func. ali em cima
+			lPlayer.setForcedSwitch(true);
+			BattleMenu.menuDisplayTeam(scan, this); 
+		}
+		
+		// Criaremos uma fila para processar de decisões
+		// Armazenando decisões e seus donos para enfileirar e processar
+		ChoiceTuple npcChoiceTuple = new ChoiceTuple(npcChoice, lNpc);
+		ChoiceTuple playerChoiceTuple = new ChoiceTuple(playerChoice, lPlayer);
+		LinkedList<ChoiceTuple> choiceQueue = new LinkedList<ChoiceTuple>();
+		
+		// Prioridade do Switch do Npc é sempre a maior
+		// Switch de player recebe segunda prioridade
+		Poke playerMon, npcMon;
+		playerMon = lPlayer.getActiveMon();
+		npcMon = lNpc.getActiveMon();
+		Move playerMove = null, npcMove = null;
+		
+		// Lidando com prioridades maiores que Move
+		if(npcChoice.getType() != Choice.choiceType.MOVE)
+			choiceQueue.add(npcChoiceTuple);
 		else {
-			if(TurnUtils.modStat(4, playerMon) >= TurnUtils.modStat(4, npcMon)){
-				firstMon = playerMon; firstMove = playerMove;
-				secondMon = npcMon; secondMove = npcMove;
-			}
-			else {
-				firstMon = playerMon; firstMove = npcMove;
-				secondMon = npcMon; secondMove = playerMove;
-			}
+			npcMove = npcMon.getMove(Math.abs(npcChoice.getId())); // Conversão mencionada em TreinadorNpc.getBestDamageId();
 		}
 		
-		// Causando dano de fMon sobre sMon; incluir BURN no cálculo
-		int dmg = TurnUtils.calcDmg(firstMove, firstMon, secondMon, tchart);
-		if(dmg >= secondMon.getCurHp()) {
-			secondMon.setCurHp(0);
-			secondMon.setFainted(true);
+		if(playerChoice.getType() != Choice.choiceType.MOVE) {
+			choiceQueue.add(playerChoiceTuple);
 		}
 		else {
-			secondMon.setCurHp(secondMon.getCurHp() - dmg);
+			playerMove = playerMon.getMove(playerChoice.getId());
 		}
 		
-		// Verificar se alguma habilidade ativou
-		
-		// Aplicar status ou efeito de status?
-		
-		// Verificar danos de habilidade sobre fMon (e.g: Aftermath)? Matou?
-		
-		// Verificar danos de status (burn, poison)
-		
-		// Dano de sMon sobre fMon; incluir queda de dano físico causado por BURN no dano
-		if(!secondMon.isFainted()) {
-			dmg = TurnUtils.calcDmg(secondMove, secondMon, firstMon, tchart);
-			if(dmg >= firstMon.getCurHp()) {
-				firstMon.setCurHp(0);
-				firstMon.setFainted(true);
+		// Se um dos dois atacar
+		if(playerMove != null || npcMove != null) {
+			// Player não ataca
+			if(playerMove == null) {
+				choiceQueue.add(npcChoiceTuple);
 			}
+			// NPC não ataca
+			else if(npcMove == null) {
+				choiceQueue.add(playerChoiceTuple);
+			}
+			// Os dois atacam
 			else {
-				firstMon.setCurHp(firstMon.getCurHp() - dmg);
+				// Comparar prioridade
+				if(playerMove.getPriority() > npcMove.getPriority()) {
+					choiceQueue.add(playerChoiceTuple);
+					choiceQueue.add(npcChoiceTuple);
+				}
+				else if(playerMove.getPriority() < npcMove.getPriority()) {
+					choiceQueue.add(npcChoiceTuple);
+					choiceQueue.add(playerChoiceTuple);
+				}
+				// Moves têm suas prioridades comparadas, e se forem iguais, comparamos a velocidade do Pokemon
+				else {
+					// Função lambda local de redução de velocidade por paralisia
+					Function<Poke, Float> paralysisSlowdown = (mon) -> {
+						if(mon.getStatusFx().getType() == StatusFx.typeList.PARALYSIS)
+							return 0.75f;
+						else
+							return 1f;
+					};
+					int playerSpeed = (int) (TurnUtils.getModStat(4, playerMon)*paralysisSlowdown.apply(playerMon));
+					int npcSpeed =  (int) (TurnUtils.getModStat(4, npcMon)*paralysisSlowdown.apply(npcMon));
+					if(playerSpeed > npcSpeed) {
+						choiceQueue.add(playerChoiceTuple);
+						choiceQueue.add(npcChoiceTuple);
+					}
+					else if(playerSpeed < npcSpeed) {
+						choiceQueue.add(npcChoiceTuple);
+						choiceQueue.add(playerChoiceTuple);
+					}
+					// Se empatar, favorece o Player
+					else {
+						choiceQueue.add(playerChoiceTuple);
+						choiceQueue.add(npcChoiceTuple);
+					}
+				}
 			}
 		}
 		
-		// Verificar se alguma habilidade pode ativar;
+		// E agora, processando a fila
+		while(choiceQueue.size() != 0) {
+			// Macros
+			ChoiceTuple currentCT = choiceQueue.removeFirst();
+			int choiceId = currentCT.choice.getId();
+			Choice.choiceType choiceType = currentCT.choice.getType();
+			
+			// Atualizando Mons ativos desde a decisão anterior
+			playerMon = lPlayer.getActiveMon();
+			npcMon = lNpc.getActiveMon();
+			
+			// E processando decisões em si
+			if(choiceType == Choice.choiceType.SWITCH) {
+				this.SwitchMons(currentCT.owner, choiceId);
+			}
+			else { // Por enquanto, esse Else pode apenas ser um Move. Ver notas em Battlefield.Choice.choiceType
+				Treinador movingTr, receivingTr;
+				Poke movingMon, receivingMon;
+				if(currentCT.owner == lPlayer) {
+					movingTr = lPlayer;
+					movingMon = playerMon;
+					receivingTr = lNpc;
+					receivingMon = npcMon;
+				}
+				else {
+					movingTr = lNpc;
+					movingMon = npcMon;
+					receivingTr = lPlayer;
+					receivingMon = playerMon;
+				}
+				
+				// Settando o Move e usando
+				Move qdMove;
+				if(Math.abs(choiceId) > 4)
+					qdMove = struggle;
+				else
+					qdMove = movingMon.getMove(choiceId);
+				
+				if(!TurnUtils.blockMoveCheck(movingMon, this)) {
+					qdMove.useMove(this, movingMon, receivingMon, tchart);
+				}
+				// Imprimindo mensagem do poke fainted, livrando-se da escolha dele, atualizando seu ForcedSwitch
+				if(receivingMon.isFainted()) {
+					currentCT.owner.setForcedSwitch(true);
+					koSwitch = true;
+					this.getTextBoxBuffer().textQueue.add(receivingMon.getName() + " sofreu um K.O.!\n");
+					if(choiceQueue.size() != 0 && choiceQueue.getFirst().owner == receivingTr) {
+						choiceQueue.remove();
+					}
+				}
+			}
+		}
 		
-		// TODO: Subtrair PP de cada move utilizado depois do uso;
+		// Consequências de todas as decisões
+		if(!npcMon.isFainted()) {
+			TurnUtils.statusFxDmg(npcMon, this);
+		}
 		
-		// TODO: Verificação de Stats voláteis e não voláteis
-		
-		// TODO: Verificar se habilidades ativam? No começo ou no final do turno?
-		
-		// TODO: E se os dois morrerem no mesmo turno? Dano de veneno ou ataques como Explosion
-		
-		// TODO: Toda a patacoada de display de texto.
-		
-		// Verificar se resta algém vivo para batalhar terminou TODO: Existe um jeito mais bonito e eficiente de fazer isso? ENUMs talvez?
+		// Verificar se resta alguém vivo para batalhar terminou
 		int i;
+		int result = 0;
+		boolean end = false;
 		for(i = 0; i < 6; i++) {
-			if(!field.getLoadedPlayer().getTeam()[i].isFainted()) 
+			Poke current = this.lPlayer.getTeam()[i];
+			if(current != null && !current.isFainted()) 
 				break;
-			else if (i == 5)
-				return 1; // todos pokes do npc desmaiados; vencedor = jogador
+			else if (i == 5) {
+				end = true;
+				result = 1; // todos pokes do npc desmaiados; vencedor = jogador
+			}
 		}
 		for(i = 0; i < 6; i++) {
-			if(!field.loadedNpc.getTeam()[i].isFainted()) 
+			Poke current = this.lNpc.getTeam()[i];
+			if(current != null && !current.isFainted()) 
 				break;
-			else if (i == 5)
-				return 2; // todos pokes do jogador desmaiados; vencedor = NPC
+			else if (i == 5) {
+				end = true;
+				result = 2; // todos pokes do jogador desmaiados; vencedor = NPC
+			}
 		}
 		
-		return 0; // turno não é final
+		if(!end && !playerMon.isFainted()) {
+			TurnUtils.statusFxDmg(playerMon, this);
+		}
+		
+		printTurn();
+		
+		return result; // se turno não é final
 		
 	}
 
@@ -218,12 +392,78 @@ public class Battlefield {
 	}
 
 	public Treinador getLoadedPlayer() {
-		return loadedPlayer;
+		return lPlayer;
 	}
 
 	public void setLoadedPlayer(Treinador loadedPlayer) {
-		this.loadedPlayer = loadedPlayer;
+		this.lPlayer = loadedPlayer;
+	}
+
+	public Choice getPlayerChoice() {
+		return playerChoice;
 	}
 	
+	public TreinadorNpc getLoadedNpc() {
+		return lNpc;
+	}
+
+	public void setLoadedNpc(TreinadorNpc loadedNpc) {
+		this.lNpc = loadedNpc;
+	}
+
+	public TypeChart getTchart() {
+		return tchart;
+	}
+
+	public void setTchart(TypeChart tchart) {
+		this.tchart = tchart;
+	}
+
+	public Choice getNpcChoice() {
+		return npcChoice;
+	}
+
+	public void setNpcChoice(Choice npcChoice) {
+		this.npcChoice = npcChoice;
+	}
+
+	public TextBoxBuffer getTextBoxBuffer() {
+		return textBoxBuffer;
+	}
 	
+	public void textBufferAdd(String message) {
+		// Recebe uma linha de texto e adiciona
+		// à fila de processamento e impressão
+		this.textBoxBuffer.textQueue.add(message);
+	}
+	
+	private void printTurn() {
+		/*
+		 * Imprime todas as mensagens do turno de cara.
+		 */
+		System.out.print("# # # # # # # # # # # # # # # # "
+				+ "# # # # # # # # # # # # # # # # "
+				+ "TURNO " + turnCount 
+				+ " # # # # # # # # # # # # # # # # "
+				+ "# # # # # # # # # # # # # # # # " 
+				+ "\n");
+		while(textBoxBuffer.textQueue.size() != 0) {
+			System.out.print(this.textBoxBuffer.textQueue.remove());
+		}
+	}
+	
+	private void SwitchMons(Treinador trainer, int newMonId) {
+		/*
+		 * Altera o field para realizar as trocas de pokemons.
+		 */
+		Poke prevMon = trainer.getActiveMon();
+		prevMon.setTurnsOnField(0);
+		prevMon.getStatusFx().setTimeAfflicted(0);
+		trainer.setForcedSwitch(false);
+		trainer.setActiveMonId(newMonId);
+		this.getTextBoxBuffer().textQueue.add("Treinador " + trainer.getName()
+				+ " trocou " + prevMon.getName()
+				+ " por " + trainer.getActiveMon().getName() + "!\n");
+		
+	}
 };
