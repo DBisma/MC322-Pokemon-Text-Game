@@ -2,7 +2,6 @@ package pokemontextgame.moves;
 
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
-import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
 abstract class StatusGeneral extends Move {
@@ -13,7 +12,6 @@ abstract class StatusGeneral extends Move {
 	 */
 	final Move.moveCategs categ = Move.moveCategs.STATUS; // não pode ser mais nada
 	
-	//TODO: moves de HEAL
 	public StatusGeneral(int id, String name, int type, int maxP, int pri, int accu) {
 		super(id, name, type, maxP, pri, accu);
 	}

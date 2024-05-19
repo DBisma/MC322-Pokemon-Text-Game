@@ -4,9 +4,8 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
-import pokemontextgame.moves.Move;
 import pokemontextgame.moves.StatusMisc;
-import pokemontextgame.moves.Move.moveResults;
+
 public class SuperclassTwoStatModifiers extends StatusMisc {
 	/*
 	 * Superclasse mãe de moves que recebem

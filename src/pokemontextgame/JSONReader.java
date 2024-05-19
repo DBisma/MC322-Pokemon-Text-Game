@@ -25,7 +25,6 @@ public class JSONReader{
 	String movePath = new File(movej).getAbsolutePath();
 	
 	private ArrayList<Poke> pkmnList;
-	private ArrayList<Item> itemList;
 	private ArrayList<Move> moveList;
 	
 	private String pokeStr;
@@ -34,7 +33,6 @@ public class JSONReader{
 	
 	public JSONReader(){
 		pkmnList = new ArrayList<Poke>();
-		itemList = new ArrayList<Item>();
 		moveList = new ArrayList<Move>();
 	}
 	
@@ -229,10 +227,6 @@ public class JSONReader{
 	
 	public ArrayList<Poke> getPkmnList(){
 		return pkmnList;
-	}
-
-	public ArrayList<Item> getItemList(){
-		return itemList;
 	}
 	
 	public ArrayList<Move> getMoveList(){

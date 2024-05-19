@@ -1,7 +1,6 @@
 package pokemontextgame.moves;
 
 import pokemontextgame.TypeChart;
-import pokemontextgame.moves.Move.moveCategs;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
@@ -25,8 +24,8 @@ public class DamageDealing extends Move {
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
 		 * Recebe o field, o atacante e o defensor.
-		 * Calcula a chance de acerto. Aplica o dano se acertar; retorna true // TODO: Ou um ENUM de resultados?
-		 * Como verificar se não foi muito efetivo?
+		 * Calcula a chance de acerto. Aplica o dano se acertar.
+		 * Retorna o resultado do Move.
 		 */
 		
 		Move.moveResults resu = super.useMove(field, pAtk, pDef, tchart);
@@ -48,7 +47,6 @@ public class DamageDealing extends Move {
 			// Caso contrário, cálculo e aplicação de dano
 			int dmg = TurnUtils.calcDmg(this, pAtk, pDef, typeMod);
 			pDef.dmgMon(dmg);
-			// TODO: Verificar se pDef tem alguma habilidade interessante que afeta o dano. Mais pra frente.
 			// Comparação de floats para retornar efetividade
 			if(Math.abs(typeMod - 0.5f) < error) {
 				field.textBufferAdd("Não foi muito eficaz...\n");

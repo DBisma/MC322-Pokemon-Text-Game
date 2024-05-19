@@ -15,17 +15,15 @@ public class Battlefield {
 	 * troca de pokémon, finalização de batalha, etc.
 	 */
 	private int turnCount;
-	private Weather weather; // Provavelmente não usaremos por enquanto. TODO;
 	private TreinadorNpc lNpc;
 	private Treinador lPlayer;
 	private Poke npcMon; // talvez redundante
 	private Poke playerMon; // talvez redundante
 	private TypeChart tchart;
 	private boolean koSwitch; // flag que permite uma troca extra que não gasta a escolha para casos em que o último pokemon tomou K.O.
-	private boolean end; // flag para fim da batalha ao se passarem todos os turnos TODO talvez desnecessário
+	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
 	private boolean trainerBattle; // flag para batalha contra pokemon selvagem ou contra treinador
 	private Struggle struggle = new Struggle(); // ataque de emergência com PP infinito
-	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
 	// Leitura e impressão de informação
 	private Choice playerChoice;
@@ -38,8 +36,7 @@ public class Battlefield {
 		 * Pode ser de 7 tipos.
 		 * O id se refere qual decisão em si foi tomada.
 		 */
-		
-		// TODO: Deixar ENUM público mesmo?
+
 		// Por enquanto, não implementaremos BAG_HEAL, BAG_STATUS, BAG_POKEBALL, BAG_BOOST;
 		// RUN nunca dará certo porque por enquanto estamos apenas lidando com batalhas com treinadores.
 		public enum choiceType {MOVE, SWITCH, RUN};
@@ -93,7 +90,6 @@ public class Battlefield {
 	
 	public Battlefield(Treinador player, TreinadorNpc npc, boolean trainerBattle) {
 		this.turnCount = 0;
-		this.weather = new Weather(true, 1, -1); // TODO: Se livrar logo.
 		this.trainerBattle = true;
 		this.end = false;
 		// as próximas duas linhas talvez sejam desnecessárias
@@ -308,16 +304,14 @@ public class Battlefield {
 				this.SwitchMons(currentCT.owner, choiceId);
 			}
 			else { // Por enquanto, esse Else pode apenas ser um Move. Ver notas em Battlefield.Choice.choiceType
-				Treinador movingTr, receivingTr;
+				Treinador receivingTr;
 				Poke movingMon, receivingMon;
 				if(currentCT.owner == lPlayer) {
-					movingTr = lPlayer;
 					movingMon = playerMon;
 					receivingTr = lNpc;
 					receivingMon = npcMon;
 				}
 				else {
-					movingTr = lNpc;
 					movingMon = npcMon;
 					receivingTr = lPlayer;
 					receivingMon = playerMon;

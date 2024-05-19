@@ -1,10 +1,5 @@
 package pokemontextgame.moves;
 
-import pokemontextgame.Battlefield;
-import pokemontextgame.Poke;
-import pokemontextgame.TurnUtils;
-import pokemontextgame.TypeChart;
-
 public class DmgMisc extends DamageDealing {
 	/*
 	 * Classe mãe de todos os Moves estranhos

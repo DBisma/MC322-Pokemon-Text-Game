@@ -4,7 +4,6 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
-import pokemontextgame.moves.Move.moveResults;
 
 final public class StatChange extends StatusGeneral {
 	/*
@@ -43,8 +42,7 @@ final public class StatChange extends StatusGeneral {
 			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
 			return moveResults.HIT_IMMUNE;
 		}
-		// TODO: Deve ter um jeito de fundir isso com a parte de StatChange dos dmgPlusStat...
-		// São bastante parecidas.
+
 		else {
 			boolean sucess;
 			String verb;

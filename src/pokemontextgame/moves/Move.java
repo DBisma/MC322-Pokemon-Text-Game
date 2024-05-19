@@ -1,7 +1,6 @@
 package pokemontextgame.moves;
 
 import pokemontextgame.TypeChart;
-import pokemontextgame.moves.Move.moveResults;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
@@ -29,7 +28,6 @@ public abstract class Move {
 		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL, TOTAL_SUCCESS, PARTIAL_SUCCESS, TOTAL_FAILURE}
 	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
 	
-	// Construtor provisório; mais tarde, TODO Construir de json
 	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
 		this.name = name;

@@ -3,7 +3,6 @@ package pokemontextgame.moves;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.StatusFx;
-import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
 final public class StatusChangeFx extends StatusGeneral {
@@ -14,7 +13,6 @@ final public class StatusChangeFx extends StatusGeneral {
 	
 	// Um tanto análogo a DmgPlusFx, mas sem a seção de dano, e com chance 100%
 	private StatusFx.typeList fxType; // efeito em si
-
 		
 	public StatusChangeFx(int id, String name, int type, int maxP, int pri, int accu,
 			StatusFx.typeList fxType, int fxDuration, boolean isVolatile) {

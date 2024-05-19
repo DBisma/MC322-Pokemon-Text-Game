@@ -6,7 +6,6 @@ import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 import pokemontextgame.moves.Move;
 import pokemontextgame.moves.StatusMisc;
-import pokemontextgame.moves.Move.moveResults;
 
 public class ShellSmash extends StatusMisc {
 	/*
