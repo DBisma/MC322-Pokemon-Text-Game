@@ -11,10 +11,6 @@ public class Poke {
 	 * Armazena as informações dos pokemons do jogo.
 	 */
 	
-	// TODO: Implementações futuras
-	// https://stackoverflow.com/questions/13543457/how-do-you-create-a-dictionary-in-java
-	// https://stackoverflow.com/questions/4480334/how-to-call-a-method-stored-in-a-hashmap-java
-	
 	private int id;
 	private int pokedexId;
 	private String name;
@@ -39,14 +35,9 @@ public class Poke {
 	// uso de vetores é justificado para realizar varreduras rápidas nos modificadores
 	private int statMods[]; 
 	
-	/*
-	 * TODO: Cada reload do pokemon na arena reseta todos os statMods.
-	 * Com a nova implementação vetorial, isso é fácil! Basta usar ArrayFill.
-	 */
-	
 	// Moves disponíveis, sempre 4 no máximo (por isso um array simples), e outras informações
-	private int [] movesetList;
-	private Move[] moveset; // esse último será um pouco mais complicado. TODO: Resolver leitura e referência de moves.
+	private int [] movesetList; // IDs de todos os moves que ele pode aprender
+	private Move[] moveset; // moveset atual
 	private Item heldItem;
 	private Ability abil;
 	
@@ -291,6 +282,10 @@ public class Poke {
 		 * Retorna o vetor de modificadores.
 		 */
 		return this.statMods;
+	}
+	
+	public void resetStats() {
+		Arrays.fill(statMods, 0);
 	}
 	
 	public int getStatModGeneral(int id){

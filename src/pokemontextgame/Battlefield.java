@@ -457,6 +457,7 @@ public class Battlefield {
 		 * Altera o field para realizar as trocas de pokemons.
 		 */
 		Poke prevMon = trainer.getActiveMon();
+		prevMon.resetStats();
 		prevMon.setTurnsOnField(0);
 		prevMon.getStatusFx().setTimeAfflicted(0);
 		trainer.setForcedSwitch(false);
