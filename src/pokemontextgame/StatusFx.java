@@ -20,7 +20,7 @@ public class StatusFx {
 		FREEZE		(false, false, 10), 
 		PARALYSIS	(false, true, 0),
 		POISON		(false, true, 0),
-		BADPOISON	(false, true, 0),
+		BAD_POISON	(false, true, 0),
 		SLEEP		(false, false, 3);
 		
 		public final boolean isVolatile;
@@ -41,12 +41,13 @@ public class StatusFx {
 	}; // TODO: Fazer todos os enums serem públicos numa classe só para isso?
 	
 	private typeList type;
-	private int remainDuration; // tempo até o efeito desaperecer por conta
+	private int remDuration; // tempo até o efeito desaperecer por conta
+	private int timeAfflicted; // útil para calcular o dano de BAD_POISON
 	
 	// Getters e Setters
 	public StatusFx(typeList type) {
 		this.type = type;
-		this.setRemainDuration(type.getMaxDuration());
+		this.remDuration = type.getMaxDuration();
 	}
 	
 	// Getters e Setters
@@ -58,7 +59,7 @@ public class StatusFx {
 		 * TODO: Verificar se será útil
 		 */
 		this.type = type;
-		this.setRemainDuration(type.getMaxDuration());
+		this.setRemDuration(type.getMaxDuration());
 	}
 	
 	public void setStatusFull(typeList type, int durationMod) {
@@ -68,15 +69,17 @@ public class StatusFx {
 		 * TODO: Verificar se será útil
 		 */
 		this.type = type;
-		this.setRemainDuration(type.getMaxDuration()*durationMod);
+		this.setRemDuration(type.getMaxDuration()*durationMod);
+		timeAfflicted = 1;
 	}
 	
-	public void setStatusDefault() {
+	public void setStatusNeutral() {
 		/*
 		 * Retorna ao usual.
 		 * Talvez seja desnecessária.
 		 */
 		this.type = typeList.NEUTRAL;
+		timeAfflicted = 1;
 	}
 
 	public typeList getType() {
@@ -84,51 +87,79 @@ public class StatusFx {
 	}
 
 	public void setType(typeList type) {
+		/*
+		 * Como o tipo mudou, timeAfflicted vai para zero.
+		 */
 		this.type = type;
+		timeAfflicted = 1;
 	}
 
-	public int getRemainDuration() {
-		return remainDuration;
+	public int getRemDuration() {
+		return remDuration;
 	}
 
-	public void setRemainDuration(int remainDuration) {
-		this.remainDuration = remainDuration;
+	public void setRemDuration(int duration) {
+		this.remDuration = duration;
 	}
-	
-	// TODO: Talvez seja uma boa fazer funcs. para cada Status e fazer cada um ser uma subclasse.
-	// Fazer função de [EffectPre] e [EffectPost] para cada Status; SOBRESCREVER CADA MÉTODO PARA SEU STATUS ESPECÍFICO.
-	
-	
-	/*
 
-	static boolean paralyzedThisTurn(Poke mon) {
+	public void durationLessen() {
 		/*
-		 * Função de saída aleatória que retorna "true" caso
-		 * o pokemon dê azar de não poder mover neste turno.
-		 * TODO: Seria legal mudar a velocidade de animação para um pokemon paralisado.
-		  
-		if(mon.getStatusFx().getId() == 2) {
-			return TurnUtils.rollChance(25);
+		 * Diminui em um turno a duração restante do StatusFx.
+		 * Possivalmente atualizará para NEUTRAL... mas talvez não. TODO
+		 */
+		this.remDuration -= 1;
+		if(remDuration == 0) { // TODO: Dependendo da lógica futura, me livrarei disso
+			this.type = typeList.NEUTRAL;
 		}
-		else
-			return false;
-		// TODO: Otimizar checagens de stats no começo de turnos que envolva Sleep, Frozen, Paralyzed, Confused... etc
-		
 	}
-	static boolean burnHalving(Poke mon, Move move) {
-		/*
-		 * Verifica se o Pokemon terá sua saída de dano
-		 * diminuída por estar queimado.
-		 
-		if(mon.getStatusFx().getId() != 0)
-			return false;
-		else if(move.getCateg() != 0)
-			return false;
-		else // TODO: Colocar condição extra: Habilidade Guts
-			return true;
+
+	public int getTimeAfflicted() {
+		return timeAfflicted;
+	}
+
+	public void setTimeAfflicted(int timeAfflicted) {
+		this.timeAfflicted = timeAfflicted;
 	}
 	
-	 */
-	// Getters e Setters
+	public void timeAfflictedIncrease() {
+		timeAfflicted += 1;
+	}
+	
+	public void remDurationDecrease() {
+		remDuration -= 1;
+	}
+	
+	public void statusTurnPass() {
+		/*
+		 * Função que de uma vez faz todos
+		 * os efeitos de passagem de turno
+		 * sobre um stat.
+		 */
+		this.timeAfflicted += 1;
+		if(!this.type.isPermanent) {
+			this.remDuration -= 1;
+			if(remDuration == 0) {
+				this.setStatusNeutral();
+			}
+			else {
+				// Chances de se curar do stat automaticamente
+				switch(type) {
+					case FREEZE:{
+						if(TurnUtils.rollChance(20))
+							this.setStatusNeutral();
+						break;
+					}
+					case SLEEP:{
+						if(TurnUtils.rollChance(timeAfflicted*33))
+							this.setStatusNeutral();
+						break;
+					}
+					default:{
+						break;
+					}
+				}
+			}
+		}
+	}
 	
 }

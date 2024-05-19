@@ -34,12 +34,12 @@ public class DmgPlusFx extends DamageDealing {
 		Move.moveResults result = super.useMove(field, pAtk, pDef, tchart);
 		
 		// Aplicação de efeitos secundários
-		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE)
+		if(pDef.getStatusFx().getType() == StatusFx.typeList.NEUTRAL && result != Move.moveResults.FAIL 
+				&& result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE)
 			if(TurnUtils.rollChance(this.fxChance)) {
 				pDef.setStatusFx(fxType);
+				field.textBufferAdd(pDef.getName() + " foi afligido com " + fxType + "!\n");
 			}
-		
-		// TODO: Como enviar a notificação de aplicação de efeito?
 		return result;
 	}
 
