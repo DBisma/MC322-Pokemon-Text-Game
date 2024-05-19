@@ -3,10 +3,8 @@ package pokemontextgame;
 import java.util.Random;
 
 import moves.*;
-import pokemontextgame.Battlefield.Choice;
-import pokemontextgame.Battlefield.Choice.choiceType;
 
-public class TurnUtils{
+public final class TurnUtils{
 	/*
 	 * Classe que armazena funções úteis para progressão de turno.
 	 * Envolve cálculo de dano, modificação de stats, etc.
@@ -160,10 +158,10 @@ public class TurnUtils{
 		 * Retorna o nome do Stat de id correspondente.
 		 */
 		switch(id) {
-		case 0: return "ATK.";
-			case 1: return "DEF. ";
-			case 2: return "SPEC. ATK.";
-			case 3: return "SPEC. DEF.";
+		case 0: return "ATK";
+			case 1: return "DEF ";
+			case 2: return "SPEC. ATK";
+			case 3: return "SPEC. DEF";
 			case 4: return "SPEED";
 			case 5: return "WEIGHT";
 			case 6: return "EVASION";
@@ -172,44 +170,74 @@ public class TurnUtils{
 		return "Erro.";
 	}
 	
-	public static String renderTextLifeBar(Poke mon) {
+	public static boolean blockMoveCheck(Poke mon, Battlefield field) {
 		/*
-		 * Uma função visual que cria uma pequena
-		 * barrinha de vida para display nos menus.
-		 * Basea-se em quanto de vida o pokemon tem.
+		 * Recebe um Pokemon.
+		 * Verifica se ele pode mover-se nesse turno.
+		 * Caso contrário, retorna false e envia
+		 * uma mensagem ao text buffer de um field.
 		 */
-		String lifeBar = "";
-		// Encontrando a porcentagem de vida do Pokemon
-		int lifePercentage = Math.round((100*((float)mon.getCurHp()/mon.getMaxHp())));
-		// Arredondando para um múltiplo de 10 e convertendo em número de 0 a 10
-		lifePercentage = ((lifePercentage / 10)*10)/10;
-		int i;
-		for(i = 0; i < lifePercentage; i++) {
-			lifeBar += "█";
+		StatusFx.typeList statusfx = mon.getStatusFx().getType();
+		statusfx = StatusFx.typeList.NEUTRAL;
+		String monName = mon.getName();
+		switch(statusfx){
+			case StatusFx.typeList.SLEEP:{
+				field.textBufferAdd(monName + " dorme como uma pedra!\n");
+				return true;
+			}
+			case StatusFx.typeList.FREEZE:{
+				field.textBufferAdd(monName + " está congelado!\n");
+				return true;
+			}
+			case StatusFx.typeList.PARALYSIS:{
+				field.textBufferAdd(monName + " está paralisado! Neste turno, falhou em se mover!\n");
+				if(TurnUtils.rollChance(25)) {
+					
+				}
+				else {
+					return false;
+				}
+			}
+			default:{
+				return false;
+			}
 		}
-		for(i = 0; i < 10 - lifePercentage; i++) {
-			lifeBar += "░";
-		}
-		
-		return lifeBar;
 	}
 	
-	public static void printPokeballAscii() {
+	public static void statusFxDmg(Poke mon, Battlefield field) {
 		/*
-		 * Função que imprime uma pokebola
-		 * em ASCII para o final do jogo.
+		 * Recebe um Pokemon.
+		 * Verifica se ele tomará dano por stats nesse turno.
+		 * Neste caso, calcula o dano e envia 
+		 * uma mensagem ao text buffer de um field.
 		 */
-		System.out.print(
-				"\n" +
-				"          .=*#%%%%#*=.          \n" + 
-				"        :#%%########%%#:        \n" +
-				"       +%%############%%+       \n" +
-				"      =%%####%#++#%#####%=      \n" +
-				"      %%%%%%%=    =%%%%%%%      \n" +
-				"      %+--::#=    =#:::-+%      \n" +
-				"      =#.   .+*++*+.    #=      \n" +
-				"       +*.            .*+       \n" +
-				"        :*+:        :+*:        \n" +
-				"          .=++++++++=.          \n" );
+		StatusFx.typeList statusfx = mon.getStatusFx().getType();
+		String monName = mon.getName();
+		switch(statusfx){
+			case StatusFx.typeList.BURN:{
+				// Danifica 1/16 da vida máxima por turno
+				mon.dmgMon((int) (mon.getMaxHp()*0.0625f));
+				field.textBufferAdd(monName + " toma dano com a queimadura!\n");
+				break;
+			}
+			case StatusFx.typeList.POISON:{
+				// Danifica 1/16 da vida máxima por turno
+				mon.dmgMon((int) (mon.getMaxHp()*0.0625f));
+				field.textBufferAdd(monName + " toma dano com veneno!\n");
+				break;
+			}
+			case StatusFx.typeList.BAD_POISON:{
+				mon.dmgMon((int) (mon.getMaxHp()*0.0625f*mon.getStatusFx().getTimeAfflicted()));
+				// Danifica 1/16 da vida máxima vezes quantidade de turnos envenenado.
+				// Contador reinicia na troca de pokemons
+				field.textBufferAdd(monName + " toma dano com o potente veneno!\n");
+				break;
+			}
+			default:{
+				break;
+			}
+		}
 	}
+
+
 }

@@ -53,6 +53,7 @@ public class Poke {
 	// TODO: Criar um modo que permita que o pokemon possua vários statusfx voláteis simultâneos mas apenas um não-volátil
 	// Array que armazena todos os status FX que afetam o pokemon
 	private StatusFx statusFx; // por enquanto, só um status por vez pode ser um
+	private int turnsOnField; // usado para calcular algumas formas de dano
 	//private ArrayList<StatusFx> volatileFxArray; // pode conter vários TODO: Separar voláteis e não voláteis em ArrayLists
 	
 	/*
@@ -205,9 +206,10 @@ public class Poke {
 		 */
 		
 		int sum = statMods[statId] + statBoost;
-		// estando no limite
-		if(statBoost * statMods[statId] > 0 && Math.abs(statMods[statId]) == 6)
+		// passando do limite
+		if(Math.abs(statMods[statId] + statBoost) == 6) {
 			return false;
+		}
 		// extendendo ao limite
 		else if(Math.abs(sum) >= 6) { 
 			statMods[statId] = 6*(statBoost/Math.abs(statBoost)); //6 * sinal do limite
@@ -530,6 +532,7 @@ public class Poke {
 	public int getBaseGeneral(int id) {
 		return baseStats[id];
 	}
+	
 	public String getSpeciesName() {
 		return speciesName;
 	}
@@ -537,7 +540,29 @@ public class Poke {
 	public void setSpeciesName(String speciesName) {
 		this.speciesName = speciesName;
 	}
+
 	
+	public int getTurnsOnField() {
+		return turnsOnField;
+	}
+
+	
+	public void setTurnsOnField(int turnsOnField) {
+		this.turnsOnField = turnsOnField;
+	}
+	
+	public void turnOnFieldIncr() {
+		turnsOnField += 1;
+	}
+	
+	public void turnPass() {
+		/*
+		 * Função que faz todos os efeitos de passagem
+		 * de turno sobre um pokemon.
+		 */
+		this.turnsOnField += 1;
+		this.statusFx.statusTurnPass();
+	}
 }
 
 

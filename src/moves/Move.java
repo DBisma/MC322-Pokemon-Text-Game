@@ -31,13 +31,11 @@ public abstract class Move {
 	protected int points; // quantos "usos" restam ao ataque;
 	protected int accuracy; // se for 0 a 100. Se for -1, sempre acerta
 	protected int priority;
-	// TODO: Como armazenar o método / efeito especial de cada ataque?
-	// TODO: MOVE SERÁ UMA CLASSE ABSTRATA. OS MOVES EM SI SERÃO INSANIDADES DE CLASSE ÚNICA
-	
 	// Possíveis resultados de um move
 	public enum moveResults{HIT, MISS, FAIL, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE,
 		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL}
 	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
+	
 	// Construtor provisório; mais tarde, TODO Construir de json
 	public Move(int id, String name, int type, int maxP, int pri, int accu){
 		this.id = id;
@@ -49,7 +47,7 @@ public abstract class Move {
 		this.accuracy = accu; // TODO: Lidar com moves que *nunca erram*.
 	}
 	
-	// É overridden
+	// É overridden por suas subclasses
 	public abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
 	
 	@Override
@@ -73,7 +71,6 @@ public abstract class Move {
 		
 		output = "Move: " + "'"+ this.name + "'\n"
 				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
-//				+ categAndPower + "\n"
 				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
 				+ "Prioridade: " + this.priority + "\n"
 				+ "Precisão: " + accu + "\n"

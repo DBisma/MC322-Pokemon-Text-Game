@@ -32,9 +32,10 @@ final public class StatChange extends StatusGeneral {
 		 * Armazena o resultado da tentativa e retorna o tipo (aumento / redução)
 		 * juntamente do sucesso / fracasso entre quatro enums possíveis.
 		 */
-		boolean output;
+
+		boolean sucess;
 		moveResults resu = super.useMove(field, pAtk, pDef, tchart);
-		if(resu == moveResults.FAIL || resu != moveResults.MISS|| resu == moveResults.HIT_IMMUNE) {
+		if(resu == moveResults.FAIL || resu == moveResults.MISS|| resu == moveResults.HIT_IMMUNE) {
 			return resu;
 		}
 		
@@ -45,16 +46,15 @@ final public class StatChange extends StatusGeneral {
 			String verb;
 			String who;
 			if(this.boostSelf) {
-				output = pAtk.boostStat(statId, boostStages);
+				sucess = pAtk.boostStat(statId, boostStages);
 				who = pAtk.getName();
 			}
 			else {
-				output = pDef.boostStat(statId, boostStages);
+				sucess = pDef.boostStat(statId, boostStages);
 				who = pDef.getName();
 			}
 			
-			
-			if(output) {
+			if(sucess) {
 				if(boostStages > 0) {
 					resu = moveResults.RAISE_YES;
 					verb = "aumentado";
@@ -64,7 +64,7 @@ final public class StatChange extends StatusGeneral {
 					verb = "reduzido";
 				}
 				
-				field.textBufferAdd(who + " teve seu" + TurnUtils.getStatName(statId) 
+				field.textBufferAdd(who + " teve seu " + TurnUtils.getStatName(statId) 
 				+ " " + verb + " em " + Math.abs(boostStages) + " estágios!\n");
 			}
 			else {
@@ -79,9 +79,7 @@ final public class StatChange extends StatusGeneral {
 				field.textBufferAdd(TurnUtils.getStatName(statId) + " de " + who
 				+ " não consegue " + verb + " mais!\n");
 			}
-			
 			return resu;
-
 		}
 	}
 	

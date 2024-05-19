@@ -1,14 +1,11 @@
 package pokemontextgame;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import moves.Move;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 import pokemontextgame.StatusFx.typeList;
-import pokemontextgame.Battlefield;
 
 public class BattleMenu {
 	/*
@@ -441,17 +438,71 @@ public class BattleMenu {
 	
 	static String pokeInfoBar(Poke pMon, boolean isPlayer) {
 		/*
-		 * Função que retorna a string de uma barrinha de vida de um Pokémon.
+		 * Função que retorna a string de uma barra de informação de um Pokémon.
 		 */
-		String status = "";
-		status += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
+		String statusfx = "";
+		statusfx += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
 		String who = isPlayer ? "ativo" : "inimigo";
 		String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
-				"| HP: " + TurnUtils.renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
-				" | " + TypeChart.fullTypeToString(pMon) + " " + status + "\n");
-		
+				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
+				" | " + TypeChart.fullTypeToString(pMon) + " " + statusfx + "\n");
+		int i = 0;
+		int statBoost;
+		String statBoostTxt = "Status modificados de " + pMon.getName() + " são [";
+		boolean add = false;
+		for(i = 0; i < 8; i++) {
+			statBoost = pMon.getStatModGeneral(i);
+			if(statBoost != 0) {
+				add = true;
+				statBoostTxt += TurnUtils.getStatName(i) + ": " + statBoost;
+			}
+		}
+		if(add) {
+			out += statBoostTxt + "]\n";
+		}
 		return out;
 		
+	}
+	
+	public static String renderTextLifeBar(Poke mon) {
+		/*
+		 * Uma função visual que cria uma pequena
+		 * barrinha de vida para display nos menus.
+		 * Basea-se em quanto de vida o pokemon tem.
+		 */
+		String lifeBar = "";
+		// Encontrando a porcentagem de vida do Pokemon
+		int lifePercentage = Math.round((100*((float)mon.getCurHp()/mon.getMaxHp())));
+		// Arredondando para um múltiplo de 10 e convertendo em número de 0 a 10
+		lifePercentage = ((lifePercentage / 10)*10)/10;
+		int i;
+		for(i = 0; i < lifePercentage; i++) {
+			lifeBar += "█";
+		}
+		for(i = 0; i < 10 - lifePercentage; i++) {
+			lifeBar += "░";
+		}
+		
+		return lifeBar;
+	}
+	
+	public static void printPokeballAscii() {
+		/*
+		 * Função que imprime uma pokebola
+		 * em ASCII para o final do jogo.
+		 */
+		System.out.print(
+				"\n" +
+				"          .=*#%%%%#*=.          \n" + 
+				"        :#%%########%%#:        \n" +
+				"       +%%############%%+       \n" +
+				"      =%%####%#++#%#####%=      \n" +
+				"      %%%%%%%=    =%%%%%%%      \n" +
+				"      %+--::#=    =#:::-+%      \n" +
+				"      =#.   .+*++*+.    #=      \n" +
+				"       +*.            .*+       \n" +
+				"        :*+:        :+*:        \n" +
+				"          .=++++++++=.          \n" );
 	}
 }
 

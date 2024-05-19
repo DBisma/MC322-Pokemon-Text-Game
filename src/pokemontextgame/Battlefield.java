@@ -143,7 +143,7 @@ public class Battlefield {
 	public int turn(Scanner scan) {
 		/*
 		 * Recebe as ações do jogador e decisões do NPC.
-		 * Efetua os turnos de combate.
+		 * Efetua os turnos de combate. Imprime resultados.
 		 * Mais explicações adiante.
 		 * É uma versão simplificada disso: https://bulbapedia.bulbagarden.net/wiki/User:FIQ/Turn_sequence
 		 */
@@ -175,12 +175,11 @@ public class Battlefield {
 		
 		// Fazer um objeto Weather? Talvez seja uma boa. TODO: Se não formos deletar weather
 		
-		// Atualizando TODO: Talvez seja redundante depois
-		
+		// Atualizando
 		playerMon = lPlayer.getActiveMon();
 		npcMon = lNpc.getActiveMon();
 		
-		// Caso alguém tenha tomado um KO, pode trocar sem gastar o turno presente
+		// Caso alguém tenha tomado um KO, deve colocar novo Pokemon no field sem gastar o turno presente
 		if(koSwitch) {
 			if(npcMon.isFainted()) {
 				lNpc.isForcedSwitch();
@@ -195,11 +194,16 @@ public class Battlefield {
 			
 			koSwitch = false;
 			printTurn();
+			// Novamente atualizando
+			playerMon = lPlayer.getActiveMon();
+			npcMon = lNpc.getActiveMon();
 		}
 		
-		// Atualizando
-		playerMon = lPlayer.getActiveMon();
-		npcMon = lNpc.getActiveMon();
+		// Atualizando contagem de turnos dos pokes para cálculo de alguns danos
+		playerMon.turnOnFieldIncr();
+		npcMon.turnOnFieldIncr();
+		playerMon.getStatusFx().statusTurnPass();
+		npcMon.getStatusFx().statusTurnPass();
 		
 		// Tomando decisões
 		npcChoice = TreinadorNpc.npcThink(this);
@@ -220,7 +224,6 @@ public class Battlefield {
 		
 		// Prioridade do Switch do Npc é sempre a maior
 		// Switch de player recebe segunda prioridade
-		// Moves têm suas prioridades comparadas, e se forem iguais, comparamos a velocidade do Pokemon
 		Poke playerMon, npcMon;
 		playerMon = lPlayer.getActiveMon();
 		npcMon = lNpc.getActiveMon();
@@ -261,8 +264,8 @@ public class Battlefield {
 					choiceQueue.add(npcChoiceTuple);
 					choiceQueue.add(playerChoiceTuple);
 				}
+				// Moves têm suas prioridades comparadas, e se forem iguais, comparamos a velocidade do Pokemon
 				else {
-					
 					// Função lambda local de redução de velocidade por paralisia
 					Function<Poke, Float> paralysisSlowdown = (mon) -> {
 						if(mon.getStatusFx().getType() == StatusFx.typeList.PARALYSIS)
@@ -270,10 +273,8 @@ public class Battlefield {
 						else
 							return 1f;
 					};
-					
 					int playerSpeed = (int) (TurnUtils.getModStat(4, playerMon)*paralysisSlowdown.apply(playerMon));
 					int npcSpeed =  (int) (TurnUtils.getModStat(4, npcMon)*paralysisSlowdown.apply(npcMon));
-					// Comparar velocidade, levando em conta possibilidade de Paralysis TODO
 					if(playerSpeed > npcSpeed) {
 						choiceQueue.add(playerChoiceTuple);
 						choiceQueue.add(npcChoiceTuple);
@@ -328,8 +329,10 @@ public class Battlefield {
 					qdMove = struggle;
 				else
 					qdMove = movingMon.getMove(choiceId);
-				qdMove.useMove(this, movingMon, receivingMon, tchart);
 				
+				if(!TurnUtils.blockMoveCheck(movingMon, this)) {
+					qdMove.useMove(this, movingMon, receivingMon, tchart);
+				}
 				// Imprimindo mensagem do poke fainted, livrando-se da escolha dele, atualizando seu ForcedSwitch
 				if(receivingMon.isFainted()) {
 					currentCT.owner.setForcedSwitch(true);
@@ -340,32 +343,43 @@ public class Battlefield {
 					}
 				}
 			}
-			
-			// Aqui fora, temos o Aftermath entre cada decisão. Faremos depois TODO:
 		}
 		
-		// Aftermath total do turno.
+		// Consequências de todas as decisões
+		if(!npcMon.isFainted()) {
+			TurnUtils.statusFxDmg(npcMon, this);
+		}
 		
-		printTurn();
-		
-		// Verificar se resta algém vivo para batalhar terminou TODO: Existe um jeito mais bonito e eficiente de fazer isso? ENUMs talvez?
+		// Verificar se resta alguém vivo para batalhar terminou
 		int i;
+		int result = 0;
+		boolean end = false;
 		for(i = 0; i < 6; i++) {
 			Poke current = this.lPlayer.getTeam()[i];
 			if(current != null && !current.isFainted()) 
 				break;
-			else if (i == 5)
-				return 1; // todos pokes do npc desmaiados; vencedor = jogador
+			else if (i == 5) {
+				end = true;
+				result = 1; // todos pokes do npc desmaiados; vencedor = jogador
+			}
 		}
 		for(i = 0; i < 6; i++) {
 			Poke current = this.lNpc.getTeam()[i];
 			if(current != null && !current.isFainted()) 
 				break;
-			else if (i == 5)
-				return 2; // todos pokes do jogador desmaiados; vencedor = NPC
+			else if (i == 5) {
+				end = true;
+				result = 2; // todos pokes do jogador desmaiados; vencedor = NPC
+			}
 		}
 		
-		return 0; // turno não é final
+		if(!end && !playerMon.isFainted()) {
+			TurnUtils.statusFxDmg(playerMon, this);
+		}
+		
+		printTurn();
+		
+		return result; // se turno não é final
 		
 	}
 
@@ -430,7 +444,7 @@ public class Battlefield {
 		System.out.print("# # # # # # # # # # # # # # # # "
 				+ "# # # # # # # # # # # # # # # # "
 				+ "TURNO " + turnCount 
-				+ "# # # # # # # # # # # # # # # # "
+				+ " # # # # # # # # # # # # # # # # "
 				+ "# # # # # # # # # # # # # # # # " 
 				+ "\n");
 		while(textBoxBuffer.textQueue.size() != 0) {
@@ -442,12 +456,13 @@ public class Battlefield {
 		/*
 		 * Altera o field para realizar as trocas de pokemons.
 		 */
-		
-		String prevMonName = trainer.getActiveMon().getName();
+		Poke prevMon = trainer.getActiveMon();
+		prevMon.setTurnsOnField(0);
+		prevMon.getStatusFx().setTimeAfflicted(0);
 		trainer.setForcedSwitch(false);
 		trainer.setActiveMonId(newMonId);
 		this.getTextBoxBuffer().textQueue.add("Treinador " + trainer.getName()
-				+ " trocou " + prevMonName
+				+ " trocou " + prevMon.getName()
 				+ " por " + trainer.getActiveMon().getName() + "!\n");
 		
 	}

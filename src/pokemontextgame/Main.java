@@ -50,14 +50,16 @@ public class Main {
 		
 		// TODO: Novamente, mais tarde devemos construir com jsons.
 		Move exFirePunch1 = new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 75, 
-										StatusFx.typeList.BURN, 80);
+										StatusFx.typeList.BURN, 100);
 		Move exFirePunch2 =  new DmgPlusFx(7, "Fire Punch", 1, 15, 0, 100, Move.moveCategs.PHYSICAL, 100, 
-										StatusFx.typeList.BURN, 80);
+										StatusFx.typeList.BURN, 100);
 		Move exHammerArm = new DamageDealing(359, "Hammer Arm", 6, 10, 0, 90, Move.moveCategs.PHYSICAL, 1);	
 		Move testingMove = new DamageDealing(2, "Testing Move", 6, 10, 0, -1, Move.moveCategs.PHYSICAL, 1);	
+		Move superSwordsDance = new StatChange(999, "Swords++", 0, 5, 0, -1, 0, 3, true);
 		
 		myJirachi.setMove(0, exHammerArm);
 		myJirachi.setMove(1, exFirePunch1);
+		myJirachi.setMove(2, superSwordsDance);
 		foeJirachi.setMove(0, exFirePunch2);
 		secondJirachi.setMove(0, testingMove);
 		
@@ -106,7 +108,7 @@ public class Main {
 		scan.close();
 		
 		// Fim.
-		TurnUtils.printPokeballAscii();
+		BattleMenu.printPokeballAscii();
 	}
 	
 }
