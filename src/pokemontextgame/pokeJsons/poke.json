@@ -1,14 +1,289 @@
-[
+[	
 	{	
-		"PokeDexId": 616, 
-	 	"Nome": "Shelmet",
-		"ID": 0,
+		"PokeDexId": 3, 
+	 	"Nome": "Venusaur",
+		"ID": 000000,
 		"Level": 50,
-		"SpeciesName": "Shelmet",
+		"SpeciesName": "Venusaur",
 		"DexEntry": "Entrada não disponível",
-		"Tipagem": [11, -1],
-		"BaseStats": [110, 40, 85, 40, 65, 25, 17],
+		"Tipagem": [3, 7],
+		"BaseStats": [80, 82, 83, 100, 100, 80, 100000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 59, 
+	 	"Nome": "Arcanine",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Arcanine",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [1, -1],
+		"BaseStats": [90, 110, 80, 100, 80, 95, 155000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 65, 
+	 	"Nome": "Alakazam",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Alakazam",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [10, -1],
+		"BaseStats": [55, 40, 45, 135, 85, 120, 48000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 94, 
+	 	"Nome": "Gengar",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Gengar",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [13, 7],
+		"BaseStats": [60, 65, 60, 130, 75, 110, 40500],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 107, 
+	 	"Nome": "Hitmonchan",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Hitmonchan",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [6, -1],
+		"BaseStats": [50, 105, 79, 35, 110, 76, 50200],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 121, 
+	 	"Nome": "Starmie",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Starmie",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [2, 10],
+		"BaseStats": [60, 75, 85, 100, 85, 115, 80000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 134, 
+	 	"Nome": "Vaporeon",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Vaporeon",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [2, -1],
+		"BaseStats": [130, 65, 60, 110, 95, 65, 29000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 145, 
+	 	"Nome": "Zapdos",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Zapdos",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [4, 9],
+		"BaseStats": [90, 90, 85, 125, 90, 100, 52600],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 149, 
+	 	"Nome": "Dragonite",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Dragonite",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [-14, 9],
+		"BaseStats": [91, 134, 95, 100, 100, 80, 210000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 212, 
+	 	"Nome": "Scizor",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Scizor",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [11, 16],
+		"BaseStats": [70, 130, 100, 55, 80, 65, 118000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 242, 
+	 	"Nome": "Blissey",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Blissey",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [0, -1],
+		"BaseStats": [255, 10, 10, 75, 135, 55, 46800],
 		"MoveSet": [0]
 	}
 	
+	{	
+		"PokeDexId": 306, 
+	 	"Nome": "Aggron",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Aggron",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [16, 12],
+		"BaseStats": [70, 110, 180, 60, 50, 50, 360000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 376, 
+	 	"Nome": "Metagross",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Metagross",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [16, 10],
+		"BaseStats": [80, 135, 130, 95, 90, 70, 550000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 398, 
+	 	"Nome": "Staraptor",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Staraptor",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [0, 9],
+		"BaseStats": [85, 120, 70, 50, 60, 100, 249000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 448, 
+	 	"Nome": "Lucario",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Lucario",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [6, -16],
+		"BaseStats": [70, 110, 70, 115, 70, 90, 54000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 461, 
+	 	"Nome": "Weavile",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Weavile",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [15, 5],
+		"BaseStats": [70, 120, 65, 45, 85, 125, 34000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 475, 
+	 	"Nome": "Porygon-Z",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Porygon",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [0, -1],
+		"BaseStats": [85, 80, 70, 135, 75, 90, 34000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 494, 
+	 	"Nome": "Victini",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Victini",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [1, 10],
+		"BaseStats": [100, 100, 100, 100, 100, 100, 4000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 530, 
+	 	"Nome": "Excadrill",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Excadrill",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [8, 16],
+		"BaseStats": [110, 135, 60, 50, 65, 88, 40400],
+		"MoveSet": [0]
+	}
+	
+	{	
+		"PokeDexId": 565, 
+	 	"Nome": "Carracosta",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Carracosta",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [2, 12],
+		"BaseStats": [74, 108, 133, 83, 65, 32, 81000],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 571, 
+	 	"Nome": "Zoroark",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Zoroark",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [15, -1],
+		"BaseStats": [60, 105, 60, 120, 60, 105, 81100],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 591, 
+	 	"Nome": "Amoonguss",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Amoonguss",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [3, 7],
+		"BaseStats": [114, 85, 70, 85, 80, 30, 10500],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 596, 
+	 	"Nome": "Galvantula",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Galvantula",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [11, 4],
+		"BaseStats": [70, 77, 60, 97, 60, 108, 14300],
+		"MoveSet": [0]
+	}
+
+	{	
+		"PokeDexId": 700, 
+	 	"Nome": "Sylveon",
+		"ID": 000000,
+		"Level": 50,
+		"SpeciesName": "Sylveon",
+		"DexEntry": "Entrada não disponível",
+		"Tipagem": [17, -1],
+		"BaseStats": [95, 65, 65, 110, 130, 60, 23500],
+		"MoveSet": [0]
+	}
 ]
