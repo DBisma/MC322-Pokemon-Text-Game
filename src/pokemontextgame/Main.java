@@ -1,11 +1,15 @@
 package pokemontextgame;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
+
+import org.json.JSONException;
 
 import moves.*;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, JSONException {
 		/*
 		 * A classe main chama as outras funções para executar a batalha em texto.
 		 */
@@ -43,6 +47,21 @@ public class Main {
 		Poke myJirachi = new Poke(1, "MyOwnJirachi"); // recebe pokedex ID, mas ficará melhor mais tarde.
 		Poke secondJirachi = new Poke(2, "John");
 		Poke foeJirachi = new Poke(3, "FoeJirachi");
+		
+		// Por teste, vamos tentar construir um pokemon novo com o JSON.
+		Poke jSonMon = new Poke(4, "JSON Mon");
+		JSONReader jsonReader = new JSONReader();
+		ArrayList<Move> moveArray = new ArrayList<Move>();
+		jsonReader.buildMoves();
+		moveArray = jsonReader.getMoveList();
+		int i = 0;
+		for(i = 0; i < moveArray.size(); i++) {
+			if(moveArray.get(i) != null) {
+				moveArray.get(i).toString();
+			}
+		}
+
+		
 		//exJirachi3.dmgMon(280);
 		player.setTeam(0, myJirachi);
 		player.setTeam(1, secondJirachi);

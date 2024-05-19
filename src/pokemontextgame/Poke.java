@@ -347,6 +347,14 @@ public class Poke {
 		return this.moveset[index];
 	}
 	
+	public void setMoveset(Move[] moveset) {
+		/*
+		 * Recebe a posição do move (0-3)
+		 * e coloca o Move desejado neste lugar.
+		 */
+		this.moveset = moveset;
+	}
+	
 	public void setMove(int index, Move move) {
 		/*
 		 * Recebe a posição do move (0-3)
