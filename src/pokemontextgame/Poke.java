@@ -181,7 +181,7 @@ public class Poke {
 	
 	public boolean healMon(int healNum) {
 		/*
-		 * Recupera um pokemon. Atualiza fainted.
+		 * Recupera um pokemon.
 		 * Retorna true se conseguir recuperar,
 		 * false caso contrário.
 		 */

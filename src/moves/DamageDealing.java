@@ -14,7 +14,7 @@ public class DamageDealing extends Move {
 	 * complexos com efeitos adicionais.
 	 */
 	private Move.moveCategs categ;
-	private int basePower;
+	protected int basePower;
 	
 	public DamageDealing(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
 		super(id, name, type, maxP, pri, accu);
@@ -30,39 +30,38 @@ public class DamageDealing extends Move {
 		 * Como verificar se não foi muito efetivo?
 		 */
 		
-		this.spendPp();
-		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.name + "!\n");
-		
-		// Roll de precisão; inclui evasiveness e accuracy dos dois pokemons em questão
-		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
-			field.textBufferAdd("Mas " + pAtk.getName()  + " errou!\n");
-			return Move.moveResults.MISS;
+		Move.moveResults resu = super.useMove(field, pAtk, pDef, tchart);
+		// Checagem de Miss
+		if(resu == Move.moveResults.MISS) {
+			return resu;
 		}
-		// Por enquanto, moves não podem falhar, apenas errar.
-		// Modificador de dano baseado em eficácia de tipos
-		float typeMod = tchart.typeMatch(this.type, pDef.getTipagem()[0]) * 
-				tchart.typeMatch(this.type, pDef.getTipagem()[1]);
-		// Caso de imunidade
-		float error = 0.01f;
-		if(Math.abs(typeMod - 0f) < error) {
-			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
-			return Move.moveResults.HIT_IMMUNE;
-		}
-		// Caso contrário, cálculo e aplicação de dano
-		int dmg = TurnUtils.calcDmg(this, pAtk, pDef, typeMod);
-		pDef.dmgMon(dmg);
-		// TODO: Verificar se pDef tem alguma habilidade interessante que afeta o dano. Mais pra frente.
-		// Comparação de floats para retornar efetividade
-		if(Math.abs(typeMod - 0.5f) < error) {
-			field.textBufferAdd("Não foi muito eficaz...\n");
-			return Move.moveResults.HIT_NOTVERY;
-		}
-		else if(Math.abs(typeMod - 1f) < error) {
-			return Move.moveResults.HIT;
-		}
+		// Caso de acerto
 		else {
-			field.textBufferAdd("Foi super eficaz!\n");
-			return Move.moveResults.HIT_SUPER;
+			// Por enquanto, moves não podem falhar, apenas errar.
+			// Calcular modificador de dano baseado em eficácia de tipos
+			float typeMod = tchart.compoundTypeMatch(this.type, pDef);
+			// Caso de imunidade
+			float error = 0.01f;
+			if(typeMod < error) {
+				field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+				return Move.moveResults.HIT_IMMUNE;
+			}
+			// Caso contrário, cálculo e aplicação de dano
+			int dmg = TurnUtils.calcDmg(this, pAtk, pDef, typeMod);
+			pDef.dmgMon(dmg);
+			// TODO: Verificar se pDef tem alguma habilidade interessante que afeta o dano. Mais pra frente.
+			// Comparação de floats para retornar efetividade
+			if(Math.abs(typeMod - 0.5f) < error) {
+				field.textBufferAdd("Não foi muito eficaz...\n");
+				return Move.moveResults.HIT_NOTVERY;
+			}
+			else if(Math.abs(typeMod - 1f) < error) {
+				return Move.moveResults.HIT;
+			}
+			else {
+				field.textBufferAdd("Foi super eficaz!\n");
+				return Move.moveResults.HIT_SUPER;
+			}
 		}
 	}
 	

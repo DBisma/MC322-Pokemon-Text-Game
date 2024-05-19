@@ -32,21 +32,24 @@ final public class StatusChangeFx extends StatusGeneral {
 		 */
 		
 		// Roll de precisão
-		moveResults firstResu = super.useMove(field, pAtk, pDef, tchart);
-		if(firstResu == moveResults.MISS || firstResu == moveResults.HIT_IMMUNE)
-			return firstResu;
+		moveResults resu = super.useMove(field, pAtk, pDef, tchart);
+		if(resu == moveResults.MISS)
+			return resu;
+		// Verificação de imunidades
+		else if(tchart.compoundTypeMatch(type, pDef) < 0.001) {
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+			return moveResults.HIT_IMMUNE;
+		}
+		// Fracassa se oponente já estiver sob efeito de status
+		else if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL) {
+			field.textBufferAdd("Mas " + pAtk.getName() + " falhou!\n");
+			return moveResults.TOTAL_FAILURE;
+		}
+		// Funcionou
 		else {
-			// Fracassa se oponente já estiver sob efeito de status
-			if(pDef.getStatusFx().getType() != StatusFx.typeList.NEUTRAL) {
-				field.textBufferAdd("Mas " + pAtk.getName() + " falhou!\n");
-				return moveResults.FAIL;
-			}
-			else {
-				field.textBufferAdd(pDef.getName() + " foi afligido por " + fxType + "!\n");
-				pDef.setStatusFx(fxType);
-				return moveResults.HIT;
-			}
+			field.textBufferAdd(pDef.getName() + " foi afligido por " + fxType + "!\n");
+			pDef.setStatusFx(fxType);
+			return moveResults.HIT;
 		}
 	}
-	
 }

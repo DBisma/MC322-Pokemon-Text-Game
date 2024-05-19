@@ -38,7 +38,7 @@ final public class DmgPlusStat extends DamageDealing {
 		Move.moveResults result = super.useMove(field, pAtk, pDef, tchart);
 		
 		// Aplicação de efeitos secundários
-		if(result != Move.moveResults.FAIL && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE) {
+		if(result != Move.moveResults.TOTAL_FAILURE && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE) {
 			
 			String who;
 			// Si

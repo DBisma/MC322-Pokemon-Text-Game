@@ -161,13 +161,13 @@ public class TypeChart {
 			return this.chart[idAtk][idDef];
 	}
 	
-	public float compoundTypeMatch(int idAtk, Poke mon) {
+	public float compoundTypeMatch(int typeId, Poke mon) {
 		/* 
 		 * Efetua dois typeMatches e os multiplica para obter
 		 * o resultado completo de um ataque contra um pokemon.
 		 */
 		
-		return typeMatch(idAtk, mon.getTipagem()[0]) * typeMatch(idAtk, mon.getTipagem()[1]);
+		return typeMatch(typeId, mon.getTipagem()[0]) * typeMatch(typeId, mon.getTipagem()[1]);
 	}
 	
 	public static String typeToString(int id) {

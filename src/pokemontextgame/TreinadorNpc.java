@@ -6,9 +6,7 @@ import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 
 public class TreinadorNpc extends Treinador{
 	/*
@@ -232,8 +230,7 @@ public class TreinadorNpc extends Treinador{
 			if(curMove != null && curMove.getCateg() != Move.moveCategs.STATUS && curMove.getPoints() > 0) {
 				// Se não houver PP em NENHUM move, retornar -10 (id do Struggle);
 				struggle = false;
-				curF = field.getTchart().typeMatch(curMove.getTipagem(), monPlayer.getTipagem()[0])*
-						field.getTchart().typeMatch(curMove.getTipagem(), monPlayer.getTipagem()[1]);
+				curF = field.getTchart().compoundTypeMatch(curMove.getTipagem(), monPlayer);
 				if(curF > bestF) {
 					index = i;
 					bestF = curF;
@@ -326,9 +323,7 @@ public class TreinadorNpc extends Treinador{
 			else {
 				// Verificar se esse move é grande ameaça para o poke atual
 				int moveType = lastMove.getTipagem();
-				int ownType1 = field.getLoadedNpc().getActiveMon().getTipagem()[0];
-				int ownType2 = field.getLoadedNpc().getActiveMon().getTipagem()[1];
-				float safety = tchart.typeMatch(moveType, ownType1) * tchart.typeMatch(moveType, ownType2);
+				float safety = 	tchart.compoundTypeMatch(moveType, field.getLoadedNpc().getActiveMon());
 				float error = 0.001f;
 				// Se não for grande perigo, mantem o mesmo
 				if(Math.abs(safety - 1f) < error || safety > 1f)
@@ -349,8 +344,6 @@ public class TreinadorNpc extends Treinador{
 		 * trocar tendo em mente estratégias ofensivas.
 		 */
 		Poke foeMon = field.getLoadedPlayer().getActiveMon();
-		int foeType1 = foeMon.getTipagem()[0];
-		int foeType2 = foeMon.getTipagem()[1];
 		// Achar pokemon na party com o melhor de DANO (pensando apenas em tipo) contra o inimigo
 		int i, j;
 		int index = 0;
@@ -364,8 +357,7 @@ public class TreinadorNpc extends Treinador{
 				for(j = 0; j < 4; j++) {
 					Move curMove = curMon.getMove(j);
 					if(curMove != null && curMove.getPoints() > 0) { // o move deve ter PP naturalmente
-						currentF = field.getTchart().typeMatch(curMove.getTipagem(), foeType1) * 
-								field.getTchart().typeMatch(curMove.getTipagem(), foeType2);
+						currentF = field.getTchart().compoundTypeMatch(curMove.getTipagem(), foeMon);
 						if(currentF > bestF) {
 							index = i;
 							currentF = bestF;
@@ -392,7 +384,7 @@ public class TreinadorNpc extends Treinador{
 			mon = field.getLoadedNpc().getTeam()[i];
 			if(!mon.isFainted()) {
 				// Se for monotipo, segunda chamada de typeMatch retorna 1 e não altera o cálculo de resistência
-				currentF = tchart.typeMatch(atkType, mon.getTipagem()[0]) * tchart.typeMatch(atkType, mon.getTipagem()[1]);
+				currentF = tchart.compoundTypeMatch(atkType, mon);
 				if(currentF < lowestF) {
 					lowestF = currentF;
 					index = i;

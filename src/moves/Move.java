@@ -1,27 +1,20 @@
 package moves;
 
 import pokemontextgame.TypeChart;
+import moves.Move.moveResults;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
-
-//TODO: Como de praxe, teremos que tornar abstrata mais tarde como será feito com Status. Ver "Status.java"
-//Mas como chamaremos o conjunto de suas subclasses se "Move" deixa de ser um tipo ao declaramos
-
-/*
- *  TODO: Dilema: Desejamos que a classe Move nunca seja instanciada num objeto, apenas suas subclasses.
- *  Todavia, desejamos que seja possível um Array Move que armazene as instâncias de suas subclasses.
- *  O array currentMoves do tipo Moves, por exemplo, deverá guardar DamageDealing, StatChange, etc.
- *  
- *  Como podemos fazer isso?
- *  
- *  Um array de classe abstrata Move poderia armazenar subclasses. Mas e se desejarmos retornar
- *  um move específico? Há várias subclasses de moves diferentes. Como faríamos?
- */
+import pokemontextgame.TurnUtils;
 
 public abstract class Move { 
 	/*
 	 * Armazena as informações base dos ataques.
-	 * 
+	 * É superclasse de DmgDealing e StatusGeneral,
+	 * que são superclasse de outra quatro classes principais
+	 * e duas outras secundárias. As quatro em questão conseguem
+	 * cobrir a construção e métodos de uns 2/3 de todos os moves, 
+	 * ao passo que o 1/3 restante de moves se divide em
+	 * subclasses das duas secundárias com métodos próprios.
 	 */
 	protected int id; // https://bulbapedia.bulbagarden.net/wiki/List_of_moves
 	protected String name;
@@ -29,11 +22,11 @@ public abstract class Move {
 	protected int type;
 	protected int maxPoints; // com quantos "usos" o ataque começa;
 	protected int points; // quantos "usos" restam ao ataque;
-	protected int accuracy; // se for 0 a 100. Se for -1, sempre acerta
+	protected int accuracy; // Usualmente, 0 a 100. Se for -1, sempre acerta
 	protected int priority;
 	// Possíveis resultados de um move
-	public enum moveResults{HIT, MISS, FAIL, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE,
-		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL}
+	public enum moveResults{HIT, MISS, HIT_SUPER, HIT_NOTVERY, HIT_IMMUNE,
+		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL, TOTAL_SUCCESS, PARTIAL_SUCCESS, TOTAL_FAILURE}
 	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
 	
 	// Construtor provisório; mais tarde, TODO Construir de json
@@ -44,11 +37,20 @@ public abstract class Move {
 		this.maxPoints = maxP;
 		this.points = maxP; // sempre é construído com o max
 		this.priority = pri;
-		this.accuracy = accu; // TODO: Lidar com moves que *nunca erram*.
+		this.accuracy = accu;
 	}
 	
 	// É overridden por suas subclasses
-	public abstract moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart);
+	public moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
+		this.spendPp();
+		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
+		// Roll de precisão; inclui evasiveness e accuracy dos dois pokemons em questão
+		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
+			field.textBufferAdd("Mas " + pAtk.getName()  + " errou!\n");
+			return Move.moveResults.MISS;
+		}
+		return moveResults.HIT;
+	};
 	
 	@Override
 	public String toString() {

@@ -2,7 +2,6 @@ package pokemontextgame;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.function.Function;
 
 import org.json.JSONException;
 

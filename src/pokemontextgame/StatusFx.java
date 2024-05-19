@@ -1,7 +1,5 @@
 package pokemontextgame;
 
-import moves.Move;
-
 // TODO: Talvez seja uma boa cada pokemon "criar" um objeto Status quando recebe o efeito.
 
 public class StatusFx { 
@@ -59,6 +57,7 @@ public class StatusFx {
 		 * TODO: Verificar se será útil
 		 */
 		this.type = type;
+		this.timeAfflicted = 1;
 		this.setRemDuration(type.getMaxDuration());
 	}
 	

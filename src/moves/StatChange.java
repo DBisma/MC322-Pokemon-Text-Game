@@ -1,5 +1,6 @@
 package moves;
 
+import moves.Move.moveResults;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
@@ -33,18 +34,22 @@ final public class StatChange extends StatusGeneral {
 		 * juntamente do sucesso / fracasso entre quatro enums possíveis.
 		 */
 
-		boolean sucess;
 		moveResults resu = super.useMove(field, pAtk, pDef, tchart);
-		if(resu == moveResults.FAIL || resu == moveResults.MISS|| resu == moveResults.HIT_IMMUNE) {
+		if(resu == moveResults.MISS) {
 			return resu;
 		}
-		
+		// Verificando imunidade do inimigo apenas se ele for o alvo
+		else if(!this.boostSelf && tchart.compoundTypeMatch(type, pDef) < 0.001) {
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+			return moveResults.HIT_IMMUNE;
+		}
 		// TODO: Deve ter um jeito de fundir isso com a parte de StatChange dos dmgPlusStat...
 		// São bastante parecidas.
-		
 		else {
+			boolean sucess;
 			String verb;
 			String who;
+			String plural = (Math.abs(boostStages) > 1 ? "estágio" : "estágios");
 			if(this.boostSelf) {
 				sucess = pAtk.boostStat(statId, boostStages);
 				who = pAtk.getName();
@@ -65,7 +70,7 @@ final public class StatChange extends StatusGeneral {
 				}
 				
 				field.textBufferAdd(who + " teve seu " + TurnUtils.getStatName(statId) 
-				+ " " + verb + " em " + Math.abs(boostStages) + " estágios!\n");
+				+ " " + verb + " em " + Math.abs(boostStages) + " " + plural + " !\n");
 			}
 			else {
 				if(boostStages > 0) {

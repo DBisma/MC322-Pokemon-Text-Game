@@ -21,32 +21,9 @@ abstract class StatusGeneral extends Move {
 	@Override
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
-		 * Contém apenas a checagem de acertar/errar.
-		 * É complementado por overrides em subclasses.
-		 * Retorna acerto/erro ou imunidade.
+		 * Retorna o mesmo que sua superclasse. Todavia, sua diferença está em ter obrigatoriamente a categ Status.
 		 */
-	
-		// TODO: Partes que repetem entre moves diferentes poderiam ser juntadas numa só... de algum jeito.
-		this.spendPp();
-		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
-		
-		// Roll de acerto
-		if(!TurnUtils.doesItHit(pAtk, pDef, this, field)) {
-			field.textBufferAdd("Mas " + pAtk.getName()  + "errou!\n");
-			return Move.moveResults.MISS;
-		}
-		else {
-			// Verificação de imunidades
-			float typeMod = tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[0]) * 
-					tchart.typeMatch(this.getTipagem(), pDef.getTipagem()[1]);
-			float error = 0.01f;
-			if(Math.abs(typeMod - 0f) < error) {
-				field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
-				return Move.moveResults.HIT_IMMUNE;
-			}
-			else
-				return Move.moveResults.HIT;
-		}
+		return super.useMove(field, pAtk, pDef, tchart);
 	}
 	
 	public Move.moveCategs getCateg(){
