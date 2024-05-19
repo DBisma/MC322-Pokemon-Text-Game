@@ -179,8 +179,6 @@ public class JSONReader{
 		}
 	}
 	
-	
-	
 	public ArrayList<Poke> getPkmnList(){
 		return pkmnList;
 	}

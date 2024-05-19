@@ -1,0 +1,13 @@
+[ 
+	{ 
+		"Id": 7,
+  		"Name": "Fire Punch",
+  		"Category": "PHYSICAL",
+  		"BasePower": 75,
+  		"Accuracy": 100,
+  		"Subclass": "DmgPlusFx",
+    	"FxChance": 30,
+    	"FxType": "BURN"
+	}
+
+]
