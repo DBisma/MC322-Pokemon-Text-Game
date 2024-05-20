@@ -16,7 +16,7 @@ public class Poke {
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
 	// tratar um tipo como um número será índice para montar uma tabela de combinações. ver TypeChart.java
-	private int sex; // eu juro que isso importa
+
 	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
 	private boolean active; // flag de ser o pokemon ativo em batalha
 	
@@ -52,7 +52,6 @@ public class Poke {
 		// Parte Variável
         this.id = ID; // Id gerado aleatoriamente
 		this.name = name; // Nickname do Pokemon
-		this.sex = sex;
 		this.level = lvl;
 		// Desconsiderar IVs e EVs. Complexo demais para o escopo desse trabalho.
 		
@@ -271,15 +270,7 @@ public class Poke {
 		 */
 		return this.statMods[id];
 	}
-	
-	public int getSex() {
-		return sex;
-	}
-	
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
-	
+
 	public int getLevel() {
 		return level;
 	}
