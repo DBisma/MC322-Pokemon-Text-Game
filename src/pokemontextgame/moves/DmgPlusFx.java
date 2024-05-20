@@ -5,7 +5,7 @@ import pokemontextgame.StatusFx;
 import pokemontextgame.TurnUtils;
 import pokemontextgame.TypeChart;
 
-public class DmgPlusFx extends DamageDealing {
+public final class DmgPlusFx extends DamageDealing {
 	/*
 	 * Subclasse para moves que dão dano
 	 * e podem afetar o oponente com um efeito
