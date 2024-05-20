@@ -223,11 +223,13 @@ public class Battlefield {
 		npcMon = lNpc.getActiveMon();
 		Move playerMove = null, npcMove = null;
 		
+		System.out.print("Npc chose :" + npcChoice.getClass() + " " + npcChoice.getId());
 		// Lidando com prioridades maiores que Move
 		if(npcChoice.getType() != Choice.choiceType.MOVE)
 			choiceQueue.add(npcChoiceTuple);
 		else {
-			npcMove = npcMon.getMove(Math.abs(npcChoice.getId())); // Conversão mencionada em TreinadorNpc.getBestDamageId();
+			// Conversão mencionada em TreinadorNpc.getBestDamageId() + leitura de Struggle
+			npcMove = (npcChoice.getId() < 4 ? this.struggle : npcMon.getMove(Math.abs(npcChoice.getId())));
 		}
 		
 		if(playerChoice.getType() != Choice.choiceType.MOVE) {

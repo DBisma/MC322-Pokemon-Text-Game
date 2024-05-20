@@ -312,7 +312,7 @@ public class BattleMenu {
 				if(curMon.isFainted())
 					monString += " | " + "FAINTED";
 				else
-					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp();
+					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp() + " " + renderTextLifeBar(curMon);
 				
 				// Checando status.
 				typeList currentStatus = curMon.getStatusFx().getType();
