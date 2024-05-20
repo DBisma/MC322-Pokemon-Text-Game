@@ -1,14 +1,8 @@
 package pokemontextgame;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Function;
-
-import org.json.JSONException;
-
 import pokemontextgame.moves.Move;
 import pokemontextgame.moves.Struggle;
 

@@ -194,7 +194,7 @@
   		"MovePriority": 0,
   		"Accuracy": -1,
   		"Subclass": "StatChange",
-  		"statId": 7,
+  		"statId": 4,
 		"boostStages": 2,
 		"boostSelf": true
 	},

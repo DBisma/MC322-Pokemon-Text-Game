@@ -172,7 +172,6 @@ public class TreinadorNpc extends Treinador{
 				}
 			}
 		}
-		System.out.print("Escolha do NPC foi: " + npcChoice.getType() + " " + npcChoice.getId() + "\n");
 		return npcChoice;
 	}
 	
@@ -296,7 +295,6 @@ public class TreinadorNpc extends Treinador{
 		 * e a troca é desnecessária.
 		 */
 		TypeChart tchart = field.getTchart();
-		int activeId = field.getLoadedNpc().getActiveMonId();
 		// Verificar se a última decisão do oponente foi algum move
 		if(field.getPlayerChoice().getType() == Choice.choiceType.MOVE) {
 			// Macros

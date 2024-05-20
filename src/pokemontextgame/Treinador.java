@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 import org.json.JSONException;
 
-import pokemontextgame.moves.Move;
-
 public class Treinador {
 	/*
 	 * Contém as informações do treinador.
@@ -160,14 +158,12 @@ public class Treinador {
 		 */
 		
 		JSONReader jsonReader = new JSONReader();
-		ArrayList<Move> moveArray = new ArrayList<Move>();
 		ArrayList<Poke> pokeArray = new ArrayList<Poke>();
 		ArrayList<Integer> pkmnUniqueIds = new ArrayList<Integer>();
 		
 		jsonReader.buildMoves();
 		jsonReader.buildPokemons();
 		
-		moveArray = jsonReader.getMoveList();
 		pokeArray = jsonReader.getPkmnList();
 		pkmnUniqueIds = jsonReader.getPkmnUniqueIDs();
 		

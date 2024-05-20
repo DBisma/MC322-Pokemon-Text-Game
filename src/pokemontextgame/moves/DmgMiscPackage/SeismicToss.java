@@ -20,6 +20,7 @@ public class SeismicToss extends DmgMisc {
 	
 	@Override
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
+		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
 		int dmg = pAtk.getLevel();
 		// Modificador de dano baseado em eficácia de tipos
 		float typeMod = tchart.compoundTypeMatch(this.type, pDef);

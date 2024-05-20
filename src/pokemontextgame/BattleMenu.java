@@ -28,11 +28,11 @@ public class BattleMenu {
 		 * por vários elementos de menu.
 		 */
 		
-		System.out.print("/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "\n");
+		System.out.print("/ / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / \n");
 	}
 	
 	static int scanOption(Scanner scan) {
