@@ -44,6 +44,11 @@ final public class StatChange extends StatusGeneral {
 		}
 
 		else {
+			/* 
+			 * Um tanto diferente do boost em DmgPlusStat por possuir retornos de falha.
+			 * O DmgPlusStat não tem como "falhar", pois dá dano. Apenas erra.
+			 * Não conseguir aplicar os boosts é natural lá; aqui é anormal.
+			 */ 
 			boolean sucess;
 			String verb;
 			String who;

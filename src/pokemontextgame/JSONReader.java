@@ -314,17 +314,17 @@ public class JSONReader{
 	}
 	
 	public void atribuiMoveAPoke(Treinador player) {
-		for (int i = 0; i < player.getTeam().length; i++) {
+		for (int i = 0; i < 6; i++) {
 			Poke playerPoke = player.getTeam()[i];
 			for (int j = 0; j < 4; j++) {
 				Move moveFromList = null;
-				int [] mvList = playerPoke.getMovesetList();
-				int idx = 0;
-				if (moveList.get(idx).getId() == mvList[j]) {
-					moveFromList = moveList.get(idx);
-				}
-				else {
-					idx++;
+				int [] pokeMoveSetIds = playerPoke.getMovesetList();
+				
+				int k;
+				for(k = 0; k < moveList.size(); k++) {
+					if (moveList.get(k).getId() == pokeMoveSetIds[j]) {
+						moveFromList = moveList.get(k);
+					}
 				}
 				playerPoke.setMove(j, moveFromList);
 			}

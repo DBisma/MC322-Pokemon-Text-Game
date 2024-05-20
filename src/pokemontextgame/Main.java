@@ -16,25 +16,21 @@ public class Main {
 		Treinador player = new Treinador(1, "Placeholder", true);
 		TreinadorNpc npc = new TreinadorNpc(2, "Placeholder", false);
 		
-		// Receber nome do jogador e do npc
-		
+		// Receber nome do jogador e do npc; construir seus times
 		player.inputName(scan);
 		npc.inputName(scan);
+		Treinador.buildRandomTeams(player, npc);
 			
 		// Parte do jogo em si
 		// Inicializar campo com jogadores e primeiro turno
 		Battlefield field = new Battlefield(player, npc, true);
-		// Construindo times aleatórios para os dois;
-		field.buildRandomTeams();
-		
 		// Loop de turno até a batalha acabar
 		field.turnLoops(scan);
+		// Fim
+		BattleMenu.printPokeballAscii();
 		
 		// impedindo resource leak
 		scan.close();
-		
-		// Fim.
-		BattleMenu.printPokeballAscii();
 	}
 	
 }

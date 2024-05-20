@@ -36,18 +36,15 @@ final public class DmgPlusStat extends DamageDealing {
 		
 		// Aplicação de efeitos secundários
 		if(result != Move.moveResults.TOTAL_FAILURE && result != Move.moveResults.MISS && result != Move.moveResults.HIT_IMMUNE) {
-			
-			String who;
 			// Si
 			if(TurnUtils.rollChance(boostChance)) {
-				if(this.isBoostSelf())
+				if(boostSelf)
 					// Verificação de limite de statBoost para Atacante
 					if(Math.abs(boostChance + pAtk.getStatModGeneral(statId)) > 6){
 						return result;
 					}
 					else {
 						pAtk.boostStat(statId, boostStages);
-						who = pAtk.getName();
 					}
 				else {
 					// Verificação de limite de statBoost para Defensor
@@ -56,19 +53,15 @@ final public class DmgPlusStat extends DamageDealing {
 					}
 					else {
 						pDef.boostStat(statId, boostStages);
-						who = pDef.getName();
 					}
 				}
 				
-				String verb;
-				
-				if(boostStages > 0)
-					verb = "aumentado";
-				else
-					verb = "reduzido";
-				
+				String who = (boostSelf ? pAtk.getName() : pDef.getName());
+				String verb = (boostStages > 0 ? "aumentado" : "reduzido");
+				String plural= (Math.abs(boostStages) > 1 ? "estágio" : "estágios");
+					
 				field.textBufferAdd(who + " teve seu" + TurnUtils.getStatName(statId) 
-				+ verb + " em " + Math.abs(boostStages) + " estágios!\n");
+				+ verb + " em " + Math.abs(boostStages) + " " + plural + "!\n");
 			}
 		}
 		

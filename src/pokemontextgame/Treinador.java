@@ -1,6 +1,13 @@
 package pokemontextgame;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+
+import org.json.JSONException;
+
+import pokemontextgame.moves.Move;
 
 public class Treinador {
 	/*
@@ -146,4 +153,38 @@ public class Treinador {
 		this.forcedSwitch = forcedSwitch;
 	}
 
+	static void buildRandomTeams(Treinador player, Treinador npc) throws IOException, JSONException {
+		/*
+		 * Função que chama um Json reader para construir times aleatórios para
+		 * o jogador e para o NPC.
+		 */
+		
+		JSONReader jsonReader = new JSONReader();
+		ArrayList<Move> moveArray = new ArrayList<Move>();
+		ArrayList<Poke> pokeArray = new ArrayList<Poke>();
+		ArrayList<Integer> pkmnUniqueIds = new ArrayList<Integer>();
+		
+		jsonReader.buildMoves();
+		jsonReader.buildPokemons();
+		
+		moveArray = jsonReader.getMoveList();
+		pokeArray = jsonReader.getPkmnList();
+		pkmnUniqueIds = jsonReader.getPkmnUniqueIDs();
+		
+		// Montando times aleatórios:
+		for(int i = 0; i < 6; i++) {
+			// Buscando um índice aleatório dentro do Array de Ids (entre 0 e seu tamanho)
+			Random r = new Random();
+			int roll = r.nextInt(pkmnUniqueIds.size());
+			player.setTeam(i, pokeArray.remove(roll)); // removemos esse pokemon do PokeArray, damos ao player
+			pkmnUniqueIds.remove(roll); // e removemos esse ID do array de IDs únicos
+			
+			roll = r.nextInt(pkmnUniqueIds.size()); // novo índice aleatório com tamanho atualizado
+			npc.setTeam(i, pokeArray.remove(roll)); // repete para npc
+			pkmnUniqueIds.remove(roll);
+		}
+		
+		jsonReader.atribuiMoveAPoke(player);
+		jsonReader.atribuiMoveAPoke(npc);
+	}
 }
