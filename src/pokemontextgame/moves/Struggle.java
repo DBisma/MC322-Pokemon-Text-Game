@@ -23,6 +23,7 @@ final public class Struggle extends DmgMisc{
 		/*
 		 * Sempre acerta, ignora imunidades.
 		 * Dá dano a si mesmo de 1/4 do Hp máximo.
+		 * Não gasta PP.
 		 */
 		field.textBufferAdd(pAtk.getName()  + " utilizou " + this.getName() + "!\n");
 		int dmg = TurnUtils.calcDmg(this, pAtk, pDef, 1);

@@ -102,7 +102,7 @@
 		"Level": 50,
 		"SpeciesName": "Dragonite",
 		"DexEntry": "Entrada não disponível",
-		"Tipagem": [-14, 9],
+		"Tipagem": [14, 9],
 		"BaseStats": [91, 134, 95, 100, 100, 80, 210000],
 		"MoveSet": [0]
 	},
@@ -174,7 +174,7 @@
 		"Level": 50,
 		"SpeciesName": "Lucario",
 		"DexEntry": "Entrada não disponível",
-		"Tipagem": [6, -16],
+		"Tipagem": [6, 16],
 		"BaseStats": [70, 110, 70, 115, 70, 90, 54000],
 		"MoveSet": [0]
 	},
