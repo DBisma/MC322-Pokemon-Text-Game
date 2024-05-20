@@ -27,12 +27,15 @@ public class JSONReader{
 	private ArrayList<Poke> pkmnList;
 	private ArrayList<Move> moveList;
 	
+	private ArrayList<Integer> pkmnUniqueIds;
+	
 	private String pokeStr;
 	private String moveStr;
 	
 	public JSONReader(){
 		pkmnList = new ArrayList<Poke>();
 		moveList = new ArrayList<Move>();
+		pkmnUniqueIds = new ArrayList<Integer>();
 	}
 	
 	public void buildPokemons() throws IOException, JSONException {
@@ -52,9 +55,8 @@ public class JSONReader{
 		for (int i = 0; i < pokeArray.length(); i++) {
 			JSONObject jsonObject = pokeArray.getJSONObject(i);
 			
-			int        pokeID =     jsonObject.getInt("ID");
+			int        pokeID =     (int) Math.random();
 			String     nome =       jsonObject.getString("Nome");
-			int        sexo =       jsonObject.getInt("Sexo");
 			int        pokedexId =  jsonObject.getInt("PokeDexId");
 			int        pokeLevel =  jsonObject.getInt("Level");         // por padrão, inicializado com 50 no json
 			String     spcName =    jsonObject.getString("SpeciesName");
@@ -79,8 +81,9 @@ public class JSONReader{
 			    baseSTArray[j] = bSTTS.getInt(j);
 			}
 			
-			Poke novoPoke = new Poke(pokeID, pokedexId, nome, sexo, pokeLevel, spcName, dexEntry, typeArray, baseSTArray, moveArray);
+			Poke novoPoke = new Poke(pokeID, pokedexId, nome, pokeLevel, spcName, dexEntry, typeArray, baseSTArray, moveArray);
 			pkmnList.add(novoPoke);
+			pkmnUniqueIds.add(pokeID);
 		}
 	}
 	
@@ -160,8 +163,8 @@ public class JSONReader{
 				case "StatusChangeFx":
 				{
 					String fxType = jsonObject.getString("FxType");
-					int fxDuration = jsonObject.getInt("FxDuration");
-					boolean voltl = jsonObject.getBoolean("IsVolatile");
+					int fxDuration = StatusFx.typeList.valueOf(fxType).getMaxDuration();
+					boolean voltl = StatusFx.typeList.valueOf(fxType).isVolatile();
 					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
 					moveList.add(novoSCF);
 				break;
@@ -292,6 +295,20 @@ public class JSONReader{
 					moveList.add(novoWildCharge);
 				break;
 				}
+				
+				case "ClearSmog":
+				{
+					ClearSmog novoClearSmog = new ClearSmog(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoClearSmog);
+				break;
+				}
+				
+				case "CloseCombat":
+				{
+					CloseCombat novoCloseCombat = new CloseCombat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					moveList.add(novoCloseCombat);
+				break;
+				}
 			}
 		}
 	}
@@ -312,6 +329,10 @@ public class JSONReader{
 				playerPoke.setMove(j, moveFromList);
 			}
 		}
+	}
+	
+	public ArrayList<Integer> getPkmnUniqueIDs(){
+		return pkmnUniqueIds;
 	}
 	
 	public ArrayList<Poke> getPkmnList(){

@@ -1,6 +1,8 @@
 package pokemontextgame;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -32,19 +34,48 @@ public class Main {
 		JSONReader jsonReader = new JSONReader();
 		ArrayList<Move> moveArray = new ArrayList<Move>();
 		ArrayList<Poke> pokeArray = new ArrayList<Poke>();
+		ArrayList<Integer> pkmnUniqueIds = new ArrayList<Integer>();
 		
 		jsonReader.buildMoves();
 		jsonReader.buildPokemons();
 		
 		moveArray = jsonReader.getMoveList();
 		pokeArray = jsonReader.getPkmnList();
+		pkmnUniqueIds = jsonReader.getPkmnUniqueIDs();
 		
-		player.setTeam(0, pokeArray.get(2));
+		Random random = new Random();
+		for (int i = 0; i < 6; i++) {
+		    int max = pkmnUniqueIds.size();
+		    int rndmIndex = random.nextInt(max);
+		    int rndmPokeId = pkmnUniqueIds.get(rndmIndex);
+		    for (Poke poke : pokeArray) {
+		        if (poke.getId() == rndmPokeId) {
+		            player.setTeam(i, poke);
+		            pkmnUniqueIds.remove(Integer.valueOf(rndmPokeId));
+		            break;
+		        }
+		    }
+		}
+		
+		for (int i = 0; i < 6; i++) {
+		    int max = pkmnUniqueIds.size();
+		    int rndmIndex = random.nextInt(max);
+		    int rndmPokeId = pkmnUniqueIds.get(rndmIndex);
+		    for (Poke poke : pokeArray) {
+		        if (poke.getId() == rndmPokeId) {
+		            npc.setTeam(i, poke);
+		            pkmnUniqueIds.remove(Integer.valueOf(rndmPokeId));
+		            break;
+		        }
+		    }
+		}
+		
 		jsonReader.atribuiMoveAPoke(player);
-		//jsonReader.atribuiMoveAPoke(npc);
+		jsonReader.atribuiMoveAPoke(npc);
 		
-		System.out.println(player.getTeam()[0].toString());
-		
+		for (int i = 0; i < 6; i++) {
+			System.out.println(player.getTeam()[i].toString());
+		}
 		// Parte do jogo em si
 		// Inicializar campo com jogadores e primeiro turno
 		Battlefield field = new Battlefield(player, npc, true);

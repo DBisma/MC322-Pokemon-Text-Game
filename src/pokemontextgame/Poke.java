@@ -43,7 +43,7 @@ public class Poke {
 	// Para construir os moves do pokemon
 	JSONReader moveJson;
 	
-	public Poke(int ID, int pokedexID, String name, int sex, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSetList) {
+	public Poke(int ID, int pokedexID, String name, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSetList) {
 		/*
 		 * Placeholder de construtor. Exemplo para Metang.
 		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
