@@ -364,9 +364,7 @@ public class Poke {
 		this.active = active;
 	}
 	
-	// Getters de Stats Base
-	
-	// Getters de Stats Modificados
+	// Getters e Setters de Stats Modificados
 	public int getModAtk() {
 		return this.statMods[0];
 	}
@@ -399,7 +397,6 @@ public class Poke {
 		return this.statMods[7];
 	}
 	
-	// Setters de Stats Modificados
 	public void setModAtk(int newVal) {
 		this.statMods[0] = newVal;
 	}
@@ -440,6 +437,7 @@ public class Poke {
 		this.pokedexId = pokedexId;
 	}
 	
+	// Getters e Setters de base
 	public int getBaseHp() {
 		return baseStats[0];
 	}

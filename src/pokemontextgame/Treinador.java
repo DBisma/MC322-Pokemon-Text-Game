@@ -145,4 +145,5 @@ public class Treinador {
 	public void setForcedSwitch(boolean forcedSwitch) {
 		this.forcedSwitch = forcedSwitch;
 	}
+
 }
