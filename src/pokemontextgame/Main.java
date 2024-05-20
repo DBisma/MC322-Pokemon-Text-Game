@@ -1,7 +1,6 @@
 package pokemontextgame;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -47,7 +46,7 @@ public class Main {
 		for (int i = 0; i < 6; i++) {
 		    int max = pkmnUniqueIds.size();
 		    int rndmIndex = random.nextInt(max);
-		    int rndmPokeId = pkmnUniqueIds.get(rndmIndex);
+		    int rndmPokeId = pkmnUniqueIds.remove(rndmIndex);
 		    for (Poke poke : pokeArray) {
 		        if (poke.getId() == rndmPokeId) {
 		            player.setTeam(i, poke);

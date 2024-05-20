@@ -271,7 +271,7 @@ public class TreinadorNpc extends Treinador{
 			return -1;
 		// Caso contrário, retorna aleatório dentro da lista
 		else
-			return monlist.get(ThreadLocalRandom.current().nextInt(0, monlist.size() + 1));
+			return monlist.get(ThreadLocalRandom.current().nextInt(0, monlist.size()));
 	}
 
 	public static int getBestDefensiveTypeSwitch(Battlefield field) {
