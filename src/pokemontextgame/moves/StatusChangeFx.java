@@ -34,7 +34,7 @@ final public class StatusChangeFx extends StatusGeneral {
 			return resu;
 		// Verificação de imunidades
 		else if(tchart.compoundTypeMatch(type, pDef) < 0.001) {
-			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + "!\n");
 			return moveResults.HIT_IMMUNE;
 		}
 		// Fracassa se oponente já estiver sob efeito de status

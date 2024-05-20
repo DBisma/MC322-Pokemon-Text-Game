@@ -79,7 +79,7 @@ public class TypeChart {
 		this.chart[6][13] = (float) 0.0;
 		
 		// Poison x Poison, Ground, Rock, Ghost
-		this.chart[7][7] = this.chart[7][8] = this.chart[7][12] = this.chart[7][14] = (float) 0.5;
+		this.chart[7][7] = this.chart[7][8] = this.chart[7][12] = this.chart[7][13] = (float) 0.5;
 		// Poison x Grass, Fairy
 		this.chart[7][3] = this.chart[7][17] =(float) 2.0;
 		// Poison x Steel
@@ -101,7 +101,7 @@ public class TypeChart {
 		// Psychic x Psychic, Steel
 		this.chart[10][10] = this.chart[10][16] = (float) 0.5;
 		// Psychic x Fighting, Poison
-		this.chart[10][6] = this.chart[10][7] = (float) 0.5;
+		this.chart[10][6] = this.chart[10][7] = (float) 2.0;
 		// Psychic x Dark
 		this.chart[10][15] = (float) 0.0;
 		

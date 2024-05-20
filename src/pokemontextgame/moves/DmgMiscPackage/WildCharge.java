@@ -25,7 +25,7 @@ public class WildCharge extends DmgMisc {
 			float typeMod = tchart.compoundTypeMatch(this.type, pDef);
 			int SelfDamage = Math.round(0.25f * TurnUtils.calcDmg(this, pAtk, pDef, typeMod));
 			pAtk.dmgMon(SelfDamage);
-			field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!");
+			field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!\n");
 		}
 		return resu;
 	}

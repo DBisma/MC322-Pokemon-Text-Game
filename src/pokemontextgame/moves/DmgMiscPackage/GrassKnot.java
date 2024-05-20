@@ -59,7 +59,7 @@ public class GrassKnot extends DmgMisc {
 		// Caso de imunidade
 		float error = 0.01f;
 		if(typeMod < error) {
-			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + "!\n");
 			return Move.moveResults.HIT_IMMUNE;
 		}
 		// Caso contrário, cálculo e aplicação de dano

@@ -39,7 +39,7 @@ final public class StatChange extends StatusGeneral {
 		}
 		// Verificando imunidade do inimigo apenas se ele for o alvo
 		else if(!this.boostSelf && tchart.compoundTypeMatch(type, pDef) < 0.001) {
-			field.textBufferAdd("Mas não afetou " + pDef.getName()  + " !\n");
+			field.textBufferAdd("Mas não afetou " + pDef.getName()  + "!\n");
 			return moveResults.HIT_IMMUNE;
 		}
 
@@ -52,7 +52,7 @@ final public class StatChange extends StatusGeneral {
 			boolean sucess;
 			String verb;
 			String who;
-			String plural = (Math.abs(boostStages) > 1 ? "estágio" : "estágios");
+			String plural = (Math.abs(boostStages) > 1 ? "estágios" : "estágio");
 			if(this.boostSelf) {
 				sucess = pAtk.boostStat(statId, boostStages);
 				who = pAtk.getName();
@@ -72,8 +72,8 @@ final public class StatChange extends StatusGeneral {
 					verb = "reduzido";
 				}
 				
-				field.textBufferAdd(who + " teve seu " + TurnUtils.getStatName(statId) 
-				+ " " + verb + " em " + Math.abs(boostStages) + " " + plural + " !\n");
+				field.textBufferAdd(who + " teve seu stat " + TurnUtils.getStatName(statId) 
+				+ " " + verb + " em " + Math.abs(boostStages) + " " + plural + "!\n");
 			}
 			else {
 				if(boostStages > 0) {

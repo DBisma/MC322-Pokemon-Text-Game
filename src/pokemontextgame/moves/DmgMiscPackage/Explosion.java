@@ -20,7 +20,7 @@ public class Explosion extends DmgMisc {
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		Move.moveResults resu = super.useMove(field, pAtk, pDef, tchart);
 		pAtk.dmgMon(pAtk.getMaxHp() + 1);
-		field.textBufferAdd(pAtk.getName()  + " se auto-destruiu!");
+		field.textBufferAdd(pAtk.getName()  + " se auto-destruiu!\n");
 		return resu;
 	}
 }

@@ -273,8 +273,8 @@ public class Battlefield {
 						else
 							return 1f;
 					};
-					int playerSpeed = (int) (TurnUtils.getModStat(4, playerMon)*paralysisSlowdown.apply(playerMon));
-					int npcSpeed =  (int) (TurnUtils.getModStat(4, npcMon)*paralysisSlowdown.apply(npcMon));
+					int playerSpeed = (int) (TurnUtils.getModStat(5, playerMon)*paralysisSlowdown.apply(playerMon));
+					int npcSpeed =  (int) (TurnUtils.getModStat(5, npcMon)*paralysisSlowdown.apply(npcMon));
 					if(playerSpeed > npcSpeed) {
 						choiceQueue.add(playerChoiceTuple);
 						choiceQueue.add(npcChoiceTuple);
@@ -455,11 +455,15 @@ public class Battlefield {
 		 * Altera o field para realizar as trocas de pokemons.
 		 */
 		Poke prevMon = trainer.getActiveMon();
+		prevMon.setActive(false);
 		prevMon.resetStats();
 		prevMon.setTurnsOnField(0);
 		prevMon.getStatusFx().setTimeAfflicted(0);
-		trainer.setForcedSwitch(false);
+		
 		trainer.setActiveMonId(newMonId);
+		trainer.getActiveMon().setActive(true);
+		trainer.getActiveMon().setTurnsOnField(0);
+		trainer.setForcedSwitch(false);
 		this.getTextBoxBuffer().textQueue.add("Treinador " + trainer.getName()
 				+ " trocou " + prevMon.getName()
 				+ " por " + trainer.getActiveMon().getName() + "!\n");

@@ -27,23 +27,23 @@ public class ShellSmash extends StatusMisc {
 		b5 = pAtk.boostStat(4, 2);
 		
 		if(b1) {
-			field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(1) 
+			field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(1) 
 			+ " reduzido em 1 estágio!\n");
 		}
 		if(b2) {
-			field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(3) 
+			field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(3) 
 			+ " reduzido em 1 estágio!\n");
 		}
 		if(b3){
-			field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(0) 
+			field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(0) 
 			+ " aumentado em 2 estágios!\n");
 		}
 		if(b4) {
-			field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(2) 
+			field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(2) 
 			+ " aumentado em 2 estágios!\n");
 		}
 		if(b5){
-			field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(4) 
+			field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(4) 
 			+ " aumentado em 2 estágios!\n");
 		}
 		

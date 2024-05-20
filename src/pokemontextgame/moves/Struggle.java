@@ -29,7 +29,7 @@ final public class Struggle extends DmgMisc{
 		int dmg = TurnUtils.calcDmg(this, pAtk, pDef, 1);
 		pDef.dmgMon(dmg);
 		pAtk.dmgMon( (int) (pAtk.getMaxHp() * 0.25f)); // recoil de 1/4 de maxHp
-		field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!");
+		field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!\n");
 		return Move.moveResults.HIT;
 	}
 }

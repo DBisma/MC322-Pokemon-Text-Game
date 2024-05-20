@@ -78,7 +78,7 @@
   		"MovePriority": 0,
   		"BasePower": 110,
   		"Accuracy": 80,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -90,7 +90,7 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -154,7 +154,7 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -194,7 +194,7 @@
   		"MovePriority": 0,
   		"Accuracy": -1,
   		"Subclass": "StatChange",
-  		"statId": 7,
+  		"statId": 4,
 		"boostStages": 2,
 		"boostSelf": true
 	},
@@ -208,7 +208,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -246,7 +246,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -288,7 +288,7 @@
   		"MovePriority": 2,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -358,7 +358,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -416,7 +416,7 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 90,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -428,7 +428,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -486,7 +486,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -498,10 +498,10 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
-	{ 
+	{
 		"Id": 428,
   		"Name": "Zen Headbutt",
   		"MoveType": 10,
@@ -510,7 +510,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -536,7 +536,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -548,7 +548,7 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 80,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -560,7 +560,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -602,7 +602,7 @@
   		"MovePriority": 0,
   		"BasePower": 130,
   		"Accuracy": 85,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{ 
@@ -890,7 +890,7 @@
   		"MovePriority": 0,
   		"BasePower": 70,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DamageDealing"
 	},
 
 	{

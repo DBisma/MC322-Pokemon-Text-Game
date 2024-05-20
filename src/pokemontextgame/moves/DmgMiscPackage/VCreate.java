@@ -24,15 +24,15 @@ public class VCreate extends DmgMisc {
 		String name = pAtk.getName();
 		if(resu != Move.moveResults.TOTAL_FAILURE && resu != Move.moveResults.MISS) {
 			if(pAtk.boostStat(1, -1)) {
-				field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(1) 
+				field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(1) 
 				+ " reduzido em 1 estágio!\n");
 			}
 			if(pAtk.boostStat(3, -1)){
-				field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(3) 
+				field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(3) 
 				+ " reduzido em 1 estágio!\n");
 			}
 			if(pAtk.boostStat(4, -1)){
-				field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(4) 
+				field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(4) 
 				+ " reduzido em 1 estágio!\n");
 			}
 		}

@@ -75,6 +75,7 @@ public class Poke {
 		this.baseStats = baseStats;		
 		
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
+		// Não há stat mods para hp! Logo, cada um é subtraído 1. Atk aqui é [0].
 		this.statMods = new int[8];
 		Arrays.fill(statMods, 0); 
 		
@@ -108,22 +109,22 @@ public class Poke {
 		String out;
 		out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n"
 			+ "HP: " + this.curHp + "/" + this.maxHp + "\n"
-			+ "ATK: " + this.statCalc(0) + "\n"
-			+ "DEF:" + this.statCalc(1) + "\n"
-			+ "SP. ATK: " + this.statCalc(2) + "\n"
-			+ "SP. DEF: " + this.statCalc(3) + "\n"
-			+ "SPEED: " + this.statCalc(4) + "\n";
+			+ "ATK: " + this.statCalcLevelAdjusted(1) + "\n"
+			+ "DEF: " + this.statCalcLevelAdjusted(2) + "\n"
+			+ "SP. ATK: " + this.statCalcLevelAdjusted(3) + "\n"
+			+ "SP. DEF: " + this.statCalcLevelAdjusted(4) + "\n"
+			+ "SPEED: " + this.statCalcLevelAdjusted(5) + "\n";
 		
 		return out;
 	}
 	
-	public int statCalc(int baseStatId) {
+	public int statCalcLevelAdjusted(int baseStatId) {
 		/*
-		 * Recebe um Pokemon e um stat base
+		 * Recebe um stat BASE.
 		 * Calcula o número real desse stat
 		 * de um pokemon com base no level
-		 * e no valor do "stat base", por enquanto.
-		 * Retorna essa valor real.
+		 * e no valor do "stat base".
+		 * Retorna esse valor.
 		 */ 
 		float stat = baseStats[baseStatId]*2*this.level*(0.01f);
 		return (int) (stat + 2);

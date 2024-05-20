@@ -60,7 +60,7 @@ final public class DmgPlusStat extends DamageDealing {
 				String verb = (boostStages > 0 ? "aumentado" : "reduzido");
 				String plural= (Math.abs(boostStages) > 1 ? "estágio" : "estágios");
 					
-				field.textBufferAdd(who + " teve seu" + TurnUtils.getStatName(statId) 
+				field.textBufferAdd(who + " teve seu stat " + TurnUtils.getStatName(statId) 
 				+ verb + " em " + Math.abs(boostStages) + " " + plural + "!\n");
 			}
 		}

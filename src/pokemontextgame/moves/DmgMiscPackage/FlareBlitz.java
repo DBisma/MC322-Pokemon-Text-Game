@@ -28,7 +28,7 @@ public class FlareBlitz extends DmgMisc {
 			// auto-dano caso atinja;
 			int selfDamage = Math.round(0.33f * TurnUtils.calcDmg(this, pAtk, pDef, typeMod));
 			pAtk.dmgMon(selfDamage);
-			field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!");
+			field.textBufferAdd(pAtk.getName()  + " se feriu com o recuo!\n");
 			// descongelar
 			if(pDef.getStatusFx().getType() == StatusFx.typeList.FREEZE) {
 				pDef.getStatusFx().setStatusNeutral();

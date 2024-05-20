@@ -23,11 +23,11 @@ public class Superpower extends DmgMisc {
 		String name = pAtk.getName();
 		if(resu != Move.moveResults.TOTAL_FAILURE && resu != Move.moveResults.MISS) {
 			if(pAtk.boostStat(0, -1)) {
-				field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(0) 
+				field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(0) 
 				+ " reduzido em 1 estágio!\n");
 			}
 			if(pAtk.boostStat(1, -1)){
-				field.textBufferAdd(name + " teve seu " + TurnUtils.getStatName(1) 
+				field.textBufferAdd(name + " teve seu stat " + TurnUtils.getStatName(1) 
 				+ " reduzido em 1 estágio!\n");
 			}
 		}

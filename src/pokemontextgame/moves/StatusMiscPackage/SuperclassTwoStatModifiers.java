@@ -75,7 +75,7 @@ public class SuperclassTwoStatModifiers extends StatusMisc {
 						verb = "reduzido";
 					}
 					
-					field.textBufferAdd(who + " teve seu " + TurnUtils.getStatName(statIds[i]) 
+					field.textBufferAdd(who + " teve seu stat " + TurnUtils.getStatName(statIds[i]) 
 					+ " " + verb + " em " + Math.abs(boostStages[i]) + " " + plural + " !\n");
 				}
 				else {
@@ -90,10 +90,10 @@ public class SuperclassTwoStatModifiers extends StatusMisc {
 				}
 			}
 			
-			if(successArray[1] == successArray[2] == true) {
+			if(successArray[0] == successArray[1] == true) {
 				return moveResults.TOTAL_SUCCESS;
 			}
-			else if(successArray[1] == successArray[2] == false) {
+			else if(successArray[0] == successArray[1] == false) {
 				return moveResults.TOTAL_FAILURE;
 			}
 			else {
