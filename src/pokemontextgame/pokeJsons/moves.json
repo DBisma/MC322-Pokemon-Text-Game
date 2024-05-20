@@ -78,7 +78,7 @@
   		"MovePriority": 0,
   		"BasePower": 110,
   		"Accuracy": 80,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -90,7 +90,7 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -154,7 +154,7 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -196,7 +196,7 @@
   		"Subclass": "StatChange",
   		"statId": 7,
 		"boostStages": 2,
-		"boostSelf": true
+		"boostSelf": true,
 	},
 
 	{ 
@@ -208,7 +208,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -234,7 +234,7 @@
   		"Subclass": "StatChange",
   		"statId": 1,
 		"boostStages": 2,
-		"boostSelf": true
+		"boostSelf": true,
 	},
 	
 	{ 
@@ -246,7 +246,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -276,7 +276,7 @@
   		"statId": 1,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 20
+		"boostChance": 20,
 	},
 
 	{ 
@@ -288,7 +288,7 @@
   		"MovePriority": 2,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -346,7 +346,7 @@
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 20
+		"boostChance": 20,
 	},
 
 	{ 
@@ -358,7 +358,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -374,7 +374,7 @@
   		"statId": 4,
 		"boostStages": -1,
 		"boostSelf": true,
-		"boostChance": 100
+		"boostChance": 100,
 	},
 
 	{ 
@@ -388,7 +388,7 @@
   		"Subclass": "StatChange",
   		"statId": 4,
 		"boostStages": 2,
-		"boostSelf": true
+		"boostSelf": true,
 	},
 
 	{ 
@@ -416,7 +416,7 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 90,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -428,7 +428,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -444,7 +444,7 @@
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 20
+		"boostChance": 20,
 	},
 
 	{ 
@@ -460,7 +460,7 @@
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 20
+		"boostChance": 20,
 	},
 
 	{ 
@@ -474,7 +474,7 @@
   		"Subclass": "StatChange",
   		"statId": 2,
 		"boostStages": 2,
-		"boostSelf": true
+		"boostSelf": true,
 	},
 
 	{ 
@@ -486,7 +486,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -498,7 +498,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -510,7 +510,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -536,7 +536,7 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -548,7 +548,7 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 80,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -560,7 +560,7 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -590,7 +590,7 @@
   		"statId": 7,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 40
+		"boostChance": 40,
 	},
 
 	{ 
@@ -602,7 +602,7 @@
   		"MovePriority": 0,
   		"BasePower": 130,
   		"Accuracy": 85,
-  		"Subclass": "DmgDealing"
+  		"Subclass": "DmgDealing",
 	},
 
 	{ 
@@ -618,307 +618,7 @@
   		"statId": 2,
 		"boostStages": -1,
 		"boostSelf": false,
-		"boostChance": 20
-	},
-
-	{
-		"Id": 202,
-  		"Name": "Giga Drain",
-  		"MoveType": 3,
-  		"Category": "SPECIAL",
-  		"MaxPoints": 10,
-  		"MovePriority": 0,
-  		"BasePower": 75,
-  		"Accuracy": 100,
-  		"Subclass": "GigaDrain"
-	},
-
-	{
-		"Id": 413,
-  		"Name": "Brave Bird",
-  		"MoveType": 9,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-  		"BasePower": 120,
-  		"Accuracy": 100,
-  		"Subclass": "BraveBird"
-	},
-
-	{
-		"Id": 38,
-  		"Name": "Double Edge",
-  		"MoveType": 6,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 30,
-  		"MovePriority": 0,
-  		"BasePower": 30,
-  		"Accuracy": 100,
-  		"Subclass": "DoubleEdge"
-	},
-
-	{
-		"Id": 153,
-  		"Name": "Explosion",
-  		"MoveType": 0,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"BasePower": 500,
-  		"Accuracy": 100,
-  		"Subclass": "Explosion"
-	},
-
-	{
-		"Id": 394,
-  		"Name": "Flare Blitz",
-  		"MoveType": 1,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-  		"BasePower": 120,
-  		"Accuracy": 100,
-  		"Subclass": "FlareBlitz"
-	},
-
-	{
-		"Id": 447,
-  		"Name": "Grass Knot",
-  		"MoveType": 3,
-  		"Category": "SPECIAL",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"BasePower": 20,
-  		"Accuracy": 100,
-  		"Subclass": "GrassKnot"
-	},
-
-	{
-		"Id": 67,
-  		"Name": "Low Kick",
-  		"MoveType": 6,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"BasePower": 20,
-  		"Accuracy": 100,
-  		"Subclass": "LowKick"
-	},
-
-	{
-		"Id": 69,
-  		"Name": "Seismic Toss",
-  		"MoveType": 6,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"BasePower": 50,
-  		"Accuracy": 100,
-  		"Subclass": "SeismicToss"
-	},
-
-	{
-		"Id": 276,
-  		"Name": "Superpower",
-  		"MoveType": 6,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"BasePower": 120,
-  		"Accuracy": 100,
-  		"Subclass": "Superpower"
-	},
-
-	{
-		"Id": 161,
-  		"Name": "Tri Attack",
-  		"MoveType": 0,
-  		"Category": "SPECIAL",
-  		"MaxPoints": 10,
-  		"MovePriority": 0,
-  		"BasePower": 80,
-  		"Accuracy": 100,
-  		"Subclass": "TriAttack"
-	},
-
-	{
-		"Id": 557,
-  		"Name": "V-Create",
-  		"MoveType": 1,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"BasePower": 180,
-  		"Accuracy": 95,
-  		"Subclass": "VCreate"
-	},
-
-	{
-		"Id": 528,
-  		"Name": "Wild Charge",
-  		"MoveType": 4,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-  		"BasePower": 90,
-  		"Accuracy": 100,
-  		"Subclass": "LowKick"
-	},
-
-	{
-		"Id": 215,
-  		"Name": "Heal Bell",
-  		"MoveType": 0,
-  		"Category": "STATUS",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "HealBell"
-	},
-
-	{
-		"Id": 504,
-  		"Name": "Shell Smash",
-  		"MoveType": 0,
-  		"Category": "STATUS",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "ShellSmash"
-	},
-
-	{
-		"Id": 74,
-  		"Name": "Growth",
-  		"MoveType": 0,
-  		"Category": "STATUS",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
-  		"statIdA": 0,
-  		"statIdB": 2,
-  		"boostStageA": 1,
-  		"boostStageB": 1,
-  		"boostSelfA": true,
-  		"boostSelfB": true
-	},
-
-	{
-		"Id": 370,
-  		"Name": "Close Combat",
-  		"MoveType": 6,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-		"BasePower": 120,
-  		"Accuracy": 100,
-  		"Subclass": "CloseCombat"
-	},
-
-	{
-		"Id": 355,
-  		"Name": "Roost",
-  		"MoveType": 9,
-  		"Category": "STATUS",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "SuperclassSelfHealingMove"
-	},
-
-	{
-		"Id": 349,
-  		"Name": "Dragon Dance",
-  		"MoveType": 14,
-  		"Category": "STATUS",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
-  		"statIdA": 0,
-  		"statIdB": 4,
-  		"boostStageA": 1,
-  		"boostStageB": 1,
-  		"boostSelfA": true,
-  		"boostSelfB": true
-	},
-
-	{
-		"Id": 135,
-  		"Name": "Soft-Boiled",
-  		"MoveType": 0,
-  		"Category": "STATUS",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "SuperclassSelfHealingMove"
-	},
-
-	{
-		"Id": 360,
-  		"Name": "Gyro Ball",
-  		"MoveType": 16,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 5,
-  		"MovePriority": 0,
-		"BasePower": 20,
-  		"Accuracy": 100,
-  		"Subclass": "CloseCombat"
-	},
-
-	{ 
-		"Id": 104,
-  		"Name": "Double Team",
-  		"MoveType": 0,
-  		"Category": "STATUS",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "StatChange",
-  		"statId": 6,
-		"boostStages": 2,
-		"boostSelf": true
-	},
-
-	{ 
-		"Id": 400,
-  		"Name": "Night Slash",
-  		"MoveType": 15,
-  		"Category": "PHYSICAL",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-  		"BasePower": 70,
-  		"Accuracy": 100,
-  		"Subclass": "DmgDealing"
-	},
-
-	{
-		"Id": 499,
-  		"Name": "Clear Smog",
-  		"MoveType": 7,
-  		"Category": "SPECIAL",
-  		"MaxPoints": 15,
-  		"MovePriority": 0,
-		"BasePower": 50,
-  		"Accuracy": -1,
-  		"Subclass": "ClearSmog"
-	},
-
-	{
-		"Id": 347,
-  		"Name": "Calm Mind",
-  		"MoveType": 10,
-  		"Category": "STATUS",
-  		"MaxPoints": 20,
-  		"MovePriority": 0,
-  		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
-  		"statIdA": 2,
-  		"statIdB": 3,
-  		"boostStageA": 1,
-  		"boostStageB": 1,
-  		"boostSelfA": true,
-  		"boostSelfB": true
+		"boostChance": 20,
 	}
+
 ]
