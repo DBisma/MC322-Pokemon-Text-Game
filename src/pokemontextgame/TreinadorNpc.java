@@ -13,8 +13,8 @@ public class TreinadorNpc extends Treinador{
 	/*
 	 * Classe que lida com o treinador especial NPC.
 	 * Quase todos seus métodos são de tomada de sua decisão.
-	 * Poderá possuir alguns coeficientes de dificuldade. TODO
 	 */
+	
 	public TreinadorNpc(int id, String nome, boolean player) {
 		super(id, nome, player);
 	}
@@ -27,8 +27,6 @@ public class TreinadorNpc extends Treinador{
 		 * Retorna uma decisão para o NPC no battlefield.
 		 * Mais explicação no corpo do texto.
 		 * O NPC não pode correr e não possui uma bag própria para utilizar items.
-		 * TODO: Implementar pequena bag para que possa usar items?
-		 * TODO: Remover items de uma vez por todas da bag para que o NPC não tenha que espelhar o jogador?
 		 */
 		
 		// Macros
@@ -111,7 +109,6 @@ public class TreinadorNpc extends Treinador{
 								switchIndex = bestOffensiveSwitchId;
 								// se ainda assim não resolver, usar o melhor ataque possível
 								if(switchIndex == 0) {
-									// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
 									npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 								}
 							}
@@ -255,14 +252,12 @@ public class TreinadorNpc extends Treinador{
 		return index;
 	}
 
-	
 	public static int getRandomPossibleSwitch(Battlefield field) {
 		/*
 		 * Escolhe um pokemon aleatório para a troca.
 		 * Retorna seu índice, ou -1 se a troca é impossível.
 		 */
 		int i;
-		// TODO: int vs Integer, qual a diferença?
 		List<Integer> monlist = new ArrayList<>();
 		// Pula o mon ativo
 		for(i = 1; i < 6; i++) {

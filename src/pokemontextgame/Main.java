@@ -22,7 +22,6 @@ public class Main {
 		
 		// Receber nome do jogador e do npc
 		
-		// TODO: Usar REGEX e um Matcher.
 		player.inputName(scan);
 		npc.inputName(scan);
 		

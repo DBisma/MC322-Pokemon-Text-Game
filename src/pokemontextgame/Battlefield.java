@@ -169,8 +169,6 @@ public class Battlefield {
 		playerChoice = new Choice();
 		npcChoice = new Choice();
 		
-		// Fazer um objeto Weather? Talvez seja uma boa. TODO: Se não formos deletar weather
-		
 		// Atualizando
 		playerMon = lPlayer.getActiveMon();
 		npcMon = lNpc.getActiveMon();
@@ -207,7 +205,7 @@ public class Battlefield {
 		if(!playerMon.isFainted()) { // se mon ativo estiver vivo 
 			BattleMenu.menuDisplayRoot(scan, this);
 		}
-		else { // força troca caso contrário TODO Talvez seja desnecessário com a nova func. ali em cima
+		else { // força troca caso contrário
 			lPlayer.setForcedSwitch(true);
 			BattleMenu.menuDisplayTeam(scan, this); 
 		}

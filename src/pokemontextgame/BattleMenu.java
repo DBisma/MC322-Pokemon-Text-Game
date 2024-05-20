@@ -40,7 +40,6 @@ public class BattleMenu {
 		 * Recebe a opção de um jogador como uma linha.
 		 * Retorna o valor inteiro do primeiro caractere da linha.
 		 * 
-		 * TODO: Deve ter uma forma mais elegante de receber o inteiro sem bugar tudo.
 		 */
 		
 		String optString = scan.nextLine();
@@ -126,13 +125,13 @@ public class BattleMenu {
 			}
 			// Mochila
 			case 2:{
-				menuDisplayBag(scan, field);  /* TODO */ 
+				menuDisplayBag(scan, field);
 				break;
 			} 
 			// Fugir
 			case 3:{
 				menuTryEscape(scan, field); 
-				break; /*TODO*/ 
+				break;
 			}
 		}
 	}

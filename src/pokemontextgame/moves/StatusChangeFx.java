@@ -25,8 +25,7 @@ final public class StatusChangeFx extends StatusGeneral {
 		/*
 		 * Tenta aplicar StatusFx sempre no pokemon inimigo. Fracassa
 		 * se inimigo já estiver lidando com Status volátil.
-		 * TODO: Por enquanto, faremos todo StatusFx falhar se o pokemon já estiver afetado.
-		 * Futuramente, apenas Não-Voláteis falharão, e voláteis serão acumulados.
+		 * Faremos todo StatusFx falhar se o pokemon já estiver afetado.
 		 */
 		
 		// Roll de precisão

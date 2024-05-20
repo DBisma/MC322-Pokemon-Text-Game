@@ -3,7 +3,6 @@ import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.StatusFx;
 import pokemontextgame.TurnUtils;
-//import moves.DamageDealing.categs; TODO remover
 import pokemontextgame.TypeChart;
 
 public class DmgPlusFx extends DamageDealing {
@@ -16,7 +15,6 @@ public class DmgPlusFx extends DamageDealing {
 	private StatusFx.typeList fxType;
 	private int fxChance;
 
-	// TODO: Como formatar esse construtor do modo correto? Em espaçamento, quero dizer.
 	public DmgPlusFx(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp, 
 					StatusFx.typeList fxType, int fxChance) {
 		super(id, name, type, maxP, pri, accu, categ, bp);
@@ -28,7 +26,7 @@ public class DmgPlusFx extends DamageDealing {
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
 		/*
 		 * Difere do useMove da superclasse DamageDealing
-		 * ao incluir a chance de aplicar o status // TODO: Como enviar a notificação de aplicação de efeito?
+		 * ao incluir a chance de aplicar o status
 		 */
 		
 		Move.moveResults result = super.useMove(field, pAtk, pDef, tchart);

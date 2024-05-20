@@ -30,9 +30,6 @@ final public class DmgPlusStat extends DamageDealing {
 		/*
 		 * Difere do useMove da superclasse DamageDealing
 		 * ao incluir a chance de modificar stats
-		 * 
-		 * TODO: O resultado é sempre HIT se a parte importante ativar...
-		 * O resultado ignora se o stat change foi obtido ou não.
 		 */
 		
 		Move.moveResults result = super.useMove(field, pAtk, pDef, tchart);
@@ -75,8 +72,6 @@ final public class DmgPlusStat extends DamageDealing {
 			}
 		}
 		
-		// TODO: Como enviar o RESULTADO de mudança de stat? Apenas enviamos HIT por enquanto...
-		// Temos a notificação em texto, mas e em dados da forma RESULT?
 		return result;
 	}
 

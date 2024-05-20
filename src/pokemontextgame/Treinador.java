@@ -15,8 +15,6 @@ public class Treinador {
 	private int activeMonId;
 	private boolean forcedSwitch; // se o treinador é obrigado a trocar de pokemon; utilizado em menus e opções de turno
 	
-	// TODO: INICIALIZAÇÃO DE VERDADE
-	
 	public Treinador(int id, String name, boolean player) {
 		this.id = id;
 		this.name = name;
@@ -29,8 +27,6 @@ public class Treinador {
 		 * Faz um loop de recepção de nome que não é satisfeito
 		 * até que o nome recebeido seja validado. Para isso,
 		 * faz uso da func. validateName();
-		 * 
-		 * TODO: Talvez seja má prática ter um loop infinito condicional aqui dentro.
 		 */
 		
 		String type = (this.isPlayer) ? "jogador" : "NPC";
@@ -89,7 +85,7 @@ public class Treinador {
 		this.id = id;
 	}
 	
-		public String getName() {
+	public String getName() {
 		return name;
 	}
 	
