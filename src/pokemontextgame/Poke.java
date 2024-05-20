@@ -512,11 +512,9 @@ public class Poke {
 		this.speciesName = speciesName;
 	}
 
-	
 	public int getTurnsOnField() {
 		return turnsOnField;
 	}
-
 	
 	public void setTurnsOnField(int turnsOnField) {
 		this.turnsOnField = turnsOnField;

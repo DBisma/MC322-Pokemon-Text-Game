@@ -231,5 +231,4 @@ public final class TurnUtils{
 		}
 	}
 
-
 }
