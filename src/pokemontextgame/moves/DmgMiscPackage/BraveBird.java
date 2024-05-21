@@ -13,8 +13,8 @@ public final class BraveBird extends DmgMisc {
 	 * em 1/3 do dano dado ao inimigo.
 	 */
 	
-	public BraveBird(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public BraveBird(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

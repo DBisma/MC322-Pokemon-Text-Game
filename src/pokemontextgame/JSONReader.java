@@ -124,6 +124,7 @@ public class JSONReader{
 			int moMaxPT = jsonObject.getInt("MaxPoints");
 			int movePriority = jsonObject.getInt("MovePriority");
 			int moveAcc = jsonObject.getInt("Accuracy");
+			String moveDesc = jsonObject.getString("Description");
 			
 			// buildMoves() verifica se moveCat e basePower estão no JSONReader, pois existem moves que não os usam
 			String moveCat = null;
@@ -137,14 +138,14 @@ public class JSONReader{
 			
 				case "DamageDealing":
 				{
-					DamageDealing novoDmgDeal = new DamageDealing(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					DamageDealing novoDmgDeal = new DamageDealing(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoDmgDeal);
 				break;
 				}
 					
 				case "DmgMisc":
 				{
-					DmgMisc dmgM = new DmgMisc(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					DmgMisc dmgM = new DmgMisc(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(dmgM);
 				break;
 				}
@@ -153,7 +154,7 @@ public class JSONReader{
 				{
 					int fxChance = jsonObject.getInt("FxChance");
 					String fxType = jsonObject.getString("FxType");
-					DmgPlusFx novoDPFX = new DmgPlusFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower, StatusFx.typeList.valueOf(fxType), fxChance);
+					DmgPlusFx novoDPFX = new DmgPlusFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower, StatusFx.typeList.valueOf(fxType), fxChance);
 					moveList.add(novoDPFX);
 				break;
 				}
@@ -164,7 +165,7 @@ public class JSONReader{
 					int boostSt = jsonObject.getInt("boostStages");
 					int boostCh = jsonObject.getInt("boostChance");
 					boolean boostSelf = jsonObject.getBoolean("boostSelf");
-					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
+					DmgPlusStat novoDMS = new DmgPlusStat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower, statId, boostSt, boostCh, boostSelf);
 					moveList.add(novoDMS);
 				break;
 				}
@@ -174,7 +175,7 @@ public class JSONReader{
 					int statId = jsonObject.getInt("statId");
 					int boostSt = jsonObject.getInt("boostStages");
 					boolean boostSelf = jsonObject.getBoolean("boostSelf");
-					StatChange novoSTCH = new StatChange(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, statId, boostSt, boostSelf);
+					StatChange novoSTCH = new StatChange(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, statId, boostSt, boostSelf);
 					moveList.add(novoSTCH);
 				break;
 				}
@@ -184,7 +185,7 @@ public class JSONReader{
 					String fxType = jsonObject.getString("FxType");
 					int fxDuration = StatusFx.typeList.valueOf(fxType).getMaxDuration();
 					boolean voltl = StatusFx.typeList.valueOf(fxType).isVolatile();
-					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
+					StatusChangeFx novoSCF = new StatusChangeFx(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, StatusFx.typeList.valueOf(fxType), fxDuration, voltl);
 					moveList.add(novoSCF);
 				break;
 				}
@@ -198,133 +199,133 @@ public class JSONReader{
 					boolean boostSelfA = jsonObject.getBoolean("boostSelfA");
 					boolean boostSelfB = jsonObject.getBoolean("boostSelfB");
 					SuperclassTwoStatModifiers novoSCTSM = new SuperclassTwoStatModifiers(moveId, moveName, moveType, moMaxPT, movePriority, 
-																	 moveAcc, statIdA, statIdB, boostStA, boostStB, boostSelfA, boostSelfB);
+																	 moveAcc, moveDesc, statIdA, statIdB, boostStA, boostStB, boostSelfA, boostSelfB);
 					moveList.add(novoSCTSM);
 				break;
 				}
 				
 				case "SuperclassSelfHealingMove": 
 				{
-					SuperclassSelfHealingMove novoSCHM = new SuperclassSelfHealingMove(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					SuperclassSelfHealingMove novoSCHM = new SuperclassSelfHealingMove(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc);
 					moveList.add(novoSCHM);
 				break;
 				}
 				
 				case "HealBell":
 				{
-					HealBell novoHealBell = new HealBell(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					HealBell novoHealBell = new HealBell(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc);
 					moveList.add(novoHealBell);
 				break;
 				}
 				
 				case "ShellSmash":
 				{
-					ShellSmash novoShellSmash = new ShellSmash(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc);
+					ShellSmash novoShellSmash = new ShellSmash(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc);
 					moveList.add(novoShellSmash);
 				break;
 				}
 				
 				case "BraveBird":
 				{
-					BraveBird novoBraveBird = new BraveBird(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					BraveBird novoBraveBird = new BraveBird(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoBraveBird);
 				break;
 				}
 				
 				case "DoubleEdge":
 				{
-					DoubleEdge novoDoubleEdge = new DoubleEdge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					DoubleEdge novoDoubleEdge = new DoubleEdge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoDoubleEdge);
 				break;
 				}
 				
 				case "Explosion":
 				{
-					Explosion novoExplosion = new Explosion(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					Explosion novoExplosion = new Explosion(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoExplosion);
 				break;
 				}
 				
 				case "FlareBlitz":
 				{
-					FlareBlitz novoFlareBlitz = new FlareBlitz(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					FlareBlitz novoFlareBlitz = new FlareBlitz(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoFlareBlitz);
 				break;
 				}
 				
 				case "GigaDrain":
 				{
-					GigaDrain novoGigaDrain = new GigaDrain(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					GigaDrain novoGigaDrain = new GigaDrain(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoGigaDrain);
 				break;
 				}
 				
 				case "GrassKnot":
 				{
-					GrassKnot novoGrassKnot = new GrassKnot(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					GrassKnot novoGrassKnot = new GrassKnot(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoGrassKnot);
 				break;
 				}
 				
 				case "GyroBall":
 				{
-					GyroBall novoGyroBall = new GyroBall(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					GyroBall novoGyroBall = new GyroBall(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoGyroBall);
 				break;
 				}
 				
 				case "LowKick":
 				{
-					LowKick novoLowKick = new LowKick(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					LowKick novoLowKick = new LowKick(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoLowKick);
 				break;
 				}
 				
 				case "SeismicToss":
 				{
-					SeismicToss novoSeismicToss = new SeismicToss(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					SeismicToss novoSeismicToss = new SeismicToss(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoSeismicToss);
 				break;
 				}
 				
 				case "Superpower":
 				{
-					Superpower novoSuperpower = new Superpower(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					Superpower novoSuperpower = new Superpower(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoSuperpower);
 				break;
 				}
 				
 				case "TriAttack":
 				{
-					TriAttack novoTriAttack = new TriAttack(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					TriAttack novoTriAttack = new TriAttack(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoTriAttack);
 				break;
 				}
 				
 				case "VCreate":
 				{
-					VCreate novoVCreate = new VCreate(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					VCreate novoVCreate = new VCreate(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoVCreate);
 				break;
 				}
 				
 				case "WildCharge":
 				{
-					WildCharge novoWildCharge = new WildCharge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					WildCharge novoWildCharge = new WildCharge(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoWildCharge);
 				break;
 				}
 				
 				case "ClearSmog":
 				{
-					ClearSmog novoClearSmog = new ClearSmog(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					ClearSmog novoClearSmog = new ClearSmog(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoClearSmog);
 				break;
 				}
 				
 				case "CloseCombat":
 				{
-					CloseCombat novoCloseCombat = new CloseCombat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveCategs.valueOf(moveCat), basePower);
+					CloseCombat novoCloseCombat = new CloseCombat(moveId, moveName, moveType, moMaxPT, movePriority, moveAcc, moveDesc, moveCategs.valueOf(moveCat), basePower);
 					moveList.add(novoCloseCombat);
 				break;
 				}

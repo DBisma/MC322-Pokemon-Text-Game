@@ -14,8 +14,8 @@ public class LowKick extends DmgMisc {
 	 * não compensa juntar os dois numa superclasse.
 	 */
 	
-	public LowKick(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public LowKick(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

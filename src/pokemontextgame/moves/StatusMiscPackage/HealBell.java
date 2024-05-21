@@ -11,8 +11,8 @@ public class HealBell extends StatusMisc {
 	 * Cura a party de todos os Status Fx.
 	 */
 	
-	public HealBell(int id, String name, int type, int maxP, int pri, int accu) {
-		super(id, name, type, maxP, pri, accu);
+	public HealBell(int id, String name, int type, int maxP, int pri, int accu, String desc) {
+		super(id, name, type, maxP, pri, accu, desc);
 	}
 	
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {

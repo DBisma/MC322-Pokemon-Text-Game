@@ -14,8 +14,8 @@ public class SeismicToss extends DmgMisc {
 	 * ou fraquezas causadas por combinações de tipos.
 	 */
 	
-	public SeismicToss(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public SeismicToss(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

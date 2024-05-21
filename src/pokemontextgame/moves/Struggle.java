@@ -14,8 +14,7 @@ final public class Struggle extends DmgMisc{
 	 */
 	
 	public Struggle() {
-		super(0, "Struggle", 19, 999, 0, -1, Move.moveCategs.PHYSICAL, 50);
-		
+		super(0, "Struggle", 19, 999, 0, -1, "Emergencial.", Move.moveCategs.PHYSICAL, 50);
 	}
 
 	@Override

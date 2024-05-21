@@ -16,9 +16,9 @@ final public class DmgPlusStat extends DamageDealing {
 	private boolean boostSelf; // quem
 	private int boostChance; // com qual frequência
 	
-	public DmgPlusStat(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp,
-			int sId, int bStages, int bChance, boolean bSelf) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public DmgPlusStat(int id, String name, int type, int maxP, int pri, int accu, String desc,
+			Move.moveCategs categ, int bp, int sId, int bStages, int bChance, boolean bSelf) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 		this.setStatId(sId);
 		this.setBoostStages(bStages); 
 		this.setBoostSelf(bSelf);

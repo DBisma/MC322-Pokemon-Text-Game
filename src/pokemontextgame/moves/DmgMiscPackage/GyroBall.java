@@ -16,8 +16,8 @@ public class GyroBall extends DmgMisc {
 	 * do pokemon atual em relação à do inimigo.
 	 */
 	
-	public GyroBall(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public GyroBall(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

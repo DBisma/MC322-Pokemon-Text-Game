@@ -13,8 +13,8 @@ public class DoubleEdge extends DmgMisc {
 	 * em 1/4 do dano dado ao inimigo.
 	 */
 	
-	public DoubleEdge(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public DoubleEdge(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

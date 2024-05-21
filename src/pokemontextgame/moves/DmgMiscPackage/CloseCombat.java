@@ -13,8 +13,8 @@ public class CloseCombat extends DmgMisc {
 	 * diminui os stats de Def, Sp. Def do usuário.
 	 */
 	
-	public CloseCombat(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public CloseCombat(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

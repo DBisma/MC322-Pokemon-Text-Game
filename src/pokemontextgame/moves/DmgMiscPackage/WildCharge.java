@@ -14,8 +14,8 @@ public class WildCharge extends DmgMisc {
 	 * para justificar a criação de uma superclasse.
 	 */
 	
-	public WildCharge(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public WildCharge(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 	}
 	
 	@Override

@@ -13,8 +13,8 @@ public class ShellSmash extends StatusMisc {
 	 * em um estágio cada mas aumenta Atk, Spec. Atk e Speed
 	 * em dois estágios cada.
 	 */
-	public ShellSmash(int id, String name, int type, int maxP, int pri, int accu) {
-		super(id, name, type, maxP, pri, accu);
+	public ShellSmash(int id, String name, int type, int maxP, int pri, int accu, String desc) {
+		super(id, name, type, maxP, pri, accu, desc);
 	}
 	
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {

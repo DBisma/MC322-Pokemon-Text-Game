@@ -15,9 +15,9 @@ public final class DmgPlusFx extends DamageDealing {
 	private StatusFx.typeList fxType;
 	private int fxChance;
 
-	public DmgPlusFx(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp, 
-					StatusFx.typeList fxType, int fxChance) {
-		super(id, name, type, maxP, pri, accu, categ, bp);
+	public DmgPlusFx(int id, String name, int type, int maxP, int pri, int accu, String desc,
+			Move.moveCategs categ, int bp, StatusFx.typeList fxType, int fxChance) {
+		super(id, name, type, maxP, pri, accu, desc, categ, bp);
 		this.fxChance = fxChance;
 		this.fxType = fxType;
 	}

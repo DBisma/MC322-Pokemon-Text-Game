@@ -23,9 +23,9 @@ public class SuperclassTwoStatModifiers extends StatusMisc {
 	private boolean[] boostSelf;
 	
 	
-	public SuperclassTwoStatModifiers(int id, String name, int type, int maxP, int pri, int accu,
+	public SuperclassTwoStatModifiers(int id, String name, int type, int maxP, int pri, int accu, String desc,
 		int statIdA, int statIdB, int boostStageA, int boostStageB, boolean boostSelfA, boolean boostSelfB) {
-	super(id, name, type, maxP, pri, accu);
+	super(id, name, type, maxP, pri, accu, desc);
 	
 	this.statIds = new int[2];
 	this.boostStages = new int[2];

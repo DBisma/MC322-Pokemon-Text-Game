@@ -8,8 +8,8 @@ public class SuperclassSelfHealingMove extends StatusMisc {
 	/*
 	 * Softboiled é um move que recupera o HP do usuário.
 	 */
-	public SuperclassSelfHealingMove(int id, String name, int type, int maxP, int pri, int accu) {
-		super(id, name, type, maxP, pri, accu);
+	public SuperclassSelfHealingMove(int id, String name, int type, int maxP, int pri, int accu, String desc) {
+		super(id, name, type, maxP, pri, accu, desc);
 	}
 
 	public Move.moveResults useMove(Battlefield field, Poke pAtk, Poke pDef, TypeChart tchart) {
