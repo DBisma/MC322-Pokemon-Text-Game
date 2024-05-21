@@ -160,9 +160,9 @@ public class BattleMenu {
 		for(i = 0; i < 4; i++) {
 			currentMove = mon.getMove(i); // Varre moves do Poke selecionado
 			if(!(currentMove == null)) {
-				System.out.print("[" + String.valueOf(moveCount + 1) + "] "  + currentMove.getName()
-				+ " | " + TypeChart.typeToString(currentMove.getTipagem())
-				+ " | PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
+				System.out.print("[" + String.valueOf(moveCount + 1) + "] "  + alignString(currentMove.getName(), 16)
+				+ alignString(TypeChart.typeToString(currentMove.getTipagem()), 10)
+				+ "PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
 				moveCount++;
 				validMoveIds.add(i);
 			}
@@ -405,14 +405,16 @@ public class BattleMenu {
 			curMon = player.getTeam()[i];
 			if(curMon != null) {
 				monCount++;
-				monString = ("[" + (i + 1) + "] '" + curMon.getName() + "' (" + curMon.getSpeciesName() + ") " + "| Lv. " + curMon.getLevel()
-				+ "| " + TypeChart.fullTypeToString(curMon));
+				monString = ("[" + (i + 1) + "] " + alignString("'" + curMon.getName() + "'", 14)
+				+ alignString("(" + curMon.getSpeciesName() + ")", 14)
+				+ "Lv. " + alignString(String.valueOf(curMon.getLevel()), 5)
+				+ alignString(TypeChart.fullTypeToString(curMon), 24));
 				
 				// Checando Fainted
 				if(curMon.isFainted())
 					monString += " | " + "FAINTED";
 				else
-					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp() + " " + renderTextLifeBar(curMon);
+					monString += alignString("HP: " + renderTextLifeBar(curMon), 15) + curMon.getCurHp() + "/" + curMon.getMaxHp();
 				
 				// Checando status.
 				typeList currentStatus = curMon.getStatusFx().getType();
@@ -438,9 +440,16 @@ public class BattleMenu {
 		String statusfx = "";
 		statusfx += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
 		String who = isPlayer ? "ativo" : "inimigo";
-		String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
-				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
-				" | " + TypeChart.fullTypeToString(pMon) + " " + statusfx + "\n");
+//		String out = ("Pokémon \t" + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
+//				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
+//				" | " + TypeChart.fullTypeToString(pMon) + " \t" + statusfx + "\n");
+		
+		String out = ("Pokémon " + alignString(who)
+					+ alignString("'" + pMon.getName() + "'")
+					+ "(" + pMon.getSpeciesName() + ") "
+					+ "\t" + alignString("HP: " + renderTextLifeBar(pMon), 15)
+				 + alignString(pMon.getCurHp() + "/" + pMon.getMaxHp())
+				+ alignString(TypeChart.fullTypeToString(pMon)) + alignString(statusfx) + "\n");
 		int i = 0;
 
 		// Para imprimir com formatação correta os stats boosts
@@ -526,5 +535,31 @@ public class BattleMenu {
 				"        :*+:        :+*:        \n" +
 				"          .=++++++++=.          \n" );
 	}
+	
+	public static String alignString(String string) {
+		/*
+		 * Retorna uma string com distanciamento extra
+		 * de acordo com o tannho da string recebida.
+		 */
+		int len = string.length();
+		int i = 0;
+		for(i = len; i < 12; i++) {
+			string += " ";
+		}
+		return string;
+	}
+	
+	public static String alignString(String string, int spaces) {
+		/*
+		 * Overload de alignString que recebe o número de espaços para alinhamento.
+		 */
+		int len = string.length();
+		int i = 0;
+		for(i = len; i < spaces; i++) {
+			string += " ";
+		}
+		return string;
+	}
+
 }
 

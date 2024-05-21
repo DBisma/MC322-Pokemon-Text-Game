@@ -12,8 +12,8 @@ abstract class StatusGeneral extends Move {
 	 */
 	final Move.moveCategs categ = Move.moveCategs.STATUS; // não pode ser mais nada
 	
-	public StatusGeneral(int id, String name, int type, int maxP, int pri, int accu) {
-		super(id, name, type, maxP, pri, accu);
+	public StatusGeneral(int id, String name, int type, int maxP, int pri, int accu, String desc) {
+		super(id, name, type, maxP, pri, accu, desc);
 	}
 	
 	@Override

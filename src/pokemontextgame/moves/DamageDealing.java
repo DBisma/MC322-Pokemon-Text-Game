@@ -1,6 +1,7 @@
 package pokemontextgame.moves;
 
 import pokemontextgame.TypeChart;
+import pokemontextgame.BattleMenu;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
@@ -14,8 +15,8 @@ public class DamageDealing extends Move {
 	private Move.moveCategs categ;
 	protected int basePower;
 	
-	public DamageDealing(int id, String name, int type, int maxP, int pri, int accu, Move.moveCategs categ, int bp) {
-		super(id, name, type, maxP, pri, accu);
+	public DamageDealing(int id, String name, int type, int maxP, int pri, int accu, String desc, Move.moveCategs categ, int bp) {
+		super(id, name, type, maxP, pri, accu, desc);
 		this.categ = categ;
 		this.basePower = bp;
 	}
@@ -100,13 +101,13 @@ public class DamageDealing extends Move {
 		else
 			accu += this.accuracy;
 		
-		output = "Move: " + "'"+ this.name + "'\n"
-				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
-				+ "Categoria: " + this.categ + "\n"
-				+ "Poder: " + this.basePower + "\n"
-				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
-				+ "Prioridade: " + this.priority + "\n"
-				+ "Precisão: " + accu + "\n"
+		output = BattleMenu.alignString("Move:") + "'"+ this.name + "'\n"
+				+ BattleMenu.alignString("Tipo:") + TypeChart.typeToString(this.type) + "\n"
+				+ BattleMenu.alignString("Categoria:") + this.categ + "\n"
+				+ BattleMenu.alignString("Poder:") + this.basePower + "\n"
+				+ BattleMenu.alignString("PP:") + this.points + " / " + this.maxPoints + "\n"
+				+ BattleMenu.alignString("Prioridade:") + this.priority + "\n"
+				+ BattleMenu.alignString("Precisão:") + accu + "\n"
 				+ newdesc + "\n";
 		
 		return output;

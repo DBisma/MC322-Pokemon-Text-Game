@@ -14,9 +14,9 @@ final public class StatusChangeFx extends StatusGeneral {
 	// Um tanto análogo a DmgPlusFx, mas sem a seção de dano, e com chance 100%
 	private StatusFx.typeList fxType; // efeito em si
 		
-	public StatusChangeFx(int id, String name, int type, int maxP, int pri, int accu,
+	public StatusChangeFx(int id, String name, int type, int maxP, int pri, int accu, String desc,
 			StatusFx.typeList fxType, int fxDuration, boolean isVolatile) {
-		super(id, name, type, maxP, pri, accu);
+		super(id, name, type, maxP, pri, accu, desc);
 		this.fxType = fxType;
 	}
 	

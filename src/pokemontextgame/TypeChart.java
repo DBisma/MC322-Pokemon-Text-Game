@@ -192,9 +192,11 @@ public class TypeChart {
 		 * já formatada com todos seus tipos.
 		 */
 		String monString = "[" + TypeChart.typeToString(mon.getTipagem()[0]) + "]";
-		
-		if(mon.getTipagem()[1] != -1) // se houver tipo secundário
+		monString = BattleMenu.alignString(monString, 10);
+		if(mon.getTipagem()[1] != -1) { // se houver tipo secundário
 			monString += " [" + TypeChart.typeToString(mon.getTipagem()[1]) + "]";
+			monString = BattleMenu.alignString(monString, 10);
+		}
 		
 		return monString;
 	}

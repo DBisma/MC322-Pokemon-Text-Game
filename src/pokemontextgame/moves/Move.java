@@ -1,6 +1,7 @@
 package pokemontextgame.moves;
 
 import pokemontextgame.TypeChart;
+import pokemontextgame.BattleMenu;
 import pokemontextgame.Battlefield;
 import pokemontextgame.Poke;
 import pokemontextgame.TurnUtils;
@@ -28,7 +29,7 @@ public abstract class Move {
 		RAISE_YES, RAISE_FAIL, LOWER_YES, LOWER_FAIL, TOTAL_SUCCESS, PARTIAL_SUCCESS, TOTAL_FAILURE}
 	public enum moveCategs{PHYSICAL, SPECIAL, STATUS};
 	
-	public Move(int id, String name, int type, int maxP, int pri, int accu){
+	public Move(int id, String name, int type, int maxP, int pri, int accu, String desc){
 		this.id = id;
 		this.name = name;
 		this.type = type;
@@ -36,6 +37,7 @@ public abstract class Move {
 		this.points = maxP; // sempre é construído com o max
 		this.priority = pri;
 		this.accuracy = accu;
+		this.desc = desc;
 	}
 	
 	// É overridden por suas subclasses
@@ -69,11 +71,11 @@ public abstract class Move {
 		else
 			accu += this.accuracy;
 		
-		output = "Move: " + "'"+ this.name + "'\n"
-				+ "Tipo: " + TypeChart.typeToString(this.type) + "\n"
-				+ "PP: " + this.points + " / " + this.maxPoints + "\n"
-				+ "Prioridade: " + this.priority + "\n"
-				+ "Precisão: " + accu + "\n"
+		output = BattleMenu.alignString("Move:") + "'"+ this.name + "'\n"
+				+ BattleMenu.alignString("Tipo:") + TypeChart.typeToString(this.type) + "\n"
+				+ BattleMenu.alignString("PP:") + this.points + " / " + this.maxPoints + "\n"
+				+ BattleMenu.alignString("Prioridade:") + this.priority + "\n"
+				+ BattleMenu.alignString("Precisão:") + accu + "\n"
 				+ newdesc + "\n";
 		
 		return output;

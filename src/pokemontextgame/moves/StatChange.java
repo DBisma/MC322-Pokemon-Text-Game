@@ -17,9 +17,9 @@ final public class StatChange extends StatusGeneral {
 	private boolean boostSelf; // quem
 	// Fora a accuracy do move, a chance do efeito é sempre de 100%
 	
-	public StatChange(int id, String name, int type, int maxP, int pri, int accu,
+	public StatChange(int id, String name, int type, int maxP, int pri, int accu, String desc,
 			int statId, int boostStage, boolean boostSelf) {
-		super(id, name, type, maxP, pri, accu);
+		super(id, name, type, maxP, pri, accu, desc);
 		this.statId = statId;
 		this.boostStages = boostStage;
 		this.boostSelf = boostSelf;

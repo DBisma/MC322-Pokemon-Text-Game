@@ -57,7 +57,7 @@ public class Poke {
 		
 		// O resto deverá vir do Json
 		this.pokedexId = pokedexID; // usado para evocar o json da construção
-		
+		this.pokedexEntry = pokeDexEntry;
 		this.speciesName = speciesName;
 		this.pokedexEntry = pokeDexEntry;
 		this.tipagem = tipagem;
@@ -106,15 +106,20 @@ public class Poke {
 		 * numa grande string e a retorna.
 		 */
 		
-		String out;
-		out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n"
-			+ "HP: " + this.curHp + "/" + this.maxHp + "\n"
-			+ "ATK: " + this.statCalcLevelAdjusted(1) + "\n"
-			+ "DEF: " + this.statCalcLevelAdjusted(2) + "\n"
-			+ "SP. ATK: " + this.statCalcLevelAdjusted(3) + "\n"
-			+ "SP. DEF: " + this.statCalcLevelAdjusted(4) + "\n"
-			+ "SPEED: " + this.statCalcLevelAdjusted(5) + "\n";
+		String out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n"
+			+ BattleMenu.alignString("HP:", 10) + this.curHp + "/" + this.maxHp + "\n"
+			+ BattleMenu.alignString("ATK:", 10) + this.statCalcLevelAdjusted(1) + "\n"
+			+ BattleMenu.alignString("DEF:", 10) + this.statCalcLevelAdjusted(2) + "\n"
+			+ BattleMenu.alignString("SP. ATK:", 10) + this.statCalcLevelAdjusted(3) + "\n"
+			+ BattleMenu.alignString("SP. DEF:", 10) + this.statCalcLevelAdjusted(4) + "\n"
+			+ BattleMenu.alignString("SPEED:", 10) + this.statCalcLevelAdjusted(5) + "\n";
 		
+		if(this.pokedexEntry == null) {
+			out += "Nenhuma descrição disponível.";
+		}
+		else {
+			out += pokedexEntry + "\n";
+		}
 		return out;
 	}
 	
