@@ -8,7 +8,8 @@
   		"MovePriority": 0,
   		"BasePower": 75,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano; pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "BURN"
 	},
@@ -22,7 +23,8 @@
   		"MovePriority": 0,
   		"BasePower": 75,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano; pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "PARALYSIS"
 	},
@@ -36,7 +38,8 @@
   		"MovePriority": 0,
   		"BasePower": 75,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano; pode causar FREEZE.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "FREEZE"
 	},
@@ -49,7 +52,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Aumenta o Atk. em dois estágios.",
+		"Subclass" : "StatChange",
   		"statId": 0,
 		"boostStages": 2,
 		"boostSelf": true
@@ -64,7 +68,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "BURN"
 	},
@@ -78,7 +83,8 @@
   		"MovePriority": 0,
   		"BasePower": 110,
   		"Accuracy": 80,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -90,7 +96,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -102,7 +109,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar FREEZE.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "FREEZE"
 	},
@@ -115,7 +123,8 @@
   		"MaxPoints": 30,
   		"MovePriority": 0,
   		"Accuracy": 75,
-  		"Subclass": "StatusChangeFx",
+  		"Description" : "Paralisa o adversário.",
+		"Subclass" : "StatusChangeFx",
 		"FxType": "PARALYSIS"
 	},
 
@@ -128,7 +137,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "PARALYSIS"
 	},
@@ -141,7 +151,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": 90,
-  		"Subclass": "StatusChangeFx",
+  		"Description" : "Paralisa o adversário.",
+		"Subclass" : "StatusChangeFx",
 		"FxType": "PARALYSIS"
 	},
 
@@ -154,7 +165,8 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -165,7 +177,8 @@
   		"MaxPoints": 10,
   		"MovePriority": 0,
   		"Accuracy": 90,
-  		"Subclass": "StatusChangeFx",
+  		"Description" : "Aplica BAD_POISON ao inimigo.",
+		"Subclass" : "StatusChangeFx",
 		"FxType": "BAD_POISON"
 	},
 	
@@ -178,7 +191,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def do inimigo em um estágio.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -193,7 +207,8 @@
   		"MaxPoints": 30,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Aumenta a velocidade em dois estágios..",
+		"Subclass" : "StatChange",
   		"statId": 4,
 		"boostStages": 2,
 		"boostSelf": true
@@ -208,7 +223,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais..",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -219,7 +235,8 @@
   		"MaxPoints": 15,
   		"MovePriority": 0,
   		"Accuracy": 100,
-  		"Subclass": "StatusChangeFx",
+  		"Description" : "Causa SLEEP.",
+		"Subclass" : "StatusChangeFx",
 		"FxType": "SLEEP"
 	},
 
@@ -231,7 +248,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Amenta a Def. em dois estágios.",
+		"Subclass" : "StatChange",
   		"statId": 1,
 		"boostStages": 2,
 		"boostSelf": true
@@ -246,7 +264,8 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Soco com prioridade.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -258,7 +277,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar Poison.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 30,
     	"FxType": "POISON"
 	},
@@ -272,7 +292,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir defesa do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 1,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -288,7 +309,8 @@
   		"MovePriority": 2,
   		"BasePower": 100,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano com alta prioridade.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -300,7 +322,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -316,7 +339,8 @@
   		"MovePriority": 0,
   		"BasePower": 95,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "BURN"
 	},
@@ -329,7 +353,8 @@
   		"MaxPoints": 15,
   		"MovePriority": 0,
   		"Accuracy": 85,
-  		"Subclass": "StatusChangeFx",
+  		"Description" : "Causa BURN.",
+		"Subclass" : "StatusChangeFx",
 		"FxType": "BURN"
 	},
 
@@ -342,7 +367,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -358,7 +384,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeito adicional.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -370,7 +397,8 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 90,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Diminui a velocidade do usuário.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 4,
 		"boostStages": -1,
 		"boostSelf": true,
@@ -385,7 +413,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Aumenta a velocidade em dois estágios.",
+		"Subclass" : "StatChange",
   		"statId": 4,
 		"boostStages": 2,
 		"boostSelf": true
@@ -400,7 +429,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -416,7 +446,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 90,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -428,7 +459,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais..",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -440,7 +472,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -456,7 +489,8 @@
   		"MovePriority": 0,
   		"BasePower": 120,
   		"Accuracy": 70,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 3,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -471,7 +505,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Aumenta Spec. Atk do usuário em dois estágios.",
+		"Subclass" : "StatChange",
   		"statId": 2,
 		"boostStages": 2,
 		"boostSelf": true
@@ -486,7 +521,8 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Ataque físico com prioridade.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -498,7 +534,8 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano com prioridade.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{
@@ -510,7 +547,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -522,7 +560,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 30,
     	"FxType": "PARALYSIS"
 	},
@@ -536,7 +575,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -548,7 +588,8 @@
   		"MovePriority": 0,
   		"BasePower": 100,
   		"Accuracy": 80,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -560,7 +601,8 @@
   		"MovePriority": 1,
   		"BasePower": 40,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano com prioridade.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -572,7 +614,8 @@
   		"MovePriority": 0,
   		"BasePower": 95,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusFx",
+  		"Description" : "Dá dano. Pode causar POISON.",
+		"Subclass" : "DmgPlusFx",
     	"FxChance": 10,
     	"FxType": "POISON"
 	},
@@ -586,7 +629,8 @@
   		"MovePriority": 0,
   		"BasePower": 85,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir a precisão do adversário.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 7,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -602,7 +646,8 @@
   		"MovePriority": 0,
   		"BasePower": 130,
   		"Accuracy": 85,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{ 
@@ -614,7 +659,8 @@
   		"MovePriority": 0,
   		"BasePower": 95,
   		"Accuracy": 100,
-  		"Subclass": "DmgPlusStat",
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
   		"statId": 2,
 		"boostStages": -1,
 		"boostSelf": false,
@@ -630,7 +676,8 @@
   		"MovePriority": 0,
   		"BasePower": 75,
   		"Accuracy": 100,
-  		"Subclass": "GigaDrain"
+  		"Description" : "Dá dano. Cura o usuário em metade do dano causado.",
+		"Subclass" : "GigaDrain"
 	},
 
 	{
@@ -642,7 +689,8 @@
   		"MovePriority": 0,
   		"BasePower": 120,
   		"Accuracy": 100,
-  		"Subclass": "BraveBird"
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "BraveBird"
 	},
 
 	{
@@ -654,7 +702,8 @@
   		"MovePriority": 0,
   		"BasePower": 30,
   		"Accuracy": 100,
-  		"Subclass": "DoubleEdge"
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+	"Subclass" : "DoubleEdge"
 	},
 
 	{
@@ -666,7 +715,8 @@
   		"MovePriority": 0,
   		"BasePower": 500,
   		"Accuracy": 100,
-  		"Subclass": "Explosion"
+  		"Description" : "Destrói a si mesmo, tomando K.0., mas causando dano colossal.",
+		"Subclass" : "Explosion"
 	},
 
 	{
@@ -678,7 +728,8 @@
   		"MovePriority": 0,
   		"BasePower": 120,
   		"Accuracy": 100,
-  		"Subclass": "FlareBlitz"
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "FlareBlitz"
 	},
 
 	{
@@ -690,7 +741,8 @@
   		"MovePriority": 0,
   		"BasePower": 20,
   		"Accuracy": 100,
-  		"Subclass": "GrassKnot"
+  		"Description" : "Dá dano que cresce baseado no peso do inimigo.",
+		"Subclass" : "GrassKnot"
 	},
 
 	{
@@ -702,7 +754,8 @@
   		"MovePriority": 0,
   		"BasePower": 20,
   		"Accuracy": 100,
-  		"Subclass": "LowKick"
+  		"Description" : "Dá dano que cresce baseado no peso do inimigo.",
+		"Subclass" : "LowKick"
 	},
 
 	{
@@ -714,7 +767,8 @@
   		"MovePriority": 0,
   		"BasePower": 50,
   		"Accuracy": 100,
-  		"Subclass": "SeismicToss"
+  		"Description" : "Causa dano bruto igual ao nível do usuário.",
+		"Subclass" : "SeismicToss"
 	},
 
 	{
@@ -726,7 +780,8 @@
   		"MovePriority": 0,
   		"BasePower": 120,
   		"Accuracy": 100,
-  		"Subclass": "Superpower"
+  		"Description" : "Causa dano, mas diminui stats do usuário.",
+		"Subclass" : "Superpower"
 	},
 
 	{
@@ -738,7 +793,8 @@
   		"MovePriority": 0,
   		"BasePower": 80,
   		"Accuracy": 100,
-  		"Subclass": "TriAttack"
+  		"Description" : "Causa dano, podendo causar FREEZE, PARALYSIS ou BURN.",
+		"Subclass" : "TriAttack"
 	},
 
 	{
@@ -750,7 +806,8 @@
   		"MovePriority": 0,
   		"BasePower": 180,
   		"Accuracy": 95,
-  		"Subclass": "VCreate"
+  		"Description" : "Causa dano altíssimo, mas reduz drasticamente stats do usuário.",
+		"Subclass" : "VCreate"
 	},
 
 	{
@@ -762,7 +819,8 @@
   		"MovePriority": 0,
   		"BasePower": 90,
   		"Accuracy": 100,
-  		"Subclass": "LowKick"
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "WildCharge"
 	},
 
 	{
@@ -773,7 +831,8 @@
   		"MaxPoints": 5,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "HealBell"
+  		"Description" : "Cura o time inteiro de Status FX como POISON, PARALYSIS, etc.",
+		"Subclass" : "HealBell"
 	},
 
 	{
@@ -784,7 +843,8 @@
   		"MaxPoints": 15,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "ShellSmash"
+  		"Description" : "Aumenta em dois níveis a velocidade, ataque e ataque especial, mas reduz as duas defesas.",
+		"Subclass" : "ShellSmash"
 	},
 
 	{
@@ -795,7 +855,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
+  		"Description" : "Aumenta ou diminui dois stats.",
+		"Subclass" : "SuperclassTwoStatModifiers",
   		"statIdA": 0,
   		"statIdB": 2,
   		"boostStageA": 1,
@@ -813,7 +874,8 @@
   		"MovePriority": 0,
 		"BasePower": 120,
   		"Accuracy": 100,
-  		"Subclass": "CloseCombat"
+  		"Description" : "Causa dano alto, mas expõe o usuário ao diminuir suas duas defesas em um estágio.",
+		"Subclass" : "CloseCombat"
 	},
 
 	{
@@ -824,7 +886,8 @@
   		"MaxPoints": 5,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "SuperclassSelfHealingMove"
+  		"Description" : "Cura a si mesmo.",
+		"Subclass" : "SuperclassSelfHealingMove"
 	},
 
 	{
@@ -835,7 +898,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
+  		"Description" : "Aumenta velocidade e ataque em um estágio cada.",
+		"Subclass" : "SuperclassTwoStatModifiers",
   		"statIdA": 0,
   		"statIdB": 4,
   		"boostStageA": 1,
@@ -852,7 +916,8 @@
   		"MaxPoints": 5,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "SuperclassSelfHealingMove"
+  		"Description" : "Cura a si mesmo.",
+		"Subclass" : "SuperclassSelfHealingMove"
 	},
 
 	{
@@ -864,7 +929,8 @@
   		"MovePriority": 0,
 		"BasePower": 20,
   		"Accuracy": 100,
-  		"Subclass": "CloseCombat"
+  		"Description" : "Causa dano que aumenta quanto mais lento for o usuário em relação ao oponente.",
+		"Subclass" : "CloseCombat"
 	},
 
 	{ 
@@ -875,7 +941,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "StatChange",
+  		"Description" : "Aumenta evasividade em dois níveis.",
+		"Subclass" : "StatChange",
   		"statId": 6,
 		"boostStages": 2,
 		"boostSelf": true
@@ -890,7 +957,8 @@
   		"MovePriority": 0,
   		"BasePower": 70,
   		"Accuracy": 100,
-  		"Subclass": "DamageDealing"
+  		"Description" : "Causa dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
 	},
 
 	{
@@ -902,7 +970,8 @@
   		"MovePriority": 0,
 		"BasePower": 50,
   		"Accuracy": -1,
-  		"Subclass": "ClearSmog"
+  		"Description" : "Causa dano e nulifica todas as mudanças de stat do oponente, positivas ou negativas.",
+		"Subclass" : "ClearSmog"
 	},
 
 	{
@@ -913,7 +982,8 @@
   		"MaxPoints": 20,
   		"MovePriority": 0,
   		"Accuracy": -1,
-  		"Subclass": "SuperclassTwoStatModifiers",
+  		"Description" : "Aumenta o ataque especial e a defesa especial.",
+		"Subclass" : "SuperclassTwoStatModifiers",
   		"statIdA": 2,
   		"statIdB": 3,
   		"boostStageA": 1,
