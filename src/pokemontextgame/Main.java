@@ -26,7 +26,7 @@ public class Main {
 		Battlefield field = new Battlefield(player, npc, true);
 		// Loop de turno até a batalha acabar
 		field.turnLoops(scan);
-		// Fim
+		// Fim de jogo
 		BattleMenu.printPokeballAscii();
 		
 		// impedindo resource leak
