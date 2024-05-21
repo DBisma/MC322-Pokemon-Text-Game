@@ -3,9 +3,8 @@ package pokemontextgame;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.function.Function;
-
-import moves.Move;
-import moves.Struggle;
+import pokemontextgame.moves.Move;
+import pokemontextgame.moves.Struggle;
 
 public class Battlefield {
 	/*
@@ -15,17 +14,15 @@ public class Battlefield {
 	 * troca de pokémon, finalização de batalha, etc.
 	 */
 	private int turnCount;
-	private Weather weather; // Provavelmente não usaremos por enquanto. TODO;
 	private TreinadorNpc lNpc;
 	private Treinador lPlayer;
 	private Poke npcMon; // talvez redundante
 	private Poke playerMon; // talvez redundante
 	private TypeChart tchart;
 	private boolean koSwitch; // flag que permite uma troca extra que não gasta a escolha para casos em que o último pokemon tomou K.O.
-	private boolean end; // flag para fim da batalha ao se passarem todos os turnos TODO talvez desnecessário
+	private boolean end; // flag para fim da batalha ao se passarem todos os turnos
 	private boolean trainerBattle; // flag para batalha contra pokemon selvagem ou contra treinador
 	private Struggle struggle = new Struggle(); // ataque de emergência com PP infinito
-	// TODO: Classe de turno. Por enquanto, tentaremos fazer a classe aqui.
 	
 	// Leitura e impressão de informação
 	private Choice playerChoice;
@@ -38,8 +35,7 @@ public class Battlefield {
 		 * Pode ser de 7 tipos.
 		 * O id se refere qual decisão em si foi tomada.
 		 */
-		
-		// TODO: Deixar ENUM público mesmo?
+
 		// Por enquanto, não implementaremos BAG_HEAL, BAG_STATUS, BAG_POKEBALL, BAG_BOOST;
 		// RUN nunca dará certo porque por enquanto estamos apenas lidando com batalhas com treinadores.
 		public enum choiceType {MOVE, SWITCH, RUN};
@@ -93,7 +89,6 @@ public class Battlefield {
 	
 	public Battlefield(Treinador player, TreinadorNpc npc, boolean trainerBattle) {
 		this.turnCount = 0;
-		this.weather = new Weather(true, 1, -1); // TODO: Se livrar logo.
 		this.trainerBattle = true;
 		this.end = false;
 		// as próximas duas linhas talvez sejam desnecessárias
@@ -110,7 +105,7 @@ public class Battlefield {
 		
 		this.tchart = new TypeChart();
 	}
-	
+
 	public boolean turnLoops(Scanner scan) {
 		/*
 		 * Função que rege um confronto inteiro.
@@ -173,8 +168,6 @@ public class Battlefield {
 		playerChoice = new Choice();
 		npcChoice = new Choice();
 		
-		// Fazer um objeto Weather? Talvez seja uma boa. TODO: Se não formos deletar weather
-		
 		// Atualizando
 		playerMon = lPlayer.getActiveMon();
 		npcMon = lNpc.getActiveMon();
@@ -211,7 +204,7 @@ public class Battlefield {
 		if(!playerMon.isFainted()) { // se mon ativo estiver vivo 
 			BattleMenu.menuDisplayRoot(scan, this);
 		}
-		else { // força troca caso contrário TODO Talvez seja desnecessário com a nova func. ali em cima
+		else { // força troca caso contrário
 			lPlayer.setForcedSwitch(true);
 			BattleMenu.menuDisplayTeam(scan, this); 
 		}
@@ -233,7 +226,8 @@ public class Battlefield {
 		if(npcChoice.getType() != Choice.choiceType.MOVE)
 			choiceQueue.add(npcChoiceTuple);
 		else {
-			npcMove = npcMon.getMove(Math.abs(npcChoice.getId())); // Conversão mencionada em TreinadorNpc.getBestDamageId();
+			// Conversão mencionada em TreinadorNpc.getBestDamageId() + leitura de Struggle
+			npcMove = (npcChoice.getId() < 4 ? this.struggle : npcMon.getMove(Math.abs(npcChoice.getId())));
 		}
 		
 		if(playerChoice.getType() != Choice.choiceType.MOVE) {
@@ -273,8 +267,8 @@ public class Battlefield {
 						else
 							return 1f;
 					};
-					int playerSpeed = (int) (TurnUtils.getModStat(4, playerMon)*paralysisSlowdown.apply(playerMon));
-					int npcSpeed =  (int) (TurnUtils.getModStat(4, npcMon)*paralysisSlowdown.apply(npcMon));
+					int playerSpeed = (int) (TurnUtils.getModStat(5, playerMon)*paralysisSlowdown.apply(playerMon));
+					int npcSpeed =  (int) (TurnUtils.getModStat(5, npcMon)*paralysisSlowdown.apply(npcMon));
 					if(playerSpeed > npcSpeed) {
 						choiceQueue.add(playerChoiceTuple);
 						choiceQueue.add(npcChoiceTuple);
@@ -308,16 +302,14 @@ public class Battlefield {
 				this.SwitchMons(currentCT.owner, choiceId);
 			}
 			else { // Por enquanto, esse Else pode apenas ser um Move. Ver notas em Battlefield.Choice.choiceType
-				Treinador movingTr, receivingTr;
+				Treinador receivingTr;
 				Poke movingMon, receivingMon;
 				if(currentCT.owner == lPlayer) {
-					movingTr = lPlayer;
 					movingMon = playerMon;
 					receivingTr = lNpc;
 					receivingMon = npcMon;
 				}
 				else {
-					movingTr = lNpc;
 					movingMon = npcMon;
 					receivingTr = lPlayer;
 					receivingMon = playerMon;
@@ -457,10 +449,15 @@ public class Battlefield {
 		 * Altera o field para realizar as trocas de pokemons.
 		 */
 		Poke prevMon = trainer.getActiveMon();
+		prevMon.setActive(false);
+		prevMon.resetStats();
 		prevMon.setTurnsOnField(0);
 		prevMon.getStatusFx().setTimeAfflicted(0);
-		trainer.setForcedSwitch(false);
+		
 		trainer.setActiveMonId(newMonId);
+		trainer.getActiveMon().setActive(true);
+		trainer.getActiveMon().setTurnsOnField(0);
+		trainer.setForcedSwitch(false);
 		this.getTextBoxBuffer().textQueue.add("Treinador " + trainer.getName()
 				+ " trocou " + prevMon.getName()
 				+ " por " + trainer.getActiveMon().getName() + "!\n");

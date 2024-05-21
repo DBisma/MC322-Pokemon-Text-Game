@@ -1,21 +1,20 @@
 package pokemontextgame;
 
-import moves.*;
-import moves.Move.moveCategs;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
+import pokemontextgame.moves.*;
+import pokemontextgame.moves.Move.moveCategs;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Function;
 
 public class TreinadorNpc extends Treinador{
 	/*
 	 * Classe que lida com o treinador especial NPC.
 	 * Quase todos seus métodos são de tomada de sua decisão.
-	 * Poderá possuir alguns coeficientes de dificuldade. TODO
 	 */
+	
 	public TreinadorNpc(int id, String nome, boolean player) {
 		super(id, nome, player);
 	}
@@ -28,8 +27,6 @@ public class TreinadorNpc extends Treinador{
 		 * Retorna uma decisão para o NPC no battlefield.
 		 * Mais explicação no corpo do texto.
 		 * O NPC não pode correr e não possui uma bag própria para utilizar items.
-		 * TODO: Implementar pequena bag para que possa usar items?
-		 * TODO: Remover items de uma vez por todas da bag para que o NPC não tenha que espelhar o jogador?
 		 */
 		
 		// Macros
@@ -41,6 +38,7 @@ public class TreinadorNpc extends Treinador{
 		int bestOffensiveSwitchId = TreinadorNpc.getBestOffensiveTypeSwitch(field);
 		int bestDmgMoveEncoded = TreinadorNpc.getBestDamageMoveId(field); 
 		int bestDmgMoveId = Math.abs(bestDmgMoveEncoded) - 1; // id verdadeiro
+		int activeId = npc.getActiveMonId();
 		
 		// Determinar a troca aleatória; se for -1, sabemos que é impossível trocar nesse turno
 		int rSwitch = TreinadorNpc.getRandomPossibleSwitch(field);
@@ -48,7 +46,17 @@ public class TreinadorNpc extends Treinador{
 		// Verificar se pokemon ativo está fainted ou forced switch
 		if((mon.isFainted() || npc.isForcedSwitch()) && rSwitch != -1) {
 			// Se sim, trocar para melhor ofensivo
-			npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
+			if(bestOffensiveSwitchId != activeId) {
+				npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
+			}
+			// ou defensivo
+			else if(bestDefSwitchId != activeId) {
+				npcChoice.setFullChoice(choiceType.SWITCH, bestDefSwitchId);
+			} 
+			// ou qualquer um
+			else {
+				npcChoice.setFullChoice(choiceType.SWITCH, rSwitch);
+			}
 		}
 		// Se está vivo e não forçado a trocar
 		else {
@@ -87,11 +95,11 @@ public class TreinadorNpc extends Treinador{
 					// Se estiver, approx 2/3 de chance de tentar trocar de cara para limpar debuffs
 					if(debuffCount >= 2 && TurnUtils.rollChance(66) && rSwitch != -1) {
 						// para o melhor em defesa
-						if(bestDefSwitchId != 0) {
+						if(bestDefSwitchId != npc.getActiveMonId()) {
 							npcChoice.setFullChoice(choiceType.SWITCH, bestDefSwitchId);
 						}
 						// se o "melhor" em tipo for o atual, trocar para o melhor em ataque
-						else if(bestOffensiveSwitchId != 0) {
+						else if(bestOffensiveSwitchId != npc.getActiveMonId()) {
 							npcChoice.setFullChoice(choiceType.SWITCH, bestOffensiveSwitchId);
 						}
 						// se também for o atual, trocar para um aleatório
@@ -108,11 +116,10 @@ public class TreinadorNpc extends Treinador{
 						else {
 							int switchIndex = bestDefSwitchId;
 							// se o melhor em defesa já for o atual, trocar para outro com melhores ataques
-							if(switchIndex == 0) {
+							if(switchIndex == npc.getActiveMonId()) {
 								switchIndex = bestOffensiveSwitchId;
 								// se ainda assim não resolver, usar o melhor ataque possível
-								if(switchIndex == 0) {
-									// TODO: Novamente, dar um jeito de ler struggle como MOVE de id 5... quem sabe?
+								if(switchIndex == npc.getActiveMonId()) {
 									npcChoice.setFullChoice(choiceType.MOVE, bestDmgMoveId);
 								}
 							}
@@ -232,8 +239,7 @@ public class TreinadorNpc extends Treinador{
 			if(curMove != null && curMove.getCateg() != Move.moveCategs.STATUS && curMove.getPoints() > 0) {
 				// Se não houver PP em NENHUM move, retornar -10 (id do Struggle);
 				struggle = false;
-				curF = field.getTchart().typeMatch(curMove.getTipagem(), monPlayer.getTipagem()[0])*
-						field.getTchart().typeMatch(curMove.getTipagem(), monPlayer.getTipagem()[1]);
+				curF = field.getTchart().compoundTypeMatch(curMove.getTipagem(), monPlayer);
 				if(curF > bestF) {
 					index = i;
 					bestF = curF;
@@ -257,28 +263,27 @@ public class TreinadorNpc extends Treinador{
 		return index;
 	}
 
-	
 	public static int getRandomPossibleSwitch(Battlefield field) {
 		/*
 		 * Escolhe um pokemon aleatório para a troca.
 		 * Retorna seu índice, ou -1 se a troca é impossível.
 		 */
 		int i;
-		// TODO: int vs Integer, qual a diferença?
 		List<Integer> monlist = new ArrayList<>();
-		// Pula o mon ativo
-		for(i = 1; i < 6; i++) {
+		// Montando lista de aleatórios vivos diferentes do ativo
+		for(i = 0; i < 6; i++) {
 			Poke mon = field.getLoadedNpc().getTeam()[i];
-			if(mon != null && !mon.isFainted()) {
+			if(mon != null && !mon.isFainted() && mon != field.getLoadedNpc().getActiveMon()) {
 				monlist.add(i);
 			}
 		}
-		// Se não houver algum disponível que não seja o ativo
+		// Buscando
 		if(monlist.size() == 0)
 			return -1;
 		// Caso contrário, retorna aleatório dentro da lista
-		else
-			return monlist.get(ThreadLocalRandom.current().nextInt(0, monlist.size() + 1));
+		else {
+			return monlist.get(ThreadLocalRandom.current().nextInt(0, monlist.size()));
+		}
 	}
 
 	public static int getBestDefensiveTypeSwitch(Battlefield field) {
@@ -300,35 +305,31 @@ public class TreinadorNpc extends Treinador{
 				// assume que oponente usará ataque com STAB (dois possíveis)
 				int foeType1 = foeMon.getTipagem()[0];
 				int foeType2 = foeMon.getTipagem()[1];
+				int SwitchId;
 				// Caso Monotipo
 				if(foeType2 == -1) {
 					// retorna o poke mais resistente ao STAB inimigo
-					return TreinadorNpc.getMostResistantMon(field, foeType1);
+					SwitchId = TreinadorNpc.getMostResistantMon(field, foeType1);
+					// Se já não for o próprio.
+					return SwitchId;
 				}
 				// Caso Dois Tipos
 				else {
 					// Busca dois pokes com resistência aos dois STABS diferentes;
 					int resMon1 = TreinadorNpc.getMostResistantMon(field, foeType1);
 					int resMon2 = TreinadorNpc.getMostResistantMon(field, foeType2);
-					// Se forem o mesmo pokemon, retorna ele
-					if(resMon1 == resMon2)
+					// Devem ser diferentes do atual
+					if(TurnUtils.rollChance(50))
 						return resMon1;
-					// Caso contrário, escolhe um dos dois aleatoriamente
-					else {
-						if(TurnUtils.rollChance(50))
-							return resMon1;
-						else
-							return resMon2;
-					}
+					else
+						return resMon2;
 				}
 			}
 			// Caso inimigo já tenha usado um move de dano, deve ter sido o melhor; tendência é repetí-lo
 			else {
 				// Verificar se esse move é grande ameaça para o poke atual
 				int moveType = lastMove.getTipagem();
-				int ownType1 = field.getLoadedNpc().getActiveMon().getTipagem()[0];
-				int ownType2 = field.getLoadedNpc().getActiveMon().getTipagem()[1];
-				float safety = tchart.typeMatch(moveType, ownType1) * tchart.typeMatch(moveType, ownType2);
+				float safety = 	tchart.compoundTypeMatch(moveType, field.getLoadedNpc().getActiveMon());
 				float error = 0.001f;
 				// Se não for grande perigo, mantem o mesmo
 				if(Math.abs(safety - 1f) < error || safety > 1f)
@@ -349,8 +350,6 @@ public class TreinadorNpc extends Treinador{
 		 * trocar tendo em mente estratégias ofensivas.
 		 */
 		Poke foeMon = field.getLoadedPlayer().getActiveMon();
-		int foeType1 = foeMon.getTipagem()[0];
-		int foeType2 = foeMon.getTipagem()[1];
 		// Achar pokemon na party com o melhor de DANO (pensando apenas em tipo) contra o inimigo
 		int i, j;
 		int index = 0;
@@ -364,8 +363,7 @@ public class TreinadorNpc extends Treinador{
 				for(j = 0; j < 4; j++) {
 					Move curMove = curMon.getMove(j);
 					if(curMove != null && curMove.getPoints() > 0) { // o move deve ter PP naturalmente
-						currentF = field.getTchart().typeMatch(curMove.getTipagem(), foeType1) * 
-								field.getTchart().typeMatch(curMove.getTipagem(), foeType2);
+						currentF = field.getTchart().compoundTypeMatch(curMove.getTipagem(), foeMon);
 						if(currentF > bestF) {
 							index = i;
 							currentF = bestF;
@@ -392,7 +390,7 @@ public class TreinadorNpc extends Treinador{
 			mon = field.getLoadedNpc().getTeam()[i];
 			if(!mon.isFainted()) {
 				// Se for monotipo, segunda chamada de typeMatch retorna 1 e não altera o cálculo de resistência
-				currentF = tchart.typeMatch(atkType, mon.getTipagem()[0]) * tchart.typeMatch(atkType, mon.getTipagem()[1]);
+				currentF = tchart.compoundTypeMatch(atkType, mon);
 				if(currentF < lowestF) {
 					lowestF = currentF;
 					index = i;

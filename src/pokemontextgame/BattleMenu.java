@@ -2,10 +2,10 @@ package pokemontextgame;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import moves.Move;
 import pokemontextgame.Battlefield.Choice;
 import pokemontextgame.Battlefield.Choice.choiceType;
 import pokemontextgame.StatusFx.typeList;
+import pokemontextgame.moves.Move;
 
 public class BattleMenu {
 	/*
@@ -28,11 +28,11 @@ public class BattleMenu {
 		 * por vários elementos de menu.
 		 */
 		
-		System.out.print("/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "/ / / / / / / / / / "
-				+ "\n");
+		System.out.print("/ / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / / / / / / / / / / / / / / / "
+				+ "/ / / \n");
 	}
 	
 	static int scanOption(Scanner scan) {
@@ -40,7 +40,6 @@ public class BattleMenu {
 		 * Recebe a opção de um jogador como uma linha.
 		 * Retorna o valor inteiro do primeiro caractere da linha.
 		 * 
-		 * TODO: Deve ter uma forma mais elegante de receber o inteiro sem bugar tudo.
 		 */
 		
 		String optString = scan.nextLine();
@@ -96,8 +95,8 @@ public class BattleMenu {
 		Poke mon = field.getLoadedPlayer().getActiveMon();
 		Poke foe = field.getLoadedNpc().getActiveMon();
 		BattleMenu.printMenuSeparator();
-		System.out.print(pokeInfoBar(mon, true));
 		System.out.print(pokeInfoBar(foe, false));
+		System.out.print(pokeInfoBar(mon, true));
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Lutar \n");
 		System.out.print("[1] Inspecionar seu time \n");
@@ -115,7 +114,7 @@ public class BattleMenu {
 					// Se PP = 0 para todos os moves, nem há opção de escolher move. Lutar -> Struggle.
 					field.getPlayerChoice().setFullChoice(choiceType.MOVE, -10);
 				else {
-					menuDisplayMoveset(scan, field.getLoadedPlayer().getActiveMonId(), false, field); // envia o Poke ativo, sempre de id 0
+					menuDisplayMoveset(scan, field.getLoadedPlayer().getActiveMonId(), false, field);
 					break;
 				}
 			} 
@@ -126,20 +125,20 @@ public class BattleMenu {
 			}
 			// Mochila
 			case 2:{
-				menuDisplayBag(scan, field);  /* TODO */ 
+				menuDisplayBag(scan, field);
 				break;
 			} 
 			// Fugir
 			case 3:{
 				menuTryEscape(scan, field); 
-				break; /*TODO*/ 
+				break;
 			}
 		}
 	}
 	
-	static void menuDisplayMoveset(Scanner scan, int id, boolean isInspecting, Battlefield field) {
+	static void menuDisplayMoveset(Scanner scan, int pokeId, boolean isInspecting, Battlefield field) {
 		/*
-		 * Recebe um Poke e exibe informações de seu moveset.
+		 * Recebe o Id Poke e exibe informações de seu moveset.
 		 * Permite que acessemos mais um menu sobre o ataque escolhido
 		 * ou que voltemos para o menu anterior.
 		 * 
@@ -147,7 +146,7 @@ public class BattleMenu {
 		 * para visualização, mas nunca para uso.
 		 */
 		
-		Poke mon = field.getLoadedPlayer().getTeam()[id];
+		Poke mon = field.getLoadedPlayer().getTeam()[pokeId];
 		BattleMenu.printMenuSeparator();
 		System.out.print("Suas opções são: \n");
 		System.out.print("[0] Voltar \n");
@@ -161,9 +160,9 @@ public class BattleMenu {
 		for(i = 0; i < 4; i++) {
 			currentMove = mon.getMove(i); // Varre moves do Poke selecionado
 			if(!(currentMove == null)) {
-				System.out.print("[" + String.valueOf(moveCount + 1) + "] "  + currentMove.getName()
-				+ " | " + TypeChart.typeToString(currentMove.getTipagem())
-				+ " | PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
+				System.out.print("[" + String.valueOf(moveCount + 1) + "] "  + alignString(currentMove.getName(), 16)
+				+ alignString(TypeChart.typeToString(currentMove.getTipagem()), 10)
+				+ "PP = " + currentMove.getPoints() +  "/" + currentMove.getMaxPoints() + "\n");
 				moveCount++;
 				validMoveIds.add(i);
 			}
@@ -176,23 +175,23 @@ public class BattleMenu {
 		// Disparando opção selecionada
 		if(option == 0) {
 			if(isInspecting)
-				BattleMenu.menuDisplayMon(scan, id, field);
+				BattleMenu.menuDisplayMon(scan, pokeId, field);
 			else
 				BattleMenu.menuDisplayRoot(scan, field);
 		}
 		else {
-			BattleMenu.menuDisplayMove(scan, mon, validMoveIds.get(option - 1), isInspecting, field); // Sendo "option - 1" o Index do Move escolhido
+			BattleMenu.menuDisplayMove(scan, pokeId, validMoveIds.get(option - 1), isInspecting, field); // Sendo "option - 1" o Index do Move escolhido
 		}
 	}
 	
-	static void menuDisplayMove(Scanner scan, Poke mon, int moveId, boolean isInspecting, Battlefield field) {
+	static void menuDisplayMove(Scanner scan, int pokeId, int moveId, boolean isInspecting, Battlefield field) {
 		/*
 		 * Verifica se o pokemon dono desse move é ativo.
 		 * Se for, abre opções para uso.
 		 * Caso contrário, apenas mostra informações sobre Move.
 		 * No caso do boolean "isInspecting", não também não há opção de uso
 		 */
-		Move curMove = mon.getMove(moveId);
+		Move curMove = field.getLoadedPlayer().getTeam()[pokeId].getMove(moveId);
 		int option;
 		BattleMenu.printMenuSeparator();
 		if(curMove == null) {
@@ -218,7 +217,7 @@ public class BattleMenu {
 		// Segue com opções extra para Poké ativo
 		switch(option) {
 			case 0: {
-				BattleMenu.menuDisplayMoveset(scan, 0, isInspecting, field); 
+				BattleMenu.menuDisplayMoveset(scan, pokeId, isInspecting, field);
 				break;
 			}
 			case 1: {
@@ -228,12 +227,12 @@ public class BattleMenu {
 					System.out.print("Não há PP o suficiente para este move!\n");
 					System.out.print("Digite [0] e aperte ENTER para voltar: ");
 					option = BattleMenu.scanOptionLoop(scan, 0, 1);
-					BattleMenu.menuDisplayMove(scan, mon, moveId, isInspecting, field);
+					BattleMenu.menuDisplayMove(scan, pokeId, moveId, isInspecting, field);
 					break;
 				}
 				else {
 					// Enviar ID do move em questão
-					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId); // Como enviar?
+					field.getPlayerChoice().setFullChoice(Choice.choiceType.MOVE, moveId);
 					break;
 				}
 			}
@@ -243,7 +242,7 @@ public class BattleMenu {
 				System.out.print(curMove.toString());
 				System.out.print("Digite [0] e aperte ENTER para voltar: ");
 				option = BattleMenu.scanOptionLoop(scan, 0, 1);
-				BattleMenu.menuDisplayMove(scan, mon, moveId, isInspecting, field);
+				BattleMenu.menuDisplayMove(scan, pokeId, moveId, isInspecting, field);
 			}
 		}
 	}
@@ -259,7 +258,8 @@ public class BattleMenu {
 		// Parte de impressão de opções
 		BattleMenu.printMenuSeparator();
 		System.out.print("Acessando informações de time... \n");
-		System.out.print(pokeInfoBar(field.getLoadedNpc().getActiveMon(), true));
+		System.out.print(pokeInfoBar(field.getLoadedNpc().getActiveMon(), false));
+		System.out.print(pokeInfoBar(field.getLoadedPlayer().getActiveMon(), true));
 		if(!field.getLoadedPlayer().isForcedSwitch()) {
 			System.out.print("Suas opções são: \n");
 			System.out.print("[0] Voltar \n");
@@ -290,52 +290,14 @@ public class BattleMenu {
 		}
 		
 	}
-	
-	static int menuPrintTeam(Treinador player) {
-		/*
-		 * Função que apenas imprime o time inteiro.
-		 * Retorna o número de pokemons no time.
-		 */
-		
-		Poke curMon;
-		String monString;
-		int monCount = 0;
-		int i;
-		for (i = 0; i < 6; i++) {
-			// Se lá houver pokemon
-			curMon = player.getTeam()[i];
-			if(curMon != null) {
-				monCount++;
-				monString = ("[" + (i + 1) + "] '" + curMon.getName() + "' (" + curMon.getSpeciesName() + ") " + "| Lv. " + curMon.getLevel()
-				+ "| " + TypeChart.fullTypeToString(curMon));
-				
-				// Checando Fainted
-				if(curMon.isFainted())
-					monString += " | " + "FAINTED";
-				else
-					monString += " | Hp " + curMon.getCurHp() + "/" + curMon.getMaxHp();
-				
-				// Checando status.
-				typeList currentStatus = curMon.getStatusFx().getType();
-				if(currentStatus != typeList.NEUTRAL)
-					monString += " | Status: " + currentStatus;
-				
-				// Print final para este pokemon
-				monString += "\n";
-				System.out.print(monString);
-			}
-		}
-		
-		return monCount;
-	}
 
-	static void menuDisplayMon(Scanner scan, int id, Battlefield field) {
+	static void menuDisplayMon(Scanner scan, int pokeId, Battlefield field) {
 		/*
 		 * Recebe um Treinador e o ID do Pokemon a ser inspecionado.
 		 * Printa suas informações e aguarda  opção por parte do jogador.
 		 */
 		
-		Poke mon = field.getLoadedPlayer().getTeam()[id];
+		Poke mon = field.getLoadedPlayer().getTeam()[pokeId];
 		BattleMenu.printMenuSeparator();
 		
 		// Opções: Voltar, Ver Ataques, Sumário, TROCAR (só se não for ativo)
@@ -347,8 +309,6 @@ public class BattleMenu {
 		
 		int option;
 		int optionCount = 0;
-	
-		// if(player.isForcedSwitch()) { } // voltaremos mais tarde TODO
 		
 		// Se for ativo
 		if(!field.getLoadedPlayer().isForcedSwitch() && mon.isActive()) {
@@ -380,19 +340,19 @@ public class BattleMenu {
 				System.out.print(mon.toString());
 				System.out.print("Digite [0] e aperte ENTER para voltar: ");
 				option = BattleMenu.scanOptionLoop(scan, 0, 1);
-				BattleMenu.menuDisplayMon(scan, id, field);
+				BattleMenu.menuDisplayMon(scan, pokeId, field);
 				break;
 			}
 			// Explorar Moves
 			case(2):{
 				// O "voltar" do próximo displayMoveset deve ser para cá, não para ROOT, e não pode permitir utilizar os ataques
 				// isso é resolvido com a flag "isInspecting"
-				BattleMenu.menuDisplayMoveset(scan, id, true, field); 
+				BattleMenu.menuDisplayMoveset(scan, pokeId, true, field); 
 				break;
 			}
 			// Trocar para este
 			case(3):{
-				field.getPlayerChoice().setFullChoice(Choice.choiceType.SWITCH, id);
+				field.getPlayerChoice().setFullChoice(Choice.choiceType.SWITCH, pokeId);
 				//(Choice.choiceType.SWITCH, id); // envia id do poke para qual iremos trocar
 				break;
 			}
@@ -403,19 +363,13 @@ public class BattleMenu {
 		/*
 		 * Leva a um menu com todos os itens da mochila
 		 * divididos em compartimentos, que podem ou não
-		 * estar vazios.
-		 * 
-		 * TODO: Por enquanto, sempre estará vazio. Deveremos implementar a bag e itens mais tarde.
+		 * estar vazios. No caso, sempre estará.
 		 */
 		
 		System.out.print("Sua mochila está vazia!\n");
 		System.out.print("Digite [0] e aperte ENTER para voltar: ");
 		BattleMenu.scanOptionLoop(scan, 0, 1);
 		BattleMenu.menuDisplayRoot(scan, field);
-		
-		// TODO: Navegação de itens
-		
-		// TODO: Escolha de itens dispara ao BATTLEFIELD a opção de itens... mas isso virá mais tarde
 	}
 	
 	static void menuTryEscape(Scanner scan, Battlefield field) {
@@ -436,32 +390,109 @@ public class BattleMenu {
 			field.getPlayerChoice().setFullChoice(Choice.choiceType.RUN, 0);
 	}
 	
+	static int menuPrintTeam(Treinador player) {
+		/*
+		 * Função que apenas imprime o time inteiro.
+		 * Retorna o número de pokemons no time.
+		 */
+		
+		Poke curMon;
+		String monString;
+		int monCount = 0;
+		int i;
+		for (i = 0; i < 6; i++) {
+			// Se lá houver pokemon
+			curMon = player.getTeam()[i];
+			if(curMon != null) {
+				monCount++;
+				monString = ("[" + (i + 1) + "] " + alignString("'" + curMon.getName() + "'", 14)
+				+ alignString("(" + curMon.getSpeciesName() + ")", 14)
+				+ "Lv. " + alignString(String.valueOf(curMon.getLevel()), 5)
+				+ alignString(TypeChart.fullTypeToString(curMon), 24));
+				
+				// Checando Fainted
+				if(curMon.isFainted())
+					monString += " | " + "FAINTED";
+				else
+					monString += alignString("HP: " + renderTextLifeBar(curMon), 15) + curMon.getCurHp() + "/" + curMon.getMaxHp();
+				
+				// Checando status.
+				typeList currentStatus = curMon.getStatusFx().getType();
+				if(currentStatus != typeList.NEUTRAL)
+					monString += " | Status: " + currentStatus;
+				
+				// Print final para este pokemon
+				monString += "\n";
+				System.out.print(monString);
+			}
+		}
+		
+		return monCount;
+	}
+	
 	static String pokeInfoBar(Poke pMon, boolean isPlayer) {
 		/*
 		 * Função que retorna a string de uma barra de informação de um Pokémon.
 		 */
+		if(pMon.isFainted()) {
+			return "FAINTED\n";
+		}
 		String statusfx = "";
 		statusfx += pMon.isStatusedFx() ? "" : "| Status: " + pMon.getStatusFx().getType();
 		String who = isPlayer ? "ativo" : "inimigo";
-		String out = ("Pokémon " + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
-				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
-				" | " + TypeChart.fullTypeToString(pMon) + " " + statusfx + "\n");
+//		String out = ("Pokémon \t" + who + ": '" + pMon.getName() + "' (" + pMon.getSpeciesName() + ") "+ 
+//				"| HP: " + renderTextLifeBar(pMon) + " " + pMon.getCurHp() + "/" + pMon.getMaxHp() +
+//				" | " + TypeChart.fullTypeToString(pMon) + " \t" + statusfx + "\n");
+		
+		String out = ("Pokémon " + alignString(who)
+					+ alignString("'" + pMon.getName() + "'")
+					+ "(" + pMon.getSpeciesName() + ") "
+					+ "\t" + alignString("HP: " + renderTextLifeBar(pMon), 15)
+				 + alignString(pMon.getCurHp() + "/" + pMon.getMaxHp())
+				+ alignString(TypeChart.fullTypeToString(pMon)) + alignString(statusfx) + "\n");
 		int i = 0;
+
+		// Para imprimir com formatação correta os stats boosts
+		final class BoostTupleArray {
+			/*
+			 * Classe local para armazenar informações de stats
+			 */
+			protected ArrayList<Integer> idArray = new ArrayList<Integer>();
+			protected ArrayList<Integer> stageArray = new ArrayList<Integer>();
+			
+			BoostTupleArray(){
+				idArray = new ArrayList<Integer>();
+				stageArray = new ArrayList<Integer>();
+			}
+			
+			void add(int id, int stage) {
+				idArray.add(id);
+				stageArray.add(stage);
+			}
+		}
+		
 		int statBoost;
-		String statBoostTxt = "Status modificados de " + pMon.getName() + " são [";
-		boolean add = false;
+		BoostTupleArray bTupleArray = new BoostTupleArray();
+		// Adicionando os stats ao vetor
 		for(i = 0; i < 8; i++) {
 			statBoost = pMon.getStatModGeneral(i);
 			if(statBoost != 0) {
-				add = true;
-				statBoostTxt += TurnUtils.getStatName(i) + ": " + statBoost;
+				bTupleArray.add(i, statBoost);
 			}
 		}
-		if(add) {
-			out += statBoostTxt + "]\n";
+		// Concatena informações de stats numa string com divisores até chegarmos ao último
+		if(bTupleArray.idArray.size() > 0) {
+			String statBoostTxt = "Status modificados de " + pMon.getName() + " são [";
+			while(bTupleArray.idArray.size() > 1) {
+				statBoostTxt += TurnUtils.getStatName(bTupleArray.idArray.removeFirst()) + ": ";
+				statBoostTxt += bTupleArray.stageArray.removeFirst() + "| ";
+			}
+			// Último não tem divisor
+			statBoostTxt += TurnUtils.getStatName(bTupleArray.idArray.removeFirst()) + ": ";
+			statBoostTxt += bTupleArray.stageArray.removeFirst() + "]\n";
+			out += statBoostTxt;
 		}
 		return out;
-		
 	}
 	
 	public static String renderTextLifeBar(Poke mon) {
@@ -504,5 +535,31 @@ public class BattleMenu {
 				"        :*+:        :+*:        \n" +
 				"          .=++++++++=.          \n" );
 	}
+	
+	public static String alignString(String string) {
+		/*
+		 * Retorna uma string com distanciamento extra
+		 * de acordo com o tannho da string recebida.
+		 */
+		int len = string.length();
+		int i = 0;
+		for(i = len; i < 12; i++) {
+			string += " ";
+		}
+		return string;
+	}
+	
+	public static String alignString(String string, int spaces) {
+		/*
+		 * Overload de alignString que recebe o número de espaços para alinhamento.
+		 */
+		int len = string.length();
+		int i = 0;
+		for(i = len; i < spaces; i++) {
+			string += " ";
+		}
+		return string;
+	}
+
 }
 

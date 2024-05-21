@@ -1,0 +1,289 @@
+[	
+	{	
+		"PokeDexId": 3, 
+	 	"Nome": "Venusaur",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Venusaur",
+		"DexEntry": "Tenta sempre manter-se no sol.",
+		"Tipagem": [3, 7],
+		"BaseStats": [80, 82, 83, 100, 100, 80, 100000],
+		"MoveSet": [202, 482, 74, 92]
+	},
+
+	{	
+		"PokeDexId": 59, 
+	 	"Nome": "Arcanine",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Arcanine",
+		"DexEntry": "Tem algo de realeza que captura o coração de pessoas a séculos.",
+		"Tipagem": [1, -1],
+		"BaseStats": [90, 110, 80, 100, 80, 95, 155000],
+		"MoveSet": [394, 245, 528, 370]
+	},
+
+	{	
+		"PokeDexId": 65, 
+	 	"Nome": "Alakazam",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Alakazam",
+		"DexEntry": "Um Pokémon que pode memorizar qualquer coisa.",
+		"Tipagem": [10, -1],
+		"BaseStats": [55, 40, 45, 135, 85, 120, 48000],
+		"MoveSet": [94, 247, 399, 257]
+	},
+
+	{	
+		"PokeDexId": 94, 
+	 	"Nome": "Gengar",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Gengar",
+		"DexEntry": "Espreita nas sombras. Dizem que a temperatura cai quando está por perto.",
+		"Tipagem": [13, 7],
+		"BaseStats": [60, 65, 60, 130, 75, 110, 40500],
+		"MoveSet": [247, 261, 411, 482]
+	},
+
+	{	
+		"PokeDexId": 107, 
+	 	"Nome": "Hitmonchan",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Hitmonchan",
+		"DexEntry": "Seus socos pulverizam até concreto.",
+		"Tipagem": [6, -1],
+		"BaseStats": [50, 105, 79, 35, 110, 76, 50200],
+		"MoveSet": [183, 8, 7, 9]
+	},
+
+	{	
+		"PokeDexId": 121, 
+	 	"Nome": "Starmie",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Starmie",
+		"DexEntry": "O núcleo no centro de seu corpo envia estranhos sinais de rádio no céu noturno,",
+		"Tipagem": [2, 10],
+		"BaseStats": [60, 75, 85, 100, 85, 115, 80000],
+		"MoveSet": [86, 56, 85, 58]
+	},
+
+	{	
+		"PokeDexId": 134, 
+	 	"Nome": "Vaporeon",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Vaporeon",
+		"DexEntry": "Capaz de alterar sua estrutura celular para se misturar com a água.",
+		"Tipagem": [2, -1],
+		"BaseStats": [130, 65, 60, 110, 95, 65, 29000],
+		"MoveSet": [57, 58, 151, 215]
+	},
+
+	{	
+		"PokeDexId": 145, 
+	 	"Nome": "Zapdos",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Zapdos",
+		"DexEntry": "O batimento das asas deste Pokémon lendário pode causar tempestates",
+		"Tipagem": [4, 9],
+		"BaseStats": [90, 90, 85, 125, 90, 100, 52600],
+		"MoveSet": [435, 355, 257, 86]
+	},
+
+	{	
+		"PokeDexId": 149, 
+	 	"Nome": "Dragonite",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Dragonite",
+		"DexEntry": "Dizem que este Pokémon sobrevoa mares para resgatar naufragados.",
+		"Tipagem": [14, 9],
+		"BaseStats": [91, 134, 95, 100, 100, 80, 210000],
+		"MoveSet": [349, 245, 89, 337]
+	},
+
+	{	
+		"PokeDexId": 212, 
+	 	"Nome": "Scizor",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Scizor",
+		"DexEntry": "Seu corpo é de aço, e usa suas pinças para intimidar.",
+		"Tipagem": [11, 16],
+		"BaseStats": [70, 130, 100, 55, 80, 65, 118000],
+		"MoveSet": [14, 418, 276, 404]
+	},
+
+	{	
+		"PokeDexId": 242, 
+	 	"Nome": "Blissey",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Blissey",
+		"DexEntry": "Este Pokémon gentil cuida de pokémons doentes.",
+		"Tipagem": [0, -1],
+		"BaseStats": [255, 10, 10, 75, 135, 55, 46800],
+		"MoveSet": [215, 69, 92, 135]
+	},
+	
+	{	
+		"PokeDexId": 306, 
+	 	"Nome": "Aggron",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Aggron",
+		"DexEntry": "Cava túneis em montanhas quando busca por comida.",
+		"Tipagem": [16, 12],
+		"BaseStats": [70, 110, 180, 60, 50, 50, 360000],
+		"MoveSet": [397, 444, 89, 401]
+	},
+
+	{	
+		"PokeDexId": 376, 
+	 	"Nome": "Metagross",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Metagross",
+		"DexEntry": "Seus quatro cérebros superam em performance um supercomputador.",
+		"Tipagem": [16, 10],
+		"BaseStats": [80, 135, 130, 95, 90, 70, 550000],
+		"MoveSet": [360, 153, 359, 428]
+	},
+
+	{	
+		"PokeDexId": 398, 
+	 	"Nome": "Staraptor",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Staraptor",
+		"DexEntry": "Um pássaro que preocupa com o formato de sua franja.",
+		"Tipagem": [0, 9],
+		"BaseStats": [85, 120, 70, 50, 60, 100, 249000],
+		"MoveSet": [413, 38, 370, 104]
+	},
+
+	{	
+		"PokeDexId": 448, 
+	 	"Nome": "Lucario",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Lucario",
+		"DexEntry": "Lê a aura das coisas.",
+		"Tipagem": [6, 16],
+		"BaseStats": [70, 110, 70, 115, 70, 90, 54000],
+		"MoveSet": [14, 370, 245, 242]
+	},
+
+	{	
+		"PokeDexId": 461, 
+	 	"Nome": "Weavile",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Weavile",
+		"DexEntry": "Se comunica com outros membros da espécie ao marcar árvores com suas garras.",
+		"Tipagem": [15, 5],
+		"BaseStats": [70, 120, 65, 45, 85, 125, 34000],
+		"MoveSet": [400, 420, 67, 14]
+	},
+
+	{	
+		"PokeDexId": 475, 
+	 	"Nome": "Porygon-Z",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Porygon",
+		"DexEntry": "Foi programado para viajar entre dimensões.",
+		"Tipagem": [0, -1],
+		"BaseStats": [85, 80, 70, 135, 75, 90, 34000],
+		"MoveSet": [97, 161, 399, 411]
+	},
+
+	{	
+		"PokeDexId": 494, 
+	 	"Nome": "Victini",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Victini",
+		"DexEntry": "Um Pokémon que trás vitória.",
+		"Tipagem": [1, 10],
+		"BaseStats": [100, 100, 100, 100, 100, 100, 4000],
+		"MoveSet": [557, 550, 94, 85]
+	},
+
+	{	
+		"PokeDexId": 530, 
+	 	"Nome": "Excadrill",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Excadrill",
+		"DexEntry": "Pode transformar-se numa broca que perfura até aço.",
+		"Tipagem": [8, 16],
+		"BaseStats": [110, 135, 60, 50, 65, 88, 40400],
+		"MoveSet": [89, 442, 444, 14]
+	},
+	
+	{	
+		"PokeDexId": 565, 
+	 	"Nome": "Carracosta",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Carracosta",
+		"DexEntry": "Seu soco consegue perfurar um navio.",
+		"Tipagem": [2, 12],
+		"BaseStats": [74, 108, 133, 83, 65, 32, 81000],
+		"MoveSet": [504, 127, 444, 453]
+	},
+
+	{	
+		"PokeDexId": 571, 
+	 	"Nome": "Zoroark",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Zoroark",
+		"DexEntry": "Protege seu lar com cenários ilusórios.",
+		"Tipagem": [15, -1],
+		"BaseStats": [60, 105, 60, 120, 60, 105, 81100],
+		"MoveSet": [539, 53, 411, 417]
+	},
+
+	{	
+		"PokeDexId": 591, 
+	 	"Nome": "Amoonguss",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Amoonguss",
+		"DexEntry": "Pokémon que imita pokébolas e é bastante suspeito.",
+		"Tipagem": [3, 7],
+		"BaseStats": [114, 85, 70, 85, 80, 30, 10500],
+		"MoveSet": [78, 202, 499, 188]
+	},
+
+	{	
+		"PokeDexId": 596, 
+	 	"Nome": "Galvantula",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Galvantula",
+		"DexEntry": "Tece teias carregas eletricamente.",
+		"Tipagem": [11, 4],
+		"BaseStats": [70, 77, 60, 97, 60, 108, 14300],
+		"MoveSet": [85, 405, 202, 104]
+	},
+
+	{	
+		"PokeDexId": 700, 
+	 	"Nome": "Sylveon",
+		"ID": 0,
+		"Level": 50,
+		"SpeciesName": "Sylveon",
+		"DexEntry": "Enreda seu treinador com palpos em formato de laço.",
+		"Tipagem": [17, -1],
+		"BaseStats": [95, 65, 65, 110, 130, 60, 23500],
+		"MoveSet": [215, 94, 585, 347]
+	}
+]

@@ -2,7 +2,7 @@ package pokemontextgame;
 
 import java.util.Random;
 
-import moves.*;
+import pokemontextgame.moves.*;
 
 public final class TurnUtils{
 	/*
@@ -33,14 +33,14 @@ public final class TurnUtils{
 		// Parte Base ou Necessária
 		int atk, def;
 		if(move.getCateg() == Move.moveCategs.PHYSICAL) {
-			atk = TurnUtils.getModStat(0, pAtk); // Attack
-			def = TurnUtils.getModStat(1, pDef); // Defense
+			atk = TurnUtils.getModStat(1, pAtk); // Attack
+			def = TurnUtils.getModStat(2, pDef); // Defense
 		}
 		else if(move.getCateg() == Move.moveCategs.SPECIAL) {
-			atk = TurnUtils.getModStat(2, pAtk); // Special Attack
-			def = TurnUtils.getModStat(3, pDef); // Special Defense
+			atk = TurnUtils.getModStat(3, pAtk); // Special Attack
+			def = TurnUtils.getModStat(4, pDef); // Special Defense
 		}
-		else // ataque é status apenas TODO: Modificar nossa rota de calcular dano para algo mais geral
+		else
 			return 0;
 
 		int lv = pAtk.getLevel();
@@ -56,15 +56,9 @@ public final class TurnUtils{
 		// STAB: Same Attack Type Bonus
 		if(type == pAtk.getTipagem()[0] || type == pAtk.getTipagem()[1])
 			modifiers *= 1.1; 
-			// TODO: Verificar arrendondamentos. 
-			// Aqui estamos multiplicando por um float, mas o dano é um int.
 		
 		// Verificação de super efetivo / pouco efetivo para os dois tipos do defensor
 		modifiers *= typeMod;
-		
-		// TODO: Puxar os modificadores de Weather, Item Segurado, etc. e incluir na fórmula.
-		// Isso faremos mais tarde. Talvez valha a pena ter uma tabela de Weather.
-		// Verificar status como burn etc. mais tarde no cálculo de dano
 		
 		// Redução de dano física por Burning
 		if(move.getCateg() == Move.moveCategs.PHYSICAL && pAtk.getStatusFx().getType() == StatusFx.typeList.BURN) {
@@ -75,8 +69,9 @@ public final class TurnUtils{
 		return (int) Math.floor(startingDmg*modifiers);
 	}
 	
-	public static int getModStat(int statId, Poke mon) {
+	public static int getModStat(int baseStatId, Poke mon) {
 		/*
+		 * Recebe o id de um BASE.
 		 * Calcula a modificação do Stat de um pokemon
 		 * baseado nos boost stages e no Id do stat em questão.
 		 * Faz uso da func. Stat Calc presente na classe Pokemon
@@ -85,36 +80,27 @@ public final class TurnUtils{
 		 */
 		
 		// componentes de um fator multiplicativo
+		int modStatId = baseStatId - 1;
 		int num; // cresce caso boost > 0
 		int denom; // cresce caso boost < 0
-		int boost = mon.getStatModGeneral(statId);
+		int boost = mon.getStatModGeneral(modStatId); // Lembrando que ATK é 0 nos Mods mas 1 no Base.
 		
 		// Caso Atk (0), Def (1), SpecAtk (2), SpecDef (3), Speed (4)
-		if(statId < 5) {
+		if(modStatId < 5) {
 			num = denom = 2;
-			// +
-			if(boost >= 0) {
-				num += boost;
-			}
-			// -
-			else {
-				denom += Math.abs(boost);
-			}
 		}
 		// Caso Accuracy (5), Evasion (6), Weight (7)
 		else {
 			num = denom = 3;
-			// +
-			if(boost >= 0) {
-				num += boost;
-			}
-			// -
-			else {
-				denom += Math.abs(boost);
-			}
 		}
-		// Devemos colocar limites sobre o output também. TODO
-		int output = (int)(mon.statCalc(statId) * ((float) num/denom));
+		
+		if(boost >= 0) {
+			num += boost;
+		}
+		else {
+			denom += Math.abs(boost);
+		}
+		int output = (int) ((float) mon.statCalcLevelAdjusted(baseStatId) * Math.divideExact(num, denom));
 		return output;
 	}
 
@@ -128,7 +114,6 @@ public final class TurnUtils{
 		 * Ler: https://bulbapedia.bulbagarden.net/wiki/Stat_modifier#Stage_multipliers
 		 */
 		
-		// TODO: Só está errando... hum...
 		// Sempre acerta
 		if(move.getAccuracy() < 0)
 			return true;
@@ -159,7 +144,7 @@ public final class TurnUtils{
 		 */
 		switch(id) {
 		case 0: return "ATK";
-			case 1: return "DEF ";
+			case 1: return "DEF";
 			case 2: return "SPEC. ATK";
 			case 3: return "SPEC. DEF";
 			case 4: return "SPEED";
@@ -192,7 +177,7 @@ public final class TurnUtils{
 			case StatusFx.typeList.PARALYSIS:{
 				field.textBufferAdd(monName + " está paralisado! Neste turno, falhou em se mover!\n");
 				if(TurnUtils.rollChance(25)) {
-					
+					return true;
 				}
 				else {
 					return false;
@@ -223,7 +208,7 @@ public final class TurnUtils{
 			case StatusFx.typeList.POISON:{
 				// Danifica 1/16 da vida máxima por turno
 				mon.dmgMon((int) (mon.getMaxHp()*0.0625f));
-				field.textBufferAdd(monName + " toma dano com veneno!\n");
+				field.textBufferAdd(monName + " toma dano com o veneno!\n");
 				break;
 			}
 			case StatusFx.typeList.BAD_POISON:{
@@ -238,6 +223,5 @@ public final class TurnUtils{
 			}
 		}
 	}
-
 
 }

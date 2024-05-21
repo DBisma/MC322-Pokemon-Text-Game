@@ -1,18 +1,13 @@
 package pokemontextgame;
 
-import moves.Move;
 import pokemontextgame.StatusFx.typeList;
-import java.util.ArrayList;
+import pokemontextgame.moves.Move;
 import java.util.Arrays;
 
 public class Poke {
 	/*
 	 * Armazena as informações dos pokemons do jogo.
 	 */
-	
-	// TODO: Implementações futuras
-	// https://stackoverflow.com/questions/13543457/how-do-you-create-a-dictionary-in-java
-	// https://stackoverflow.com/questions/4480334/how-to-call-a-method-stored-in-a-hashmap-java
 	
 	private int id;
 	private int pokedexId;
@@ -21,7 +16,7 @@ public class Poke {
 	private String pokedexEntry; // descrição do pokemon.
 	private int[] tipagem; // tipos do pokemon. pode ter até 2. -1 indica que um slot de tipo está vazio.
 	// tratar um tipo como um número será índice para montar uma tabela de combinações. ver TypeChart.java
-	private int sex; // eu juro que isso importa
+
 	private int level; // por enquanto, pokemons não ganham experiência e portanto o nível não altera
 	private boolean active; // flag de ser o pokemon ativo em batalha
 	
@@ -38,76 +33,70 @@ public class Poke {
 	// uso de vetores é justificado para realizar varreduras rápidas nos modificadores
 	private int statMods[]; 
 	
-	/*
-	 * TODO: Cada reload do pokemon na arena reseta todos os statMods.
-	 * Com a nova implementação vetorial, isso é fácil! Basta usar ArrayFill.
-	 */
-	
 	// Moves disponíveis, sempre 4 no máximo (por isso um array simples), e outras informações
-	private Move[] moveset; // esse último será um pouco mais complicado. TODO: Resolver leitura e referência de moves.
-	private Item heldItem;
-	private Ability abil;
+	private int [] movesetList; // IDs de todos os moves que ele pode aprender
+	private Move[] moveset; // moveset atual
 	
-	// TODO: Refatorar seção seguinte para referência a classes sempre construídas de Status(es) diferentes
-	// Deletar essa porção de getters e setters
-	// TODO: Criar um modo que permita que o pokemon possua vários statusfx voláteis simultâneos mas apenas um não-volátil
-	// Array que armazena todos os status FX que afetam o pokemon
 	private StatusFx statusFx; // por enquanto, só um status por vez pode ser um
 	private int turnsOnField; // usado para calcular algumas formas de dano
-	//private ArrayList<StatusFx> volatileFxArray; // pode conter vários TODO: Separar voláteis e não voláteis em ArrayLists
 	
-	/*
-	 * TODO: Construir o pokemon. Deveremos ter um método que busca a json também;
-	 */
+	// Para construir os moves do pokemon
+	JSONReader moveJson;
 	
-	public Poke(int pokedexID, String name) {
+	public Poke(int ID, int pokedexID, String name, int lvl, String speciesName, String pokeDexEntry, int[] tipagem, int[] baseStats, int[] moveSetList) {
 		/*
 		 * Placeholder de construtor. Exemplo para Metang.
 		 * Teremos que dar um jeito de construir de um Json com o pokedexNum + level + stats etc desejados.
-		 * TODO: classe Enum de Natures?? IVs e EVs??
 		 */
-		
+				
 		// Parte Variável
-		this.id = 123456; // Gerar um ID de algum jeito; deverá ser único. Algum hashing talvez? TODO
+        this.id = ID; // Id gerado aleatoriamente
 		this.name = name; // Nickname do Pokemon
-		this.sex = 2;
-		this.level = 100;
+		this.level = lvl;
 		// Desconsiderar IVs e EVs. Complexo demais para o escopo desse trabalho.
 		
-		// O resto deverá vir do Json TODO
-		this.pokedexId = pokedexID; // usado para evocar o json da construção. talvez se torne argumento no futuro TODO
-		this.speciesName = "Jirachi";
-		this.pokedexEntry = "Nenhuma entrada disponível.";
-		this.tipagem = new int[] {16, 10};
-		this.baseStats = new int [7]; 
-		baseStats[0] = 100;		// Hp
-		baseStats[1] = 100; 	// Atk
-		baseStats[2] = 100;		// Def
-		baseStats[3] = 100; 	// SpAtk
-		baseStats[4] = 100;	 	// SpDef
-		baseStats[5] = 100; 	// Speed
-		baseStats[6] = 1100; 	// Weight
+		// O resto deverá vir do Json
+		this.pokedexId = pokedexID; // usado para evocar o json da construção
+		this.pokedexEntry = pokeDexEntry;
+		this.speciesName = speciesName;
+		this.pokedexEntry = pokeDexEntry;
+		this.tipagem = tipagem;
 		
+		/*
+		 * Referência:
+		 * baseStats[0] Hp
+		 * baseStats[1] Atk
+		 * baseStats[2] Def
+		 * baseStats[3] SpAtk
+		 * baseStats[4]	SpDef
+		 * baseStats[5] Speed
+		 * baseStats[6] Weight
+		 */
+		this.baseStats = baseStats;		
 		
 		// statMods é apenas inicializado e utilizado na luta, por padrão em 0
-		
+		// Não há stat mods para hp! Logo, cada um é subtraído 1. Atk aqui é [0].
 		this.statMods = new int[8];
-		Arrays.fill(statMods, 0); // TODO: Talvez redundante?
+		Arrays.fill(statMods, 0); 
 		
 		// Outros variáveis importantes
-		this.sex = 2; // TODO: Fazer SEX ser um ENUM
-		this.level = 100;
 		this.maxHp = (int) (baseStats[0]*(level/100f)*2 + level + 10);// cálculo de Hp com base o statBasic de HP
 		this.curHp = maxHp;
 		this.active = false; // só se torna ativo em batalha
 
 		// Moves são adicionados subsequentemente
-		// TODO: Preencher com um MOVE inicial placeholder? Que tal Hidden Power? Lol
+		this.movesetList = moveSetList;
 		this.moveset = new Move[4];
 		
-		// TODO: Esses são métodos genéricos que não significam nada. Teremos que criar exemplos para cada no começo, e loadar de uma .json mais tarde.
-		// TODO: instanciar o Arraylist e adicionar o stat Não-Volátil nele TODO: Por enquanto só há um stat possível.
-		this.statusFx = new StatusFx(StatusFx.typeList.NEUTRAL); // TODO: isso talvez deva mudar. ver Status.java
+		this.statusFx = new StatusFx(StatusFx.typeList.NEUTRAL);
+	}
+
+	public int[] getMovesetList() {
+		return movesetList;
+	}
+
+	public void setMovesetList(int[] movesetList) {
+		this.movesetList = movesetList;
 	}
 
 	@Override
@@ -117,30 +106,30 @@ public class Poke {
 		 * numa grande string e a retorna.
 		 */
 		
-		String out;
-		out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n" //TODO: Deve haver um jeito de formatar de modo mais quadradinho
-			+ "HP: " + this.curHp + "/" + this.maxHp + "\n"
-			+ "ATK - " + this.statCalc(0) + "\n"
-			+ "DEF - " + this.statCalc(1) + "\n"
-			+ "SP. ATK - " + this.statCalc(2) + "\n"
-			+ "SP. DEF - " + this.statCalc(3) + "\n"
-			+ "SPEED - " + this.statCalc(4) + "\n" + "\n"
-			+ this.getAbil().toString() + "\n";
+		String out = "Pokémon: '" + this.name + "' " + TypeChart.fullTypeToString(this) + "\n"
+			+ BattleMenu.alignString("HP:", 10) + this.curHp + "/" + this.maxHp + "\n"
+			+ BattleMenu.alignString("ATK:", 10) + this.statCalcLevelAdjusted(1) + "\n"
+			+ BattleMenu.alignString("DEF:", 10) + this.statCalcLevelAdjusted(2) + "\n"
+			+ BattleMenu.alignString("SP. ATK:", 10) + this.statCalcLevelAdjusted(3) + "\n"
+			+ BattleMenu.alignString("SP. DEF:", 10) + this.statCalcLevelAdjusted(4) + "\n"
+			+ BattleMenu.alignString("SPEED:", 10) + this.statCalcLevelAdjusted(5) + "\n";
 		
-		if(this.heldItem == null)
-			out += "Nenhum item segurado." + "\n";
-		else
-			out += this.getHeldItem().toString() + "\n";
+		if(this.pokedexEntry == null) {
+			out += "Nenhuma descrição disponível.";
+		}
+		else {
+			out += pokedexEntry + "\n";
+		}
 		return out;
 	}
 	
-	public int statCalc(int baseStatId) {
+	public int statCalcLevelAdjusted(int baseStatId) {
 		/*
-		 * Recebe um Pokemon e um stat base
+		 * Recebe um stat BASE.
 		 * Calcula o número real desse stat
 		 * de um pokemon com base no level
-		 * e no valor do "stat base", por enquanto.
-		 * Retorna essa valor real.
+		 * e no valor do "stat base".
+		 * Retorna esse valor.
 		 */ 
 		float stat = baseStats[baseStatId]*2*this.level*(0.01f);
 		return (int) (stat + 2);
@@ -166,7 +155,7 @@ public class Poke {
 	
 	public boolean healMon(int healNum) {
 		/*
-		 * Recupera um pokemon. Atualiza fainted.
+		 * Recupera um pokemon.
 		 * Retorna true se conseguir recuperar,
 		 * false caso contrário.
 		 */
@@ -277,21 +266,17 @@ public class Poke {
 		return this.statMods;
 	}
 	
+	public void resetStats() {
+		Arrays.fill(statMods, 0);
+	}
+	
 	public int getStatModGeneral(int id){
 		/*
 		 * Retorna algum modificador de stat com o Id escolhido.
 		 */
 		return this.statMods[id];
 	}
-	
-	public int getSex() {
-		return sex;
-	}
-	
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
-	
+
 	public int getLevel() {
 		return level;
 	}
@@ -316,22 +301,6 @@ public class Poke {
 		this.curHp = hp;
 	}
 	
-	public Item getHeldItem() {
-		return heldItem;
-	}
-	
-	public void setHeldItem(Item heldItem) {
-		this.heldItem = heldItem;
-	}
-	
-	public Ability getAbil() {
-		return abil;
-	}
-	
-	public void setAbil(Ability abil) {
-		this.abil = abil;
-	}
-	
 	public Move[] getMoveset() {
 		/*
 		 * Retorna o moveset inteiro.
@@ -345,6 +314,14 @@ public class Poke {
 		 * Retorna o moveset específico numa certa posição.
 		 */
 		return this.moveset[index];
+	}
+	
+	public void setMoveset(Move[] moveset) {
+		/*
+		 * Recebe a posição do move (0-3)
+		 * e coloca o Move desejado neste lugar.
+		 */
+		this.moveset = moveset;
 	}
 	
 	public void setMove(int index, Move move) {
@@ -393,9 +370,7 @@ public class Poke {
 		this.active = active;
 	}
 	
-	// Getters de Stats Base
-	
-	// Getters de Stats Modificados
+	// Getters e Setters de Stats Modificados
 	public int getModAtk() {
 		return this.statMods[0];
 	}
@@ -428,7 +403,6 @@ public class Poke {
 		return this.statMods[7];
 	}
 	
-	// Setters de Stats Modificados
 	public void setModAtk(int newVal) {
 		this.statMods[0] = newVal;
 	}
@@ -469,6 +443,7 @@ public class Poke {
 		this.pokedexId = pokedexId;
 	}
 	
+	// Getters e Setters de base
 	public int getBaseHp() {
 		return baseStats[0];
 	}
@@ -541,11 +516,9 @@ public class Poke {
 		this.speciesName = speciesName;
 	}
 
-	
 	public int getTurnsOnField() {
 		return turnsOnField;
 	}
-
 	
 	public void setTurnsOnField(int turnsOnField) {
 		this.turnsOnField = turnsOnField;

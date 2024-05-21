@@ -79,7 +79,7 @@ public class TypeChart {
 		this.chart[6][13] = (float) 0.0;
 		
 		// Poison x Poison, Ground, Rock, Ghost
-		this.chart[7][7] = this.chart[7][8] = this.chart[7][12] = this.chart[7][14] = (float) 0.5;
+		this.chart[7][7] = this.chart[7][8] = this.chart[7][12] = this.chart[7][13] = (float) 0.5;
 		// Poison x Grass, Fairy
 		this.chart[7][3] = this.chart[7][17] =(float) 2.0;
 		// Poison x Steel
@@ -101,7 +101,7 @@ public class TypeChart {
 		// Psychic x Psychic, Steel
 		this.chart[10][10] = this.chart[10][16] = (float) 0.5;
 		// Psychic x Fighting, Poison
-		this.chart[10][6] = this.chart[10][7] = (float) 0.5;
+		this.chart[10][6] = this.chart[10][7] = (float) 2.0;
 		// Psychic x Dark
 		this.chart[10][15] = (float) 0.0;
 		
@@ -161,13 +161,13 @@ public class TypeChart {
 			return this.chart[idAtk][idDef];
 	}
 	
-	public float compoundTypeMatch(int idAtk, Poke mon) {
+	public float compoundTypeMatch(int typeId, Poke mon) {
 		/* 
 		 * Efetua dois typeMatches e os multiplica para obter
 		 * o resultado completo de um ataque contra um pokemon.
 		 */
 		
-		return typeMatch(idAtk, mon.getTipagem()[0]) * typeMatch(idAtk, mon.getTipagem()[1]);
+		return typeMatch(typeId, mon.getTipagem()[0]) * typeMatch(typeId, mon.getTipagem()[1]);
 	}
 	
 	public static String typeToString(int id) {
@@ -192,9 +192,11 @@ public class TypeChart {
 		 * já formatada com todos seus tipos.
 		 */
 		String monString = "[" + TypeChart.typeToString(mon.getTipagem()[0]) + "]";
-		
-		if(mon.getTipagem()[1] != -1) // se houver tipo secundário
+		monString = BattleMenu.alignString(monString, 10);
+		if(mon.getTipagem()[1] != -1) { // se houver tipo secundário
 			monString += " [" + TypeChart.typeToString(mon.getTipagem()[1]) + "]";
+			monString = BattleMenu.alignString(monString, 10);
+		}
 		
 		return monString;
 	}

@@ -1,0 +1,994 @@
+[ 
+	{ 
+		"Id": 7,
+  		"Name": "Fire Punch",
+  		"MoveType": 1,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 75,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano; pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "BURN"
+	},
+
+	{ 
+		"Id": 8,
+  		"Name": "Thunder Punch",
+  		"MoveType": 4,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 75,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano; pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "PARALYSIS"
+	},
+
+	{ 
+		"Id": 9,
+  		"Name": "Ice Punch",
+  		"MoveType": 5,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 75,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano; pode causar FREEZE.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "FREEZE"
+	},
+
+	{ 
+		"Id": 14,
+  		"Name": "Swords Dance",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta o Atk. em dois estágios.",
+		"Subclass" : "StatChange",
+  		"statId": 0,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+		
+	{ 
+		"Id": 53,
+  		"Name": "Flamethrower",
+  		"MoveType": 1,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "BURN"
+	},
+
+	{ 
+		"Id": 56,
+  		"Name": "Hydro Pump",
+  		"MoveType": 2,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 110,
+  		"Accuracy": 80,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 57,
+  		"Name": "Surf",
+  		"MoveType": 2,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 58,
+  		"Name": "Ice Beam",
+  		"MoveType": 5,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar FREEZE.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "FREEZE"
+	},
+
+	{ 
+		"Id": 78,
+  		"Name": "Stun Spore",
+  		"MoveType": 3,
+  		"Category": "STATUS",
+  		"MaxPoints": 30,
+  		"MovePriority": 0,
+  		"Accuracy": 75,
+  		"Description" : "Paralisa o adversário.",
+		"Subclass" : "StatusChangeFx",
+		"FxType": "PARALYSIS"
+	},
+
+	{ 
+		"Id": 85,
+  		"Name": "Thunderbolt",
+  		"MoveType": 4,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "PARALYSIS"
+	},
+
+	{ 
+		"Id": 86,
+  		"Name": "Thunder Wave",
+  		"MoveType": 4,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": 90,
+  		"Description" : "Paralisa o adversário.",
+		"Subclass" : "StatusChangeFx",
+		"FxType": "PARALYSIS"
+	},
+
+	{ 
+		"Id": 89,
+  		"Name": "Earthquake",
+  		"MoveType": 8,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 100,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 92,
+  		"Name": "Toxic",
+  		"MoveType": 7,
+  		"Category": "STATUS",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"Accuracy": 90,
+  		"Description" : "Aplica BAD_POISON ao inimigo.",
+		"Subclass" : "StatusChangeFx",
+		"FxType": "BAD_POISON"
+	},
+	
+	{ 
+		"Id": 94,
+  		"Name": "Psychic",
+  		"MoveType": 10,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def do inimigo em um estágio.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 10
+	},
+
+	{ 
+		"Id": 97,
+  		"Name": "Agility",
+  		"MoveType": 10,
+  		"Category": "STATUS",
+  		"MaxPoints": 30,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta a velocidade em dois estágios..",
+		"Subclass" : "StatChange",
+  		"statId": 4,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+
+	{ 
+		"Id": 127,
+  		"Name": "Waterfall",
+  		"MoveType": 2,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais..",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 147,
+  		"Name": "Spore",
+  		"MoveType": 3,
+  		"Category": "STATUS",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"Accuracy": 100,
+  		"Description" : "Causa SLEEP.",
+		"Subclass" : "StatusChangeFx",
+		"FxType": "SLEEP"
+	},
+
+	{ 
+		"Id": 151,
+  		"Name": "Acid Armor",
+  		"MoveType": 7,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Amenta a Def. em dois estágios.",
+		"Subclass" : "StatChange",
+  		"statId": 1,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+	
+	{ 
+		"Id": 183,
+  		"Name": "Mach Punch",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 30,
+  		"MovePriority": 1,
+  		"BasePower": 40,
+  		"Accuracy": 100,
+  		"Description" : "Soco com prioridade.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 188,
+  		"Name": "Sluge Bomb",
+  		"MoveType": 7,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar Poison.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 30,
+    	"FxType": "POISON"
+	},
+
+	{ 
+		"Id": 242,
+  		"Name": "Crunch",
+  		"MoveType": 15,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir defesa do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 1,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 245,
+  		"Name": "Extreme Speed",
+  		"MoveType": 0,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 2,
+  		"BasePower": 100,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano com alta prioridade.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 247,
+  		"Name": "Shadow Ball",
+  		"MoveType": 13,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 257,
+  		"Name": "Heat Wave",
+  		"MoveType": 1,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 95,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar BURN.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "BURN"
+	},
+
+	{ 
+		"Id": 261,
+  		"Name": "Will-O'-Wisp",
+  		"MoveType": 1,
+  		"Category": "STATUS",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"Accuracy": 85,
+  		"Description" : "Causa BURN.",
+		"Subclass" : "StatusChangeFx",
+		"FxType": "BURN"
+	},
+
+	{ 
+		"Id": 324,
+  		"Name": "Signal Beam",
+  		"MoveType": 11,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 337,
+  		"Name": "Dragon Claw",
+  		"MoveType": 14,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeito adicional.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 359,
+  		"Name": "Hammer Arm",
+  		"MoveType": 6,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 100,
+  		"Accuracy": 90,
+  		"Description" : "Dá dano. Diminui a velocidade do usuário.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 4,
+		"boostStages": -1,
+		"boostSelf": true,
+		"boostChance": 100
+	},
+
+	{ 
+		"Id": 397,
+  		"Name": "Rock Polish",
+  		"MoveType": 12,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta a velocidade em dois estágios.",
+		"Subclass" : "StatChange",
+  		"statId": 4,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+
+	{ 
+		"Id": 399,
+  		"Name": "Dark Pulse",
+  		"MoveType": 15,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 401,
+  		"Name": "Aqua Tail",
+  		"MoveType": 2,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 90,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 404,
+  		"Name": "X-Scissor",
+  		"MoveType": 11,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais..",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 405,
+  		"Name": "Bug Buzz",
+  		"MoveType": 11,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 411,
+  		"Name": "Focus Blast",
+  		"MoveType": 6,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 120,
+  		"Accuracy": 70,
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 3,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{ 
+		"Id": 417,
+  		"Name": "Nasty Plot",
+  		"MoveType": 15,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta Spec. Atk do usuário em dois estágios.",
+		"Subclass" : "StatChange",
+  		"statId": 2,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+
+	{ 
+		"Id": 418,
+  		"Name": "Bullet Punch",
+  		"MoveType": 16,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 30,
+  		"MovePriority": 1,
+  		"BasePower": 40,
+  		"Accuracy": 100,
+  		"Description" : "Ataque físico com prioridade.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 420,
+  		"Name": "Ice Shard",
+  		"MoveType": 5,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 30,
+  		"MovePriority": 1,
+  		"BasePower": 40,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano com prioridade.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{
+		"Id": 428,
+  		"Name": "Zen Headbutt",
+  		"MoveType": 10,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 435,
+  		"Name": "Discharge",
+  		"MoveType": 4,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar PARALYSIS.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 30,
+    	"FxType": "PARALYSIS"
+	},
+
+	{ 
+		"Id": 442,
+  		"Name": "Iron Head",
+  		"MoveType": 16,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 444,
+  		"Name": "Stone Edge",
+  		"MoveType": 12,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 100,
+  		"Accuracy": 80,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 453,
+  		"Name": "Aqua Jet",
+  		"MoveType": 2,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 20,
+  		"MovePriority": 1,
+  		"BasePower": 40,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano com prioridade.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 482,
+  		"Name": "Sluge Wave",
+  		"MoveType": 7,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 95,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode causar POISON.",
+		"Subclass" : "DmgPlusFx",
+    	"FxChance": 10,
+    	"FxType": "POISON"
+	},
+
+	{ 
+		"Id": 539,
+  		"Name": "Night Daze",
+  		"MoveType": 15,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 85,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir a precisão do adversário.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 7,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 40
+	},
+
+	{ 
+		"Id": 550,
+  		"Name": "Bolt Strike",
+  		"MoveType": 4,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 130,
+  		"Accuracy": 85,
+  		"Description" : "Dá dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{ 
+		"Id": 585,
+  		"Name": "Moonblast",
+  		"MoveType": 17,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 95,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Pode diminuir a Spec. Def. do inimigo.",
+		"Subclass" : "DmgPlusStat",
+  		"statId": 2,
+		"boostStages": -1,
+		"boostSelf": false,
+		"boostChance": 20
+	},
+
+	{
+		"Id": 202,
+  		"Name": "Giga Drain",
+  		"MoveType": 3,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 75,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano. Cura o usuário em metade do dano causado.",
+		"Subclass" : "GigaDrain"
+	},
+
+	{
+		"Id": 413,
+  		"Name": "Brave Bird",
+  		"MoveType": 9,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 120,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "BraveBird"
+	},
+
+	{
+		"Id": 38,
+  		"Name": "Double Edge",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 30,
+  		"MovePriority": 0,
+  		"BasePower": 30,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+	"Subclass" : "DoubleEdge"
+	},
+
+	{
+		"Id": 153,
+  		"Name": "Explosion",
+  		"MoveType": 0,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 500,
+  		"Accuracy": 100,
+  		"Description" : "Destrói a si mesmo, tomando K.0., mas causando dano colossal.",
+		"Subclass" : "Explosion"
+	},
+
+	{
+		"Id": 394,
+  		"Name": "Flare Blitz",
+  		"MoveType": 1,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 120,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "FlareBlitz"
+	},
+
+	{
+		"Id": 447,
+  		"Name": "Grass Knot",
+  		"MoveType": 3,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"BasePower": 20,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano que cresce baseado no peso do inimigo.",
+		"Subclass" : "GrassKnot"
+	},
+
+	{
+		"Id": 67,
+  		"Name": "Low Kick",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"BasePower": 20,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano que cresce baseado no peso do inimigo.",
+		"Subclass" : "LowKick"
+	},
+
+	{
+		"Id": 69,
+  		"Name": "Seismic Toss",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"BasePower": 50,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano bruto igual ao nível do usuário.",
+		"Subclass" : "SeismicToss"
+	},
+
+	{
+		"Id": 276,
+  		"Name": "Superpower",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 120,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano, mas diminui stats do usuário.",
+		"Subclass" : "Superpower"
+	},
+
+	{
+		"Id": 161,
+  		"Name": "Tri Attack",
+  		"MoveType": 0,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 10,
+  		"MovePriority": 0,
+  		"BasePower": 80,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano, podendo causar FREEZE, PARALYSIS ou BURN.",
+		"Subclass" : "TriAttack"
+	},
+
+	{
+		"Id": 557,
+  		"Name": "V-Create",
+  		"MoveType": 1,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"BasePower": 180,
+  		"Accuracy": 95,
+  		"Description" : "Causa dano altíssimo, mas reduz drasticamente stats do usuário.",
+		"Subclass" : "VCreate"
+	},
+
+	{
+		"Id": 528,
+  		"Name": "Wild Charge",
+  		"MoveType": 4,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 90,
+  		"Accuracy": 100,
+  		"Description" : "Dá dano alto, mas fere o usuário em parte.",
+		"Subclass" : "WildCharge"
+	},
+
+	{
+		"Id": 215,
+  		"Name": "Heal Bell",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Cura o time inteiro de Status FX como POISON, PARALYSIS, etc.",
+		"Subclass" : "HealBell"
+	},
+
+	{
+		"Id": 504,
+  		"Name": "Shell Smash",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta em dois níveis a velocidade, ataque e ataque especial, mas reduz as duas defesas.",
+		"Subclass" : "ShellSmash"
+	},
+
+	{
+		"Id": 74,
+  		"Name": "Growth",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta ou diminui dois stats.",
+		"Subclass" : "SuperclassTwoStatModifiers",
+  		"statIdA": 0,
+  		"statIdB": 2,
+  		"boostStageA": 1,
+  		"boostStageB": 1,
+  		"boostSelfA": true,
+  		"boostSelfB": true
+	},
+
+	{
+		"Id": 370,
+  		"Name": "Close Combat",
+  		"MoveType": 6,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+		"BasePower": 120,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano alto, mas expõe o usuário ao diminuir suas duas defesas em um estágio.",
+		"Subclass" : "CloseCombat"
+	},
+
+	{
+		"Id": 355,
+  		"Name": "Roost",
+  		"MoveType": 9,
+  		"Category": "STATUS",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Cura a si mesmo.",
+		"Subclass" : "SuperclassSelfHealingMove"
+	},
+
+	{
+		"Id": 349,
+  		"Name": "Dragon Dance",
+  		"MoveType": 14,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta velocidade e ataque em um estágio cada.",
+		"Subclass" : "SuperclassTwoStatModifiers",
+  		"statIdA": 0,
+  		"statIdB": 4,
+  		"boostStageA": 1,
+  		"boostStageB": 1,
+  		"boostSelfA": true,
+  		"boostSelfB": true
+	},
+
+	{
+		"Id": 135,
+  		"Name": "Soft-Boiled",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Cura a si mesmo.",
+		"Subclass" : "SuperclassSelfHealingMove"
+	},
+
+	{
+		"Id": 360,
+  		"Name": "Gyro Ball",
+  		"MoveType": 16,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 5,
+  		"MovePriority": 0,
+		"BasePower": 20,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano que aumenta quanto mais lento for o usuário em relação ao oponente.",
+		"Subclass" : "CloseCombat"
+	},
+
+	{ 
+		"Id": 104,
+  		"Name": "Double Team",
+  		"MoveType": 0,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta evasividade em dois níveis.",
+		"Subclass" : "StatChange",
+  		"statId": 6,
+		"boostStages": 2,
+		"boostSelf": true
+	},
+
+	{ 
+		"Id": 400,
+  		"Name": "Night Slash",
+  		"MoveType": 15,
+  		"Category": "PHYSICAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+  		"BasePower": 70,
+  		"Accuracy": 100,
+  		"Description" : "Causa dano sem efeitos adicionais.",
+		"Subclass" : "DamageDealing"
+	},
+
+	{
+		"Id": 499,
+  		"Name": "Clear Smog",
+  		"MoveType": 7,
+  		"Category": "SPECIAL",
+  		"MaxPoints": 15,
+  		"MovePriority": 0,
+		"BasePower": 50,
+  		"Accuracy": -1,
+  		"Description" : "Causa dano e nulifica todas as mudanças de stat do oponente, positivas ou negativas.",
+		"Subclass" : "ClearSmog"
+	},
+
+	{
+		"Id": 347,
+  		"Name": "Calm Mind",
+  		"MoveType": 10,
+  		"Category": "STATUS",
+  		"MaxPoints": 20,
+  		"MovePriority": 0,
+  		"Accuracy": -1,
+  		"Description" : "Aumenta o ataque especial e a defesa especial.",
+		"Subclass" : "SuperclassTwoStatModifiers",
+  		"statIdA": 2,
+  		"statIdB": 3,
+  		"boostStageA": 1,
+  		"boostStageB": 1,
+  		"boostSelfA": true,
+  		"boostSelfB": true
+	}
+]

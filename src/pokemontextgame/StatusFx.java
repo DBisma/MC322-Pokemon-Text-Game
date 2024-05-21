@@ -1,15 +1,10 @@
 package pokemontextgame;
 
-import moves.Move;
-
-// TODO: Talvez seja uma boa cada pokemon "criar" um objeto Status quando recebe o efeito.
-
 public class StatusFx { 
 	/*
 	 * Classe que armazena os possíveis efeitos de Status
-	 * não-voláteis (burn, poison, frozen, paralyzed, asleep)
-	 * e voláteis (curse e confusion são os principais);
-	 * TODO: Por enquanto, só aceita não voláteis
+	 * não-voláteis (burn, poison e bad_poison, frozen, paralyzed, asleep).
+	 * Apenas esses Statuses estão disponíveis num primeiro momento
 	 */
 	
 	// Começaremos com esses poucos stats de início
@@ -38,7 +33,7 @@ public class StatusFx {
 		public int getMaxDuration() {return this.maxDuration;}
 		
 	
-	}; // TODO: Fazer todos os enums serem públicos numa classe só para isso?
+	};
 	
 	private typeList type;
 	private int remDuration; // tempo até o efeito desaperecer por conta
@@ -56,21 +51,10 @@ public class StatusFx {
 		 * Revamp total do status para modificações.
 		 * Serve para não termos que criar um objeto novo para
 		 * cada mudança de status fx aplicada ao pokemon.
-		 * TODO: Verificar se será útil
 		 */
 		this.type = type;
+		this.timeAfflicted = 1;
 		this.setRemDuration(type.getMaxDuration());
-	}
-	
-	public void setStatusFull(typeList type, int durationMod) {
-		/*
-		 * Overload da função que aceita um modificador
-		 * para aumentar a duração.
-		 * TODO: Verificar se será útil
-		 */
-		this.type = type;
-		this.setRemDuration(type.getMaxDuration()*durationMod);
-		timeAfflicted = 1;
 	}
 	
 	public void setStatusNeutral() {
@@ -105,11 +89,11 @@ public class StatusFx {
 	public void durationLessen() {
 		/*
 		 * Diminui em um turno a duração restante do StatusFx.
-		 * Possivalmente atualizará para NEUTRAL... mas talvez não. TODO
+		 * Atualiza
 		 */
 		this.remDuration -= 1;
-		if(remDuration == 0) { // TODO: Dependendo da lógica futura, me livrarei disso
-			this.type = typeList.NEUTRAL;
+		if(remDuration == 0) {
+			this.setStatusFull(typeList.NEUTRAL);
 		}
 	}
 

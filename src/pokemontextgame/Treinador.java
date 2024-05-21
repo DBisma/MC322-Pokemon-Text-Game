@@ -1,6 +1,11 @@
 package pokemontextgame;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+
+import org.json.JSONException;
 
 public class Treinador {
 	/*
@@ -15,8 +20,6 @@ public class Treinador {
 	private int activeMonId;
 	private boolean forcedSwitch; // se o treinador é obrigado a trocar de pokemon; utilizado em menus e opções de turno
 	
-	// TODO: INICIALIZAÇÃO DE VERDADE
-	
 	public Treinador(int id, String name, boolean player) {
 		this.id = id;
 		this.name = name;
@@ -29,8 +32,6 @@ public class Treinador {
 		 * Faz um loop de recepção de nome que não é satisfeito
 		 * até que o nome recebeido seja validado. Para isso,
 		 * faz uso da func. validateName();
-		 * 
-		 * TODO: Talvez seja má prática ter um loop infinito condicional aqui dentro.
 		 */
 		
 		String type = (this.isPlayer) ? "jogador" : "NPC";
@@ -89,7 +90,7 @@ public class Treinador {
 		this.id = id;
 	}
 	
-		public String getName() {
+	public String getName() {
 		return name;
 	}
 	
@@ -148,5 +149,38 @@ public class Treinador {
 
 	public void setForcedSwitch(boolean forcedSwitch) {
 		this.forcedSwitch = forcedSwitch;
+	}
+
+	static void buildRandomTeams(Treinador player, Treinador npc) throws IOException, JSONException {
+		/*
+		 * Função que chama um Json reader para construir times aleatórios para
+		 * o jogador e para o NPC.
+		 */
+		
+		JSONReader jsonReader = new JSONReader();
+		ArrayList<Poke> pokeArray = new ArrayList<Poke>();
+		ArrayList<Integer> pkmnUniqueIds = new ArrayList<Integer>();
+		
+		jsonReader.buildMoves();
+		jsonReader.buildPokemons();
+		
+		pokeArray = jsonReader.getPkmnList();
+		pkmnUniqueIds = jsonReader.getPkmnUniqueIDs();
+		
+		// Montando times aleatórios:
+		for(int i = 0; i < 6; i++) {
+			// Buscando um índice aleatório dentro do Array de Ids (entre 0 e seu tamanho)
+			Random r = new Random();
+			int roll = r.nextInt(pkmnUniqueIds.size());
+			player.setTeam(i, pokeArray.remove(roll)); // removemos esse pokemon do PokeArray, damos ao player
+			pkmnUniqueIds.remove(roll); // e removemos esse ID do array de IDs únicos
+			
+			roll = r.nextInt(pkmnUniqueIds.size()); // novo índice aleatório com tamanho atualizado
+			npc.setTeam(i, pokeArray.remove(roll)); // repete para npc
+			pkmnUniqueIds.remove(roll);
+		}
+		
+		jsonReader.atribuiMoveAPoke(player);
+		jsonReader.atribuiMoveAPoke(npc);
 	}
 }
